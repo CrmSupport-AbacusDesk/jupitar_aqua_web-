@@ -1,0 +1,264 @@
+<div class="main-container">
+  <div class="loader" *ngIf="loading_list">
+    <div class="loding-logo">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  <div class="fixed">
+    <div class="tab-header">
+      <div class="tabs-list gift-tab-list">
+        <ul>
+          <li (click)="filter = {}; filter.status = 'All'; contractorList('')"
+            [ngClass]="{'active': filter.status == 'All'}">
+            <a>
+              <p>All</p>
+              <span>{{all_count}}</span>
+            </a>
+          </li>
+          <li (click)="filter = {};filter.status = 'Pending'; contractorList('')"
+            [ngClass]="{'active': filter.status == 'Pending'}">
+            <a>
+              <p>PENDING</p>
+              <span class="request-bg">{{pending_count}}</span>
+            </a>
+          </li>
+          <li (click)="filter = {};filter.status = 'Approved'; contractorList('')"
+            [ngClass]="{'active': filter.status == 'Approved'}">
+            <a>
+              <p>Approved</p>
+              <span class="approved-bg">{{approved_count}}</span>
+            </a>
+          </li>
+          <li (click)="filter = {};filter.status = 'Reject'; contractorList('')"
+            [ngClass]="{'active': filter.status == 'Reject'}">
+            <a>
+              <p>REJECT</p>
+              <span class="reject-bg">{{reject_count}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="refresh-btn">
+        <a mat-button matTooltip="Refresh" matTooltipPosition="below"
+          (click)="contractorList('refresh');set_filter({})"><i class="material-icons">refresh</i></a>
+      </div>
+      <div class="top-pagination">
+        <ul>
+          <li>
+            <p>Pages {{ current_page }} of {{ last_page }}</p>
+          </li>
+          <li><button mat-button matTooltip="First Page" class="fisrt-btn" (click)='current1()'>First</button></li>
+          <li><button mat-button class="left-btn" (click)='redirect_previous()'><i
+                class="material-icons">keyboard_arrow_left</i></button></li>
+          <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page" (keyup.enter)="contractorList('')"></li>
+          <li><button mat-button class="right-btn" (click)='redirect_next()'><i
+                class="material-icons">keyboard_arrow_right</i></button></li>
+          <li><button mat-button matTooltip="Last Page" class="last-btn" (click)='last1()'>Last</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="css-table">
+      <div class="sticky-header">
+        <div class="header">
+          <table>
+            <tr>
+              <th class="w50">&nbsp;</th>
+              <th class="w150">Date</th>
+              <th class="w200">Company Name </th>
+              <th class="w150">Retailer Mobile No.</th>
+              <th class="w200">Distributor Detail</th>
+              <th class="w160 text-center">Total Item</th>
+              <th class="w80 text-center">Qty.</th>
+              <!-- <th class="w60 text-center">Wallet</th> -->
+              <th class="w100 text-center">Status</th>
+              <th class="w100 text-right">Transfer Points</th>
+              <!-- <th class="w150">Reason</th> -->
+              <th class="w100 text-right">Refunded Points</th>
+              <th class="w100 text-center">Add Points</th>
+
+              <th class="w100 text-center">Balance Points</th>
+              <th class="w100 text-right">Update Points</th>
+            </tr>
+          </table>
+        </div>
+
+        <div class="header border-bott">
+          <table>
+            <tr>
+              <th class="w50">&nbsp;</th>
+              <th class="w150">
+                <div class="date-form">
+                  <mat-form-field>
+                    <i *ngIf="filter.date" class="material-icons"
+                      (click)="filter.date = '';contractorList('') ">clear</i>
+
+                    <input placeholder="Date" [(ngModel)]="filter.date" name="date" (click)="openDatePicker(picker1)"
+                      matInput (dateChange)="contractorList('')" [matDatepicker]="picker1" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </th>
+              <th class="w200">
+                <div class="search-form">
+                  <input type="text" placeholder="Search..." [(ngModel)]="filter.retailer_company_name"
+                    (keyup.enter)="current_page = 1; contractorList('')">
+                  <i class="material-icons">search</i>
+                </div>
+              </th>
+              <th class="w150">
+                <div class="search-form">
+                  <input type="number" placeholder="Search..." [(ngModel)]="filter.retailer_mobile"
+                    (keyup.enter)="current_page = 1; contractorList('')">
+                  <i class="material-icons">search</i>
+                </div>
+              </th>
+
+              <th class="w200">
+                <div class="search-form">
+                  <input type="text" placeholder="Search..." [(ngModel)]="filter.distributor_detail"
+                    (keyup.enter)="current_page = 1; contractorList('')">
+                  <i class="material-icons">search</i>
+                </div>
+              </th>
+              <th class="w160">&nbsp;</th>
+              <th class="w80 text-center">
+                <div class="search-form">
+                  <input type="text" placeholder="Search..." [(ngModel)]="filter.total_qty"
+                    (keyup.enter)="current_page = 1; contractorList('')">
+                  <i class="material-icons">search</i>
+                </div>
+              </th>
+              <!-- <th class="w60 text-center">Wallet</th> -->
+              <th class="w100">
+                <div class="form-area">
+                  <div class="slect mr0">
+                    <mat-form-field>
+                      <mat-label>All</mat-label>
+                      <mat-select [(ngModel)]="filter.status" name="status" #status="ngModel"
+                        (selectionChange)="contractorList('')">
+                        <mat-option value="Approved">Approved</mat-option>
+                        <mat-option value="Pending">Pending</mat-option>
+                        <mat-option value="Reject">Reject</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </th>
+              <th class="w100 text-center">
+                <!-- <div class="search-form">
+                  <input type="text" placeholder="Search..." [(ngModel)]="filter.points"  (keyup.enter)="current_page = 1; contractorList('')">
+                  <i class="material-icons">search</i>
+                </div> -->
+              </th>
+              <!-- <th class="w150"></th> -->
+              <th class="w100 text-center">&nbsp;</th>
+              <th class="w100 text-center">&nbsp;</th>
+              <th class="w100 text-center">&nbsp;</th>
+              <th class="w100 text-center">&nbsp;</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="css-table">
+    <div class="table-container">
+      <div class="table-body">
+        <table>
+          <tr *ngFor="let row of data; let i = index">
+            <td class="w50">{{ ( (current_page - 1 ) * 20 ) + ( i+1 ) }}</td>
+            <td class="w150">{{row.date_created | date: 'dd MMM yyyy'}} </td>
+            <td class="w200"><a class="blue" routerLink="/dealer-detail/{{row.contractor_id}}/{{current_page}}"
+                routerLinkActive="active" (click)="set_filter(filter)">{{row.retailer_company_name}}</a></td>
+            <td class="w150">{{row.retailer_mobile}}</td>
+            <td class="w200">{{row.company_name}} {{row.distributor_mobile}}</td>
+
+            <td class="w160 text-center">
+              <div class="flex-group">
+                <ng-container *ngFor="let item of row.image; let i = index" >
+                  <div class="">
+                    <img [src]="uploadUrl+item.image" (click)="openDialog(uploadUrl + item.image)">
+
+
+                  </div>
+                </ng-container>
+                <a class="blue" *ngIf="row.total_items > 0" style="cursor: pointer;"
+                  (click)="modalOpen(1, data, row.id, row.type, row.points,'')">{{row.total_items}}</a>
+              </div>
+            </td>
+
+
+            <td class="w80 text-center">{{row.total_qty}}</td>
+            <td class="w100 text-center">
+              <div class="center" style="display: unset;" *ngIf="row.status != 'Approved'">
+                <select class="{{row.status}}" [name]="'status'+i" placeholder="Status" [(ngModel)]="row.status"
+                  (click)="modalOpen(2, data, row.id, row.type, row.points)">
+                  <option class="Verified" value="Approved">Approved</option>
+                  <option class="Pending" value="Pending">Pending</option>
+                  <option class="Reject" value="Reject">Reject</option>
+                </select>
+              </div>
+
+              <strong class="Approved" *ngIf="row.status == 'Approved'">
+                {{row.status}}
+              </strong>
+            </td>
+            <!-- text-right -->
+            <td class="w100 text-right"><strong>{{row.points}}</strong></td>
+            <!-- <td class="w150">{{row.status_reason}}</td> -->
+            <td class="w100 text-right"><strong class="Reject">{{row.return_points}}</strong></td>
+
+
+            <td class="w100 text-center" style="color: green;"><strong>{{row.add_point}}</strong></td>
+
+            <td class="w100 text-center"><strong>{{row.points + row.add_point - row.return_points}}</strong></td>
+
+            <td class="w100 text-right">
+              <a class="blue" style="cursor: pointer;"
+                >
+                <div class="ic_prt">
+                  <button (click)="modalOpen(3, data, row.id, row.type, row.points, row.contractor_id)" mat-fab class="pls_btn" routerLinkActive="active">
+                    <mat-icon class="pl_ic">add</mat-icon>
+                  </button>
+                  <div class="no-img" (click)="modalOpen(4, data, row.id, row.type, row.points, row.contractor_id)">
+                    <img src="assets/minus_icon.png">
+                  </div>
+                </div>
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-outer">
+    <div class="container">
+      <div class="row">
+      </div>
+    </div>
+    <div class="date-not"
+      *ngIf="!loading_list && !data.length && ( (filter.status == 'All' && all_count ) || (filter.status == 'Pending' && pending_count ) || (filter.status == 'Verified' && approved_count ) || (filter.status == 'Reject' && reject_count ))">
+      <div class="no-img">
+        <img src="assets/result-not-found.png">
+      </div>
+    </div>
+    <div class="date-not"
+      *ngIf="!loading_list && ( (filter.status == 'All' && !all_count ) || (filter.status == 'Pending' && !pending_count ) || (filter.status == 'Verified' && !approved_count ) || (filter.status == 'Reject' && !reject_count )) ">
+      <div class="no-img">
+        <img src="assets/not-available.jpg">
+      </div>
+    </div>
+  </div>
+
+  <div class="fab-btns">
+    <button (click)="exportExcel()" *ngIf="data.length" mat-fab class="excel">
+      <img src="assets/excel.svg">
+    </button>
+  </div>
+</div>

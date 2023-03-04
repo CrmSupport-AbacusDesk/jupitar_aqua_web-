@@ -1,0 +1,40 @@
+<div class="gift-box">
+  <div class="gift-heading">
+    <p>USER DETAILS</p>
+    <div class="close-icon">
+      <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+    </div>
+  </div>
+  
+  <div class="gift-body">
+    <div class="css-table ">
+      <div class="sticky-header">
+        <div class="header">
+          <table> 
+            <tr>
+              <th >Date / Kariger Name </th>
+              <th class="w130">Mobile No.</th>
+              <th class="w110" >A/C Status</th>
+              <th class="w100">Gift Status</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <div class="table-container bg-color">
+        <div class="table-body">
+          <table>
+            <tr *ngFor="let val of karigar; let i = index">
+              <td><ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' "> {{val.date_created | date: 'dd MMM yyyy'}} /</ng-container>
+                <a class="blue" routerLink="/karigar-detail/{{val.karigar_id}}" routerLinkActive="active">{{val.first_name | titlecase }} {{val.last_name | titlecase }}</a>
+              </td>
+              <td class="w130">{{val.mobile_no}}</td>
+              <td class="w110 bg-change {{val.status}}">{{val.status}}</td>
+            <td class="w100 {{val.gift_status}}">{{val.gift_status}}</td>
+          </tr>
+  </table>
+</div>
+</div>
+</div>
+</div>
+</div>

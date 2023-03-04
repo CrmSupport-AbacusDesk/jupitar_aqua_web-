@@ -1,0 +1,150 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="fixed">
+        <div class="middle-container tab-header">
+            <div class="main-tab">
+                <div class="gift-tab">
+                    <ul>
+                        <li>
+                            <p><b>Total : </b> <span>{{ total_feedback }}</span></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>            
+            <div class="tabs-list gift-tab-list pl5">
+                <ul>
+                    <li (click)="filter = {};filter.msg_status = 'All'; getFeedbackList(pagelimit,start,'')" [ngClass]="{'active': filter.msg_status == 'All'}" >
+                        <a>
+                            <p>All</p>
+                            <span>{{ all_feedback }}</span>
+                        </a>
+                    </li>
+                    <li (click)="filter = {};filter.msg_status = 'Unread'; getFeedbackList(pagelimit,start,'')" [ngClass]="{'active': filter.msg_status == 'Unread'}" >
+                        <a>
+                            <p>Unread</p>
+                            <span>{{ unread_feedback }}</span>
+                        </a>
+                    </li>
+                    <li (click)="filter = {};filter.msg_status = 'Read'; getFeedbackList(pagelimit,start,'')" [ngClass]="{'active': filter.msg_status == 'Read'}" >
+                        <a>
+                            <p>Read</p>
+                            <span>{{ read_feedback }}</span>
+                        </a>
+                    </li>
+                </ul>
+    
+                <div class="input-field" *ngIf="!(!filtering && feedback.length == 0 ) ">
+                    <input type="text" placeholder="Search" [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getFeedbackList(pagelimit,start,'')">
+                    <i class="material-icons">
+                        search
+                    </i>
+                </div>
+                
+                <!-- commented -->
+                <div class="master-btn pl15" >
+                    <button  mat-raised-button color="primary" (click)="openDatepicker()">Date Filter</button>
+                </div>
+            </div>
+            
+            <div class="refresh-btn">
+                <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getFeedbackList(pagelimit,start,'refresh')"><i class="material-icons">refresh</i></a>
+            </div>
+            
+            <div class="top-pagination" *ngIf="!(!filtering && feedback.length == 0 ) ">
+                <ul>
+                    <li><p>Pages {{ pagenumber }} of {{ total_page }}</p></li>
+                    <li><button mat-button class="left-btn" (click) ="getFeedbackList(pagelimit,(start-pagelimit),'')" [disabled]='pagenumber == 1'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                    
+                    <li><input type="text" placeholder="GO TO" [(ngModel)]="pagenumber" name="pagenumber"  (keyup.enter)="getFeedbackList(pagelimit,((pagenumber*pagelimit)-pagelimit),'')"  min="1" max="{{total_page}}"></li>
+                    
+                    <li><button mat-button class="right-btn" (click) = "getFeedbackList(pagelimit,(start+pagelimit),'')" [disabled]="pagenumber == total_page"><i class="material-icons">keyboard_arrow_right</i></button></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="css-table" *ngIf="!(!filtering && feedback.length == 0 ) ">
+            <div class="sticky-header">
+                <div class="header">
+                    <table>
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w170">Msg Date</th>
+                            <th class="w200">Karigar Name</th>
+                            <th class="w150">Mobile No.</th>
+                            <th>Address</th>
+                            <th class="w70 text-center">{{filter.msg_status}} Messages</th>
+                            <th class="w70 text-center">Reply</th>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w170"></th>
+                            <th  class="w200">
+                                <div class="search-form">
+                                    <input type="text" placeholder="Name" [(ngModel)]="filter.first_name"  (keyup.enter)="current_page = 1;getFeedbackList(pagelimit,start,'')">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th class="w150">
+                                <div class="search-form">
+                                    <input type="text" placeholder="Mobile" [(ngModel)]="filter.mobile_no"  (keyup.enter)="current_page = 1;getFeedbackList(pagelimit,start,'')">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th></th>
+                            <th class="w70"></th>
+                            <th class="w70"></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>   
+    <div class="css-table">
+        <div class="table-container">
+            <div class="table-body">
+                <table>
+                    <tr *ngFor="let val of feedback; let i = index">
+                        <td class="w30">{{ ( (current_page - 1 ) * 20 ) + ( i+1 ) }}</td>
+                        <td class="w170"> {{val.date_created  == '0000-00-00' ? 'N/A' : val.date_created | date: 'dd MMM yyyy'}}</td>
+                        <td class="w200"><a class="blue" routerLink="/karigar-detail/{{val.karigar_id}}/{{current_page}}" routerLinkActive="active">{{val.first_name | titlecase }} {{val.last_name | titlecase }}</a></td>
+                        <td class="w150">{{val.mobile_no}}</td>
+                        <td>{{val.address }} {{!val.city? '' : ' , '+val.city | titlecase }} {{!val.district? '' : ' , '+val.district | titlecase }} {{!val.state? '' : ' , '+val.state | titlecase }}</td>
+                        <td class="w70 text-center">{{val.total_msg}} </td>
+                        <td class="w70 text-center"><a style="cursor: pointer;" (click)="reply(val.karigar_id)"  matTooltip="Reply"  matTooltipPosition="above"><i class="material-icons">send</i></a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container-outer">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="date-not" *ngIf="!loading_list && (filtering && feedback.length == 0 )">
+        <div class="no-img">
+            <img src="assets/result-not-found.png"> 
+        </div>
+    </div>
+    
+    
+    <div class="date-not"  *ngIf="!loading_list && (!filtering && feedback.length == 0 ) ">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+        
+    </div>
+</div>

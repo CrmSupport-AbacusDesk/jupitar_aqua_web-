@@ -1,0 +1,177 @@
+<div class="main-container">
+  <!-- <div class="loader" *ngIf="loading_list">
+    <div class="loding-logo">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div> -->
+  <div class="container form-padding">
+    <form name="coupon" (ngSubmit)="v.form.valid && saveCouponfrom(v)" #v="ngForm" novalidate autocomplete="off">
+      <div class="row">
+        <div class="col s12">
+          <div class="sprate-box pb15">
+            <div class="full-offer">
+              <div class="top-heading">
+                <h2>Coupon Generate </h2>
+                <p>Indicates required fields ( * )</p>
+              </div>
+            </div>
+            <div class="option-field">
+              <div class="row ">
+                <div class="col s2">
+                  <div class="control-field">
+                    <mat-form-field class="cs-input">
+                      <input matInput placeholder="Total Number Of Coupon Code" matInput (keypress)="numeric_Number($event)" name="coupon_code"
+                      [(ngModel)]="coupon.total_coupon" #coupon_code="ngModel" required>
+                    </mat-form-field>  
+                  </div>
+                </div>
+                <div class="col s2">
+                  <div class="control-field">
+                      <mat-form-field class="cs-input">
+                          <mat-select placeholder="Brand Name" name="product_point_id"  [(ngModel)]="coupon.product_point_id" #product_point_id="ngModel" 
+                          required>
+                              <mat-option *ngFor="let val of product_code" [value]="val.product_point_id">
+                                  {{val.product_point_group}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+              </div>
+                <!-- <div class="col s2">
+                  <div class="control-field">
+                    <mat-form-field class=" cs-input cs-multi-select">
+                      <mat-select placeholder="Select Product" name="product_id" [(ngModel)]="coupon.product_id" #product_id="ngModel" 
+                      required>
+                      <mat-option *ngFor="let pc of product_code;" value={{pc.id}} (click)="getSize(pc.id)"
+                      >{{pc.product_name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div> -->
+              <!-- <div class="col s2">
+                <div class="control-field">
+                  <mat-form-field class=" cs-input cs-multi-select">
+                    <mat-select placeholder="Size" name="size_id" [(ngModel)]="coupon.size_id" #size_id="ngModel" 
+                    required>
+                    <mat-option *ngFor="let pc of product_size;" value={{pc.size_id}}>{{pc.size}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div> -->
+              <div class="col s6">
+                <div class="control-field">
+                  <mat-form-field class=" cs-input">
+                    <textarea matInput placeholder="Remark" name="remarks" [(ngModel)]="coupon.remarks"
+                    #remarks="ngModel"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row mb0">
+              <div class="col s12">
+                <div class="save" >
+                  <button mat-button >Generate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  
+  <div class="css-table">
+    <div class="sticky-header">
+      <div class="header">
+        <table >
+          <tr>
+            <th class="w50 border-right text-center">S.No.</th>
+            <th class="w180">Date / Created by</th>
+            <!-- <th class="w200" >Product Name</th>
+            <th class="w120 text-center" >Product Size</th> -->
+            <th class="w120 text-center" >Total Coupon</th>
+            <th class="w130">Brand Name</th>
+
+            <th class="" >Remarks</th>
+            <th class="w100 text-center" >Action</th>
+          </tr>                        
+        </table>
+      </div>
+      <div class="header border-bott">
+        <table>
+          <tr>
+            <th class="w50 border-right ">&nbsp;</th>
+            <th class="w180">
+              <div class="vaild-into">
+                <div class="date-form wp-21 mr10">
+                  <i *ngIf="filter.date" class="material-icons" (click)="filter.date = ''; getAvailableCoupanList('') ">clear</i>
+                  <mat-form-field>
+                    <input matInput placeholder=" Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker1)"  name="date" matInput (dateChange)="getAvailableCoupanList('')" [matDatepicker]="picker1" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </th>  
+            <!-- <th class="w200">
+              <div class="form-area wp-21">
+                <div class="search-form">
+                  <input type="text" placeholder="Search" [(ngModel)]="filter.productsearch" (keyup.enter)="getAvailableCoupanList('')">
+                  <i class="material-icons">search</i>
+                </div>
+              </div>
+            </th>
+            <th class="w120"></th> -->
+            <th class="w120"></th>
+            <th class="w130">
+              <div class="search-form">
+                  <input type="text" placeholder="Search ..." [(ngModel)]="filter.product_point_group"  (keyup.enter)="getAvailableCoupanList('')">
+                  <i class="material-icons">search</i>
+              </div>
+          </th>
+            <th class="">
+              
+            </th>
+            <th class="w100"></th>
+          </table>
+        </div>
+      </div>
+    </div> 
+    <div class="css-table"  *ngIf="available_coupon.length">
+      <div class="table-container">
+        <div class="table-body">
+          <table>
+            <tr class="arject" *ngFor="let val of available_coupon; let i = index">
+              <td class="w50 text-center">{{ i + 1 }}</td>
+              <td class="w180">{{val.date_created  == '0000-00-00 00:00:00' ? 'N/A' : val.date_created | date: 'dd MMM yyyy'}} / {{val.created_name}}</td>
+              <!-- <td class="w200">{{val.product_name}}</td>
+              <td class="w120 text-center">{{val.size}}</td> -->
+
+              <td class="w120 text-center">{{val.total_coupon}}</td>
+              <td class="w130">{{val.product_point_group}}</td>
+
+              <td>{{val.remarks}}</td>
+              <td class="w100">
+                <div class="cs-action">
+                  <!-- <a class="ac-green" matTooltip="Edit Remarks" matTooltipPosition="below" 
+                  (click)="openModel(val)"><i class="material-icons">edit</i></a> -->
+                  <a class="ac-green" matTooltip="Excel Download" matTooltipPosition="below" 
+                  (click)="downloadCoupon(val.id)"><i class="material-icons">cloud_download</i></a>
+                  <a class="ac-red" matTooltip="Delete" matTooltipPosition="below" 
+                  (click)="deleteCoupon(val.id)"><i class="material-icons">delete_sweep</i></a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="date-not" *ngIf="!available_coupon.length">
+      <div class="no-img">
+        <img src="assets/result-not-found.png"> 
+      </div>
+    </div>
+    
+  </div>
+</div>

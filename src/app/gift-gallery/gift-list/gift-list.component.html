@@ -1,0 +1,201 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container">
+    <div class="fixed">
+        <div class="middle-container">
+            <div class="main-tab">
+                <div class="gift-tab">
+                    <ul>
+                        <li>
+                            <p>Gift : <span>{{ total_gift }}</span></p>
+                        </li>
+                        
+                        <li>
+                            <p >Offers : {{ offer }}</p>
+                        </li>
+                        
+                        <li *ngIf="!(!filtering && gift.length == 0 ) ">
+                            <button mat-button (click)="orderListReverse()">
+                                <i class="material-icons" > swap_vert</i>
+                                Sort
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tabs-list" *ngIf="!(!filtering && gift.length == 0 ) ">
+                    <div class="input-field">
+                        <input type="text" placeholder="Search..." [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getGiftList('')">
+                        <i class="material-icons">
+                            search
+                        </i>
+                    </div>
+                </div>
+                
+                <div class="master-btn pl15">
+                    <button  mat-raised-button color="primary" (click)="openDatepicker()">Date Filter</button>
+                </div>
+            </div>
+            
+            <div class="refresh-btn">
+                <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getGiftList('refresh')"><i class="material-icons">refresh</i></a>
+            </div>
+            <div class="top-pagination" >
+                <ul>
+                    <li><p>Pages {{ current_page }} of {{ last_page }}</p></li>
+                    <li><button mat-button  matTooltip="First Page" class="fisrt-btn" (click) = 'current1()'>First</button></li>
+                    <li><button mat-button class="left-btn" (click) = 'redirect_previous()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                    <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getGiftList('')"></li>
+                    <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                    <li><button mat-button  matTooltip="Last Page" class="last-btn" (click) = 'last1()'>Last</button></li>
+                </ul>
+            </div>
+            <!-- <div class="master-btn ml20">
+                <button mat-button routerLink="/add-gift">ADD GIFT</button>
+            </div> -->
+        </div>
+        
+        <div class="css-table" >
+            <div class="sticky-header">
+                <div class="header">
+                    <table >
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w200">Date / Created by</th>
+                            <th class="w200" >Title</th>
+                            <th class="w60">Image</th>
+                            <th >Offer / Valid Upto</th>
+                            <th class="w70 text-center ">Points</th>              
+                            <th class="w280 padding0">
+                                <table class="inner-table" >
+                                    <tr >
+                                        <th class="w280" style="border-bottom: solid 1px #D2D2D2;">Redeem Requests</th>
+                                    </tr>
+                                </table>
+                            </th>
+                            <th class="w100 text-center ">Status</th>              
+                        </tr>
+                    </table>
+                </div>
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w200">
+                                <div class="date-form">
+                                    <i *ngIf="filter.date" class="material-icons" (click)="filter.date = '';getGiftList('') ">clear</i>
+                                    <mat-form-field >
+                                        <input placeholder="Date" [(ngModel)]="filter.date"  name="date" (click)="openDatePicker(picker3)" matInput (dateChange)="getGiftList('')" [matDatepicker]="picker3" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker3" ></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </th>  
+                            <th class="w200" >
+                                <div class="search-form">
+                                    <input type="text" placeholder="Title" [(ngModel)]="filter.title"  (keyup.enter)="current_page = 1;getGiftList('')">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th class="w60"></th>
+                            <th>
+                                <div class="vaild-into">
+                                    <div class="search-form ">
+                                        <input type="text" placeholder="Offer" [(ngModel)]="filter.offer_title"  (keyup.enter)="current_page = 1;getGiftList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                    <div class="date-form ml10" >
+                                        <i *ngIf="filter.end_date" class="material-icons" (click)="filter.end_date = '';getGiftList('') ">clear</i>
+                                        
+                                        <mat-form-field >
+                                            <input placeholder="Valid Date" [(ngModel)]="filter.end_date" (click)="openDatePicker(picker2)"  name="end_date" matInput (dateChange)="getGiftList('')" [matDatepicker]="picker2" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w70"></th>
+                            <th class="w280 padding0">
+                                <table class="inner-table">
+                                    <tr>
+                                        <th class="w70 text-center">Pending</th>
+                                        <th class="w70 text-center">Approved</th>
+                                        <th class="w70 text-center">Reject</th>
+                                        <th class="w70 text-center"><b>Total</b></th>
+                                    </tr>
+                                </table>
+                            </th>
+                            <th class="w100">
+                                <div class="form-area">
+                                    <div class="slect">
+                                        <mat-form-field>
+                                            <mat-select  [(ngModel)]="filter.status" name="status" #status="ngModel" (selectionChange)="getGiftList('')">
+                                                <mat-option value="">All</mat-option>
+                                                <mat-option value="Active">Active</mat-option>
+                                                <mat-option value="Deactive">Deactive</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="css-table" *ngIf="gift.length">
+        <div class="table-container">
+            <div class="table-body">
+                <table>
+                    <tr class="arject" *ngFor="let val of gift; let i = index">
+                        <td class="w30 text-center">{{ ( (current_page - 1 ) * 20 ) + ( i+1 ) }}</td>
+                        <td class="w200"><ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' "> {{val.date_created | date: 'dd MMM yyyy'}}</ng-container> / {{val.as}}</td>
+                        <td class="w200"><a class="blue" routerLink="/gift-detail/{{val.id}}" routerLinkActive="active">{{val.gift_title  | titlecase }} #{{val.id}}</a></td>
+                        <td class="w60">
+                            <div class="image-thum">
+                                <!-- <img [src]="val.image" (click)="openDialog( val.id,'test4')"> -->
+                                <div class="image-thum" >
+                                    <img [src]="uploadUrl+val.image" (click)="openDialog(uploadUrl + val.image)">
+                                </div>
+                            </div>
+                        </td>
+                        <td ><a  routerLink="/offer-detail"  routerLink="/offer-detail/{{val.offer_id}}" class="blue">{{val.title}} #{{val.offer_code}}  </a> / {{val.end_date | date: 'dd MMM yyyy'}}</td>
+                        <td class="w70 text-center"><span class="back-bg">{{val.coupon_points}}</span></td>
+                        <td class="w70 text-center Pending">{{val.gift_pending}}</td>
+                        <td class="w70 text-center Approved">{{val.gift_approved}}</td>
+                        <td class="w70 text-center Reject">{{val.gift_reject}}</td>
+                        <td class="w70 text-center"><b>{{val.gift_all}}</b></td>
+                        <td class="w100 text-center">
+                            <mat-slide-toggle [name]="'gift_status'+i" [(ngModel)]="val.giftStatus" (change)="updateGiftStatus($event,val.id)"></mat-slide-toggle>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-outer">
+        <div class="date-not" *ngIf="!loading_list && (filtering && gift.length == 0 )">
+            <div class="no-img">
+                <img src="assets/result-not-found.png"> 
+            </div>
+        </div>
+        <div class="date-not"  *ngIf="!loading_list && (!filtering && gift.length == 0 ) ">
+            <div class="no-img">
+                <img src="assets/not-available.jpg"> 
+            </div>
+            
+        </div>
+    </div> 
+</div>
+
+<div class="fab-btns">
+    <button (click)="exportGift()" *ngIf="gift.length" mat-fab class="excel">
+        <img src="assets/excel.svg">
+    </button>
+</div>

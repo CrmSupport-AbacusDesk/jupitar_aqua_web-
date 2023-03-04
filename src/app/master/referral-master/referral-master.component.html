@@ -1,0 +1,114 @@
+<div class="loader" *ngIf="loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container ">
+    <div class="fixed">
+        <div class="middle-container">
+            <div class="tabs-list">
+                <h1>Master</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-outer tab-container pb15">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <!-- <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li> -->
+                <!-- <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li> -->
+
+                <li routerLink="/digitallist" routerLinkActive="active"><a>Digital Catalogue</a></li>
+    <li routerLink="/coupon-code-master" routerLinkActive="active"><a>Product Point Master</a></li>
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <!-- <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li> -->
+                <!-- <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li> -->
+                <!-- <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li> -->
+                <!-- <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li> -->
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/app-banner-list" routerLinkActive="active"><a>App Banner</a></li>
+                <li routerLink="/gifts" routerLinkActive="active"><a>Master Gift</a></li>
+
+                <!-- <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li> -->
+                <!-- <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li> -->
+            </ul>
+        </div>
+        <div class="sprate-box mt10 ">
+            <div class="full-offer">
+                <div class="top-heading">
+                    <h2>UPDATE POINTS DETAILS</h2>
+                    <!-- <p>Indicates required fields ( * )</p> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="option-field">
+                        <div class="row mb0">
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Welcome Points" (keypress)="number($event)" name="wlcom_points" [(ngModel)]="refer.wlcom_points">
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Referral User Points" (keypress)="number($event)" name="referal_point" [(ngModel)]="refer.referal_point" >
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Referral Owner Points" (keypress)="number($event)" name="owner_referal_point" [(ngModel)]="refer.owner_referal_point" >
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Min Gift Redeem (%)" name="min_gif_per" (keypress)="number($event)" [(ngModel)]="refer.min_gif_per" >
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb0">
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Birthday Points" (keypress)="number($event)" name="birthday_points" [(ngModel)]="refer.birthday_points">
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Anniversary Points" (keypress)="number($event)" name="anniversary_points" [(ngModel)]="refer.anniversary_points">
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Cash Redeem Points Limit" (keypress)="number($event)" name="cash_redemption_limit" [(ngModel)]="refer.cash_redemption_limit">
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 ">
+                    <div class="save text-right">
+                        <button class="mb0" (click)="update_details()" mat-button>SAVE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

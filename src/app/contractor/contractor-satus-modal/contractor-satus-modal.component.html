@@ -1,0 +1,429 @@
+<div class="sprate-box "  *ngIf="dataValue == 1">
+  <div class="full-offer">
+    <div class="top-heading">
+      <h2>Item Detail</h2>
+      <div class="close-icon">
+        <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+      </div>
+    </div>
+  </div>
+  <div style="margin: 0px -10px;">
+    <div class="css-table" >
+      <div class="sticky-header">
+        <div class="header">
+          <table>
+            <tr>
+              <th class="w60">Sr. No.</th>
+              <!-- <th class="w120">Brand Name</th> -->
+              <th>Product Details</th>
+              <th class="w100 text-center">Quantity</th>
+              <th class="w100 text-right">Total Points</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="css-table" >
+      <div class="table-container">
+        <div class="table-body">
+          <table>
+            <tr  *ngFor="let row of conDetail.parts; let i = index">
+              <td class="w60">{{i+1}}</td>
+              <!-- <td class="w120">{{row.product_point_group}}</td> -->
+              <td>{{row.product_point_group}}</td>
+              <td class="w100 text-center">{{row.qty}}</td>
+              <td class="w100 text-right"><strong>{{row.total_point}}</strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="sprate-box " *ngIf="dataValue == 2">
+  <div class="full-offer">
+    <div class="top-heading">
+      <h2>Change Status</h2>
+      <div class="close-icon">
+        <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+      </div>
+    </div>
+  </div>
+  <form name="offer" (ngSubmit)="f.form.valid && changeStatus(f) " #f="ngForm" novalidate autocomplete="off">
+    <div class="row">
+      <div class="col s6">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <mat-label>Status</mat-label>
+              <mat-select  [(ngModel)]="couponTransfer.status_type" name="status_type" #status_type="ngModel" required>
+                <mat-option value=""></mat-option>
+                <mat-option value="Approved">Approved</mat-option>
+                <mat-option value="Pending">Pending</mat-option>
+                <mat-option value="Reject">Reject</mat-option>
+              </mat-select>
+            </mat-form-field>  
+          </div>
+        </div>
+      </div>
+      <!-- *ngIf="data.type !='image'" -->
+      <div class="col s6" >
+        <div class="option-field" *ngIf="couponTransfer.status_type == 'Approved' ">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <input matInput placeholder="Transfer Points" name="coupon_points" [(ngModel)] = "couponTransfer.coupon_points" #coupon_points="ngModel" required>
+            </mat-form-field>  
+          </div>
+        </div>
+      </div>
+      
+      <div class="col s6" *ngIf="couponTransfer.status_type == 'Reject' ">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <textarea matInput placeholder="Reason Of Reject" name="reason_remark" [(ngModel)] = "couponTransfer.reason_remark" #reason_remark="ngModel"></textarea>
+            </mat-form-field>  
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ng-container *ngIf="data.type =='image' && couponTransfer.status_type == 'Approved' ">
+      <div class="row mb0" >
+        <div class="col s12">
+          <h2>Add Item Details</h2>
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col s4">
+          <div class="option-field">
+            <div class="control-field">
+              <mat-form-field class="cs-input">
+                <mat-label>Brand</mat-label>
+                <mat-select  [(ngModel)]="conData1.product_point_group" name="product_point_group" #product_point_group="ngModel">
+                  <mat-option  *ngFor="let val of product_code" [value]="val.product_point_group"  (click)="getpoint(val.retailer_point)" >{{val.product_point_group}} ({{val.retailer_point}} PT Per Product)</mat-option>
+                </mat-select>
+              </mat-form-field>  
+            </div>
+          </div>
+        </div>
+        <div class="col s4">
+          <div class="option-field">
+            <div class="control-field">
+              <mat-form-field class="cs-input">
+                <input matInput placeholder="Product Details" name="product_detail" [(ngModel)] = "conData1.product_detail" #product_detail="ngModel">
+              </mat-form-field>  
+            </div>
+          </div>
+        </div>
+        <div class="col s4">
+          <div class="row">
+            <div class="col s6">
+              <div class="option-field">
+                <div class="control-field">
+                  <mat-form-field class="cs-input">
+                    <input matInput placeholder="Quantity" name="qty" [(ngModel)]= "conData1.qty" #qty="ngModel"  (ngModelChange)="allPoint($event)">
+                  </mat-form-field>  
+                </div>
+              </div>
+            </div>
+            <div class="col s6">
+              <div class="option-field">
+                <div class="control-field">
+                  <mat-form-field class="cs-input">
+                    <input matInput placeholder="Total Points" name="totalPoint" [(ngModel)] = "conData1.totalPoint" #totalPoint="ngModel" readonly>
+                  </mat-form-field>  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="control-field">
+            <div class="save un-save">
+              <a mat-raised-button color="primary" style="color: #fff;"  class="mb0" [disabled]="!conData1.product_point_group || !conData1.product_detail || !conData1.qty || !conData1.totalPoint" (click)="addItem()" >Add To List</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb15"  *ngIf="contractorData?.length">
+        <div class="col s12 mt15">
+          <div class="css-table left-right-15">
+            <div class="sticky-header">
+              <div class="header">
+                <table> 
+                  <tr>
+                    <th class="w30" >&nbsp;</th>
+                    <th class="w150">Brand Name</th>
+                    <th>Product</th>
+                    <th class="w80 text-center">Qty.</th>
+                    <th class="w100 text-center">Total Points</th>
+                    <th class="w70">Action</th>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            
+            <div class="table-container" >
+              <div class="table-body">
+                <table>
+                  <tr *ngFor="let raw of contractorData; let p = index">
+                    <td class="w30">{{p+1}}</td>
+                    <td class="w150">{{ raw.product_point_group | titlecase }}</td>
+                    <td>{{ raw.product_detail | titlecase}}</td>
+                    <td class="w80 text-center">{{raw.qty}}</td>
+                    <td class="w100 text-center">{{raw.totalPoint}}</td>
+                    <td class="w70">
+                      <div class="cs-action">
+                        <a class="ac-red" matTooltip="Delete" matTooltipPosition="below" 
+                        (click)="deleteItem(raw.id)"><i class="material-icons">delete_sweep</i></a>
+                      </div>
+                    </td>
+                  
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>               
+        </div>
+      </div>
+    </ng-container>
+    
+    <div class="row">
+      <div class="col s12">
+        <div class="control-field">
+          <div class="save un-save">
+            <button mat-button   class="mb0" [disabled]="saveflag == true" >Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+<div class="sprate-box "  *ngIf="dataValue == 3">
+  <div class="full-offer">
+    <div class="top-heading">
+      <h2>Item Detail</h2>
+      <div class="close-icon">
+        <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+      </div>
+    </div>
+  </div>
+  <div style="margin: 0px -10px;">
+    <div class="css-table" >
+      <div class="sticky-header">
+        <div class="header">
+          <table>
+            <tr>
+              <th class="w60">Sr. No.</th>
+              <th>Company Name</th>
+              <th>Distributor Detail</th>
+              <th class="w130">Brand Name</th>
+              <th class="w70  text-center">Quantity</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="table-container">
+        <div class="table-body">
+          <table>
+            <tr  *ngFor="let row of conDetail.parts; let i = index">
+              <td class="w60">{{i+1}}</td>
+              <td>{{conDetail.retailer_company_name | titlecase}}</td>
+              <td>{{conDetail.distributor_company_name | titlecase}} - {{conDetail.distributor_mobile}}</td>
+              <td class="w130">{{row.product_point_group | titlecase}}</td>
+              <!-- <td>{{row.item_name}}</td> -->
+              <td class="w70  text-center">{{row.qty}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row ml10 mr10">
+      <div class="col s12">
+        <div class="option-field">
+         <h2>Add Point</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row ml10 mr10">
+      <div class="col s6">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <input matInput placeholder="Transfer Point" name="transfer_point" [(ngModel)]="karigarform.transfer_point"  #transfer_point="ngModel" readonly>
+            </mat-form-field>  
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col s6">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <input matInput placeholder="Return Point" name="return_point" [(ngModel)]="karigarform.return_point" #return_point="ngModel" required>
+            </mat-form-field>  
+          </div>
+        </div>
+      </div> -->
+
+      <div class="col s6">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <input matInput placeholder="Add Point" name="add_point" [(ngModel)]="karigarform.add_point" #return_point="ngModel" >
+            </mat-form-field>  
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- <div class="row ml10 mr10">
+      <div class="col s12">
+        <div class="save un-save mt20" (click)="pointSubmit()">
+          <button mat-button >Update</button>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="row ">
+      <div class="col s12  sv_pnts">
+        <div class="save un-save mt20" >
+          <button mat-button [disabled]="saveflag == true" (click)="pointSubmit1()">Update</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sprate-box "  *ngIf="dataValue == 4">
+  <div class="full-offer">
+    <div class="top-heading">
+      <h2>Item Detail</h2>
+      <div class="close-icon">
+        <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+      </div>
+    </div>
+  </div>
+  <div style="margin: 0px -10px;">
+    <div class="css-table" >
+      <div class="sticky-header">
+        <div class="header">
+          <table>
+            <tr>
+              <th class="w60">Sr. No.</th>
+              <th>Company Name</th>
+              <th>Distributor Detail</th>
+              <th class="w130">Brand Name</th>
+              <th class="w70  text-center">Quantity</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="table-container">
+        <div class="table-body">
+          <table>
+            <tr  *ngFor="let row of conDetail.parts; let i = index">
+              <td class="w60">{{i+1}}</td>
+              <td>{{conDetail.retailer_company_name | titlecase}} </td>
+              <td>{{conDetail.distributor_company_name | titlecase}} - {{conDetail.distributor_mobile}}</td>
+              <td class="w130">{{row.product_point_group | titlecase}}</td>
+              <!-- <td>{{row.item_name}}</td> -->
+              <td class="w70  text-center">{{row.qty}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row ml10 mr10">
+      <div class="col s12">
+        <div class="option-field">
+         <h2>Return Point</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row ml10 mr10">
+      <div class="col s6">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <input matInput placeholder="Transfer Point" name="transfer_point" [(ngModel)]="karigarform.transfer_point"  #transfer_point="ngModel" readonly>
+            </mat-form-field>  
+          </div>
+        </div>
+      </div>
+      <div class="col s6">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <input matInput placeholder="Return Point" name="return_point" [(ngModel)]="karigarform.return_point" #return_point="ngModel" required>
+            </mat-form-field>  
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col s6">
+        <div class="option-field">
+          <div class="control-field">
+            <mat-form-field class="cs-input">
+              <input matInput placeholder="Add Point" name="add_point" [(ngModel)]="karigarform.add_point" #return_point="ngModel" >
+            </mat-form-field>  
+          </div>
+        </div>
+      </div> -->
+
+
+    </div>
+    <div class="row ml10 mr10">
+      <div class="col s12">
+        <div class="save un-save mt20">
+          <button mat-button [disabled]="saveflag == true"  (click)="pointSubmit()">Update</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row ">
+      <div class="col s3  sv_pnts">
+        <div class="save un-save mt20" (click)="pointSubmit1()">
+          <button mat-button >Update</button>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="login" >
+  
+    <div class="login-bg"   >
+    <!-- <img src="http://advance.abacusdesk.com/dd_api/login-banner.png"> -->
+   <app-slider></app-slider>
+  </div>
+
+  <div class="login-form">
+    <div class="login-logo">
+      <img src="assets/logo.png">
+    </div>
+    
+    
+    <div class="form-relative">
+        <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate >
+      
+      <div class="login-details">
+        <p>Log <span>in</span></p> 
+        
+        <div class="login-inner-form">
+          <label>USERNAME</label>
+          <mat-form-field class="full-width">
+              <input matInput name="email" [(ngModel)] = "form.email" #email="ngModel"  required autocomplete="off">
+            <i class="material-icons">person</i>
+          </mat-form-field>
+        </div>
+        
+        <div class="login-inner-form">
+          <label>PASSWORD</label>
+          <mat-form-field class="full-width">
+              <input matInput type="password" name="password" [(ngModel)]="form.password" #password="ngModel" required  autocomplete="off">
+            <i class="material-icons rot" >vpn_key</i>
+            <!-- <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+          </mat-form-field>
+        </div>
+        
+        <div class="checkbox">
+          <!-- <a (click)="toggle = !toggle">FORGOT PASSWORD ?</a> -->
+        </div>
+        
+        <div class="from-group">
+          <button class="btn-md btn-block btn-theme">LOG IN</button>
+        </div>
+      </div>
+      
+      <!-- <div class="forgot-detail">
+        <p>Forgot<span> Password </span></p>
+        
+        <div class="change-des">
+          <h3>Enter your email address. We'll email instruction on how to reset your password</h3>
+        </div>
+        
+        <div class="login-inner-form">
+          <label>USERNAME</label>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Enter your password" >
+            <i class="material-icons">person</i>
+          </mat-form-field>
+        </div>
+        
+        <div class="checkbox" [ngClass]="{loading: ses.loading}">
+
+        </div>
+        
+        <div class="from-group">
+          <button class="btn-md btn-block btn-theme" >Send</button>
+        </div>
+      </div> -->
+      </form>
+    </div>
+    
+    <div class="login-footer">
+      <p>Powered by Abacusdesk</p>
+    </div>
+  </div>
+</div>

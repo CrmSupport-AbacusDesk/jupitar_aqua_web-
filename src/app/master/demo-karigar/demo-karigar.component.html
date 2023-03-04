@@ -1,0 +1,237 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container">
+    <div class="middle-container">
+        <div class="tabs-list">
+            <h1>Master</h1>
+            <div class="input-field">
+                <input type="text" placeholder="Search..." [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getDemoKar('')">
+                <i class="material-icons">
+                    search
+                </i>
+            </div>
+        </div>
+        
+        <div class="refresh-btn">
+            <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getDemoKar('refresh')"><i class="material-icons">refresh</i></a>
+        </div>
+        <div class="top-pagination">
+            <div class="master-btn pr15">
+                <button mat-button (click)="reset()">Reset All Data</button>
+            </div>
+            <ul>
+                <li><p  >Pages {{ current_page }} of {{ last_page }}</p></li>
+                
+                <li><button mat-button class="left-btn" (click) = 'redirect_previous()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getDemoKar('')"></li>
+                <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li>
+                <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li>
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <li routerLink="/karigars-executive-list" routerLinkActive="active"><a>karigars Executive</a></li>
+                <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li>
+                <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li>
+                <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li>
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li>
+                <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="css-table left-right-15">
+                <div class="sticky-header">
+                    <div class="header">
+                        <table >
+                            <tr>
+                                <th class="w30">&nbsp;</th>
+                                <th class="w150">Date / Created by</th>
+                                <th>Name</th>
+                                <th class="w120">Mobile No.</th>
+                                <th>Address</th>
+                                <th class="w50">Points</th>
+                                <th class="w100">Action</th>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                    <div class="header border-bott">
+                        <table>
+                            <tr>
+                                <th class="w30">&nbsp;</th>
+                                <th class="w150"></th>
+                                <th>
+                                    <div class="search-form">
+                                        <input type="text" placeholder="Name" [(ngModel)]="filter.first_name"  (keyup.enter)="current_page = 1;getDemoKar('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </th> 
+                                <th class="w120">
+                                    <div class="search-form">
+                                        <input type="number" placeholder="Mobile" [(ngModel)]="filter.mobile"  (keyup.enter)="current_page = 1;getDemoKar('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </th>  
+                                <th></th>
+                                <th class="w50"></th>
+                                <th class="w100"></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-body">
+                        <table>
+                            <tr class="arject" *ngFor="let val of karigars; let i = index">
+                                <td class="w30">{{i + 1 }}</td>
+                                <td class="w150">{{val.date_created | date:'d MMM y'}} / {{val.created_name | titlecase}}</td>
+                                <td><a class="blue" routerLink="/karigar-detail/{{val.id}}/1" routerLinkActive="active">{{val.first_name | titlecase }} {{val.last_name | titlecase }}</a></td>
+
+                                <td class="w120">{{val.mobile_no}}</td>
+                                <td>{{val.address}} {{!val.city ? 'N/A' : ', '+val.city}} {{!val.district ? 'N/A' : ', '+val.district}} {{!val.state ? 'N/A' : ', '+val.state}}</td>
+                                <td class="w50">{{intVal(val.referal_point_balance)+intVal(val.balance_point)}}</td>
+                                <td class="w100 no-padding active">
+                                    <table>
+                                        <tr>
+                                            <td class="no-border text-center td-flex">
+                                                <button class="right" (click)="toggle = !toggle; editKarigar(val)"><i class="material-icons">edit</i></button>
+                                                <button class="cancel" (click)="deleteProduct(val.id)"><i class="material-icons">delete_sweep</i></button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="add">
+        <button mat-button class="add-btn"  (click)="toggle = !toggle; addkarigars()"><i class="material-icons">add</i></button>
+    </div>
+</div>
+
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    <div class="category-field" [ngClass] ="{'active' : toggle == true}">
+        <form name="karigarform" (ngSubmit)="f.form.valid && saveDemoKar(f)" #f="ngForm" novalidate autocomplete="off">
+            <div class="category-hadding">
+                <h2>Demo Karigar</h2>
+                <i class="material-icons" (click)="toggle = !toggle">clear</i>
+            </div>
+            
+            <div class="add-image">
+                <div class="sco-12">
+                    <div class="scrol-13">
+                        
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="First Name" name="first_name" [(ngModel)] = "karigarform.first_name" #first_name="ngModel" required>
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Last Name" name="last_name" [(ngModel)] = "karigarform.last_name" #last_name="ngModel" required>
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Mobile" name="mobile_no" [(ngModel)] = "karigarform.mobile_no" #phone="ngModel"  (keypress)="numeric_Number($event)"  maxlength="10" minlength="10"  required>
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <!-- [max]="date1"  (click)="openDatePicker(picker)"-->
+                                    <input placeholder="D.O.B" class="h46" [(ngModel)]="karigarform.dob"   name="dob" matInput  [matDatepicker]="picker" required readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field> 
+                            </div>
+                        </div>
+                        <div class="option-field">
+                            <div class="control-field ">
+                                <mat-form-field class="cs-input">
+                                    <textarea matInput placeholder="Address " class="h115" name="address" [(ngModel)] = "karigarform.address" #address="ngModel"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field ">
+                                <mat-form-field class="cs-input cs-multi-select">
+                                    <mat-select placeholder="Select State" name="state"  (selectionChange)="getDistrictList()" [(ngModel)]="karigarform.state" #state="ngModel" required>
+                                        <mat-option *ngFor = "let val of states" [value]="val.state_name"> {{val.state_name}} </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field ">
+                                <mat-form-field class="cs-input cs-multi-select">
+                                    <mat-select placeholder="Select District" name="district" [(ngModel)]="karigarform.district" #district="ngModel" required>
+                                        <mat-option *ngFor="let val of districts" [value]="val.district_name"> {{val.district_name}} </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field ">
+                                <mat-form-field class="cs-input ">
+                                    <input matInput placeholder="City" name="city" [(ngModel)] = "karigarform.city" #city="ngModel" required >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field ">
+                                <mat-form-field class=" cs-input ">
+                                    <input matInput placeholder = "Pincode" (keypress)="numeric_Number($event)" maxlength="6" minlength="6" name = "pincode"  [(ngModel)] = "karigarform.pincode" #pincode = "ngModel" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="save btn-save mt250" [ngClass]="{loading: savingData}">
+                    <button mat-button [disabled]="savingData">SAVE</button>
+                </div>
+                
+            </div>
+            
+        </form>
+    </div>
+    <div class="side-bg" (click)="toggle = !toggle"></div>
+</div>
+
+<div class="excel-btn" (click)="exportproductCategory()" style="right: 85px;">
+    <div class="image-area">
+        <a>
+            <img src="assets/excel.svg">
+        </a>
+    </div>
+</div>

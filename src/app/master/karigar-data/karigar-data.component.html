@@ -1,0 +1,119 @@
+<div class="main-container">
+    <div class="loader" *ngIf = "loading_list">
+        <div class="loding-logo">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+    <div class="fixed">
+        <div class="tab-header">
+            <div class="left-auto">
+                <div class="refresh-btn">
+                    <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="get_garigar_data()"><i class="material-icons">refresh</i></a>
+                </div>
+                <div class="file-import">
+                    <div class="border-erea">
+                        <label (click)="openimportcodemodel()">
+                            <i class="material-icons">backup</i>
+                            <h4 >Import Karigar Data</h4>
+                        </label>
+                    </div>
+                </div>
+                <div class="top-pagination" *ngIf="assign_arr.length > 0">
+                    <div class="master-btn ml20">
+                        <button mat-button (click)="opensendmessage()">Send Message</button>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li>
+                <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li>
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li>
+                <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li>
+                <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li>
+                <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li>
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li>
+                <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li>
+            </ul>
+        </div>
+        
+        <div class="css-table left-right-15" >
+            <div class="sticky-header">
+                <div class="header">
+                    <table>
+                        <tr>
+                            <td class="w30 text-center"><mat-checkbox name="select_all" [(ngModel)]="select_all" (change)="select_all_data()"></mat-checkbox></td>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w150">Date</th>
+                            <th>Name</th>
+                            <th class="w150">Mobile</th>
+                            <th class="w150">Status</th>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w150">
+                                <div class="search-form">
+                                    <input type="date" placeholder="Name" name="date_created" [(ngModel)]="search.date_created" (change)="get_garigar_data()">
+                                </div>
+                            </th>                            
+                            <th>
+                                <div class="search-form">
+                                    <input type="text" placeholder="Name" name="name" [(ngModel)]="search.name" (keyup.enter)="get_garigar_data()">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th class="w150">
+                                <div class="search-form">
+                                    <input type="number" placeholder="Mobile No" name="mobile_no" [(ngModel)]="search.mobile_no" (keyup.enter)="get_garigar_data()">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th class="w150"></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="table-container">
+                <div class="table-body">
+                    <table>
+                        <tr *ngFor="let row of promo_karigar;let i=index">
+                            <td class="w30 text-center" style="border-right: 0px !important;"><mat-checkbox name="checked" [(ngModel)]="row.checked" (change)="select_item($event,i)"></mat-checkbox></td>
+                            <td class="w30 text-center">{{(i+1)}}</td>
+                            <td class="w150">{{row.date_created | date:'d MMM y'}}</td>
+                            <td>{{row.name | titlecase}}</td>
+                            <td class="w150">{{row.mobile_no}}</td>
+                            <td class="w150">{{row.convetred ? 'Converted' : 'Not Converted'}}
+                                <div class="center">
+                                    <div class="over-sec">
+                                        <i class="material-icons deactive"  (click)="deleteKarigar(row.id)" >delete_sweep</i>
+                                    </div> 
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="date-not" *ngIf="promo_karigar.length == 0">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+    </div>
+</div>

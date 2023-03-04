@@ -1,0 +1,72 @@
+<div class="loader" *ngIf="loading">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="fixed">
+        <div class="middle-container tab-header">
+            <div class="tabs-list gift-tab-list pl5">
+                <div class="input-field">
+                    <input type="text" placeholder="Search" name="master_search" (keyup.enter)="get_questions()" [(ngModel)]="master_search">
+                    <i class="material-icons">search</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="question-field" *ngFor="let row of question_list;let i=index">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title >
+                        <div class="qdlf">
+                            <img src="assets/img/question.png"> <span>{{i+1}}.</span>
+                        </div>
+                        <span [innerHTML] = "row.question"></span>
+                    </mat-panel-title>
+                    <button (click)="edit_question(row)"><i class="material-icons">edit</i></button>
+                    <button (click)="delete_question(row)"><i class="material-icons">delete_sweep</i></button>
+                </mat-expansion-panel-header>
+                <div class="dfl">
+                    <img src="assets/img/ans.png">
+                    <span [innerHTML] = "row.answer ? row.answer : 'N/A'"></span>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    <div class="category-field" >
+        <form #f="ngForm" name="faq" (ngSubmit)="f.valid && save_faq()">
+            <div class="category-hadding">
+                <h2>FAQ</h2>
+                <i (click)="toggle = false;" class="material-icons">clear</i>
+            </div>
+            
+            <div class="add-image">
+                <div class="option-field">
+                    <label class="font14" style="font-weight: 500;">Question</label>
+                    <div class="control-field">
+                        <app-ngx-editor height="129px" class="h115" minHieght="50px" [spellcheck]="true" name="question" [(ngModel)]="form.question" required></app-ngx-editor>
+                    </div>
+                    
+                    <label class="font14 mt15" style="font-weight: 500; display: block;">Answer</label>
+                    <div class="control-field ">
+                        <app-ngx-editor height="129px" class="h115" minHieght="50px" [spellcheck]="true" name="answer" [(ngModel)]="form.answer"></app-ngx-editor>
+                    </div>
+                </div>
+                <div class="save btn-save mt90">
+                    <button mat-button >SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="fab-btns">
+    <button mat-fab color="primary" (click)="toggle = !toggle">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

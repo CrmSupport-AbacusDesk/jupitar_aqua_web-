@@ -1,0 +1,114 @@
+<div class="main-container">
+    <div class="loader" *ngIf = "loading_list">
+        <div class="loding-logo">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+    <div class="fixed">
+        <div class="tab-header">
+            <div class="left-auto">
+                <div class="refresh-btn">
+                    <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="get_data()"><i class="material-icons">refresh</i></a>
+                </div>
+                <div class="top-pagination">
+                    <ul>
+                        <li><p  >Pages {{ current_page }} of {{ last_page }}</p></li>
+                        
+                        <li><button mat-button class="left-btn" (click) = 'redirect_previous()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                        <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="get_data()"></li>
+                        <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                    </ul>
+                </div>
+            </div>            
+        </div>
+    </div>
+    
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li>
+                <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li>
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li>
+                <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li>
+                <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li>
+                <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li>
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li>
+                <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li>
+            </ul>
+        </div>
+        
+        <div class="css-table left-right-15" >
+            <div class="sticky-header">
+                <div class="header">
+                    <table>
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w150">Date</th>
+                            <th class="w200">Karigar Name</th>
+                            <th class="w150">Mobile</th>
+                            <th class="w150">Email</th>
+                            <th >Notification</th>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w150">
+                                <div class="search-form">
+                                    <input type="date" placeholder="Name" name="date_created" [(ngModel)]="search.date_created" (change)="get_data()">
+                                </div>
+                            </th>                            
+                            <th class="w200">
+                                <div class="search-form">
+                                    <input type="test" placeholder="Name" name="name" [(ngModel)]="search.name" (keyup.enter)="get_data()">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th class="w150">
+                                <div class="search-form">
+                                    <input type="number" placeholder="Mobile No" name="mobile_no" [(ngModel)]="search.mobile_no" (keyup.enter)="get_data()">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th class="w150"></th>
+                            <th>
+                                <div class="search-form">
+                                    <input type="test" placeholder="Type Something..." name="notification" [(ngModel)]="search.notification" (keyup.enter)="get_data()">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="table-container">
+                <div class="table-body">
+                    <table>
+                        <tr *ngFor="let row of karigar_notification;let i=index">
+                            <td class="w30 text-center">{{(i+1)}}</td>
+                            <td class="w150">{{row.date_created | date:'d MMM y'}}</td>
+                            <td class="w200">{{row.full_name ? row.full_name : 'N/A'}}</td>
+                            <td class="w150">{{row.mobile_no ? row.mobile_no : 'N/A'}}</td>
+                            <td class="w150">{{row.email ? row.email : 'N/A'}}</td>
+                            <td>{{row.notification | titlecase}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="date-not" *ngIf="karigar_notification.length == 0">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+    </div>
+</div>

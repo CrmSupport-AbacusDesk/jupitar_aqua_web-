@@ -1,0 +1,127 @@
+<div class="main-container">
+  <div class="offer-container">
+    <div class="container">
+      <form name="addOffer" (ngSubmit)="f.form.valid && saveOffer(f) " #f="ngForm" novalidate autocomplete="off">
+        <div class="row">
+          
+          <div class="col s12 ">
+            <div class="sprate-box ">
+              <div class="full-offer">
+                <div class="top-heading">
+                  <h2>FULL OFFER INFORMATION</h2>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s8 ">
+                  <div class="option-field">
+                    <div class="row">
+                      <div class="col s4 ">
+
+
+                        <!-- <div class="control-field">
+                          <mat-form-field class="cs-input">
+                              <input matInput placeholder="Retailer"  readonly>
+                          </mat-form-field>  
+                      </div> -->
+
+
+
+                        <div class="control-field">
+                          <mat-form-field class="cs-input">
+                          <mat-label>Select User Type</mat-label>
+                          <mat-select  [(ngModel)]="addOffer.user_type" name="user_type" #user_type="ngModel" required>
+                            <mat-option value=""></mat-option>
+                            <mat-option value="Plumber">Plumber</mat-option>
+                            <mat-option value="Retailer">Retailer</mat-option>
+                          </mat-select>
+                          </mat-form-field>  
+                        </div>
+                      </div>
+                      <div class="col s4">
+                        <div class="control-field">
+                          <mat-form-field class="cs-input">
+                            <input matInput placeholder="Title" name="title" [(ngModel)] = "addOffer.title" #title="ngModel" required>
+                          </mat-form-field>  
+                        </div>
+                      </div>
+                      <div class="col s4 ">
+                        <div class="control-field">
+                          <mat-form-field class="cs-input">
+                            <input matInput placeholder="Offer Code" name="offer_code" [(ngModel)] = "addOffer.offer_code" #offer_code="ngModel" [disabled]="addOffer.total_scanned_count > 0" required>
+                          </mat-form-field>  
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s4">
+                        <div class="control-field">
+                          <mat-form-field class="cs-input">
+                            <input placeholder="Offer Start Date" [(ngModel)]="addOffer.start_date" name="start_date" matInput  [matDatepicker]="picker1" required readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1 ></mat-datepicker>
+                          </mat-form-field>  
+                        </div>
+                      </div>
+                      <div class="col s4 ">
+                        <div class="control-field">
+                          <mat-form-field class="cs-input">
+                            <input placeholder="Offer End Date" [(ngModel)]="addOffer.end_date" [min]="mindate" name="end_date" matInput  [matDatepicker]="picker" required readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker ></mat-datepicker>
+                          </mat-form-field>  
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s6">
+                        <div class="control-field">
+                          <app-ngx-editor height="220px" minHieght="50px" [placeholder]="'Description'" [spellcheck]="true"  [(ngModel)]="addOffer.description"  #description="ngModel" name="description"></app-ngx-editor>
+                        </div>
+                      </div>
+                      
+                      <div class="col s6 ">
+                        <div class="control-field">
+                          <app-ngx-editor height="223px" class="h115" minHieght="50px" [placeholder]="'Terms & Conditions '" [spellcheck]="true"  [(ngModel)]="addOffer.terms"  #terms="ngModel" name="terms"></app-ngx-editor>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+
+                <div class="col s4 mt15 ">
+                  <div class="option-field">
+                    <div class="territory-infos">
+                      <div class="heads">
+                        <h2>OFFER BANNER</h2>
+                      </div>
+                      <div class="cs-checkboxs" style="height: 325px;">
+                        <div class="checkbox-outers image-inputes">
+                          <label>
+                            <input type="file" (change)="onUploadChange1($event)" style="display:none;" accept=".png, .jpg, .jpeg" required />
+                            
+                            <!-- <img src="{{addOffer.imgId ?uploadUrl + addOffer.offer_banner : addOffer.offer_banner}}"> -->
+                            <img src="{{addOffer ?uploadUrl + addOffer.offer_banner : addOffer.offer_banner}}"  alt="" id="img" style="cursor: pointer;">
+                            <!-- <img  [src]="uploadUrl + addOffer.offer_banner?addOffer.offer_banner:'../assets/default-image.png' " alt="" id="img" style="cursor: pointer;"> -->
+                            <div *ngIf="!addOffer.offer_banner">
+                              <h4>Upload Image</h4>
+                              <i class="material-icons add-file-icon" >add</i>
+                            </div>
+                          </label>
+                        </div>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="save un-save" [ngClass]="{loading: savingData}" >
+          <button mat-button [disabled]="savingData"  >Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

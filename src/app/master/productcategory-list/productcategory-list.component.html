@@ -1,0 +1,186 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container ">
+    <div class="middle-container ">
+        <div class="tabs-list">
+            <h1>Master</h1>
+            <div class="input-field">
+                <input type="text" placeholder="Search..." [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getCategoryList('')">
+                <i class="material-icons">
+                    search
+                </i>
+            </div>
+        </div>
+        <div class="refresh-btn">
+            <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getCategoryList('refresh')"><i class="material-icons">refresh</i></a>
+        </div>
+    </div>
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <li routerLink="/digitallist" routerLinkActive="active"><a>Digital Catalogue</a></li>
+                <li routerLink="/coupon-code-master" routerLinkActive="active"><a>Product Point Master</a></li>
+                <!-- <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li> -->
+                <!-- <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li> -->
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <!-- <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li> -->
+                <!-- <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li> -->
+                <!-- <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li> -->
+                <!-- <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li> -->
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/app-banner-list" routerLinkActive="active"><a>App Banner</a></li>
+                <li routerLink="/gifts" routerLinkActive="active"><a>Master Gift</a></li>
+
+                <!-- <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li> -->
+                <!-- <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li> -->
+            </ul>
+        </div>
+        <div class="image-list">
+            <ul>
+                <li *ngFor="let val of categories; let i = index">
+                    
+                    <div class="image-section1 ap_banr">
+                        <!-- <ng-container *ngFor="let row of val.image; let i=index"> -->
+                        <ng-container>
+                            <img  [src]="val.image.length>0?uploadurl+val.image[0].image_name:'assets/img/category_img.png'" (click)="openDialog(val.image[0].image_name, 'test2' )" onError="this.src='assets/img/category_img.png';">
+                        </ng-container>
+                    </div>
+                    
+                    <div class="hvr-edit">
+                        <a class="delete-icn"><i class="material-icons" (click)="deleteProduct(val.id)">delete_sweep</i></a>
+                        <a class="edit-icn"><i class="material-icons" (click)="toggle = !toggle; editCategory(val.id,i)">edit</i></a>
+                    </div>
+                    <div class="bottom-section">
+                        <h1>{{val.category_name  | titlecase}}</h1>
+                        <a *ngIf="val.description" (click)="openDial(val.description,'description')">View Description</a>
+                    </div>
+                </li>
+            </ul>
+        </div> 
+    </div>
+    <!-- <div class="add">
+        <button mat-button class="add-btn" (click)="toggle = !toggle; addCategory()"><i class="material-icons" >add</i></button>
+    </div> -->
+</div>
+
+<!-- <div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    <div class="category-field" >
+        <form name="category" (ngSubmit)="f.form.valid && savecategory(f)" #f="ngForm" novalidate autocomplete="off">
+            <div class="category-hadding">
+                <h2>Add Category</h2>
+                <i class="material-icons" (click)="toggle = !toggle;clearData()">clear</i>
+            </div>
+            
+            <div class="add-image">
+                <div class="option-field">
+                    <div class="control-field">
+                        <mat-form-field class="cs-input">
+                            <input matInput placeholder="Category Name" name="category_name" [(ngModel)] = "category.category_name" #category_name="ngModel" required>
+                        </mat-form-field>  
+                    </div>
+                </div>
+                
+                <div class="option-field mt15">
+                    <div class="control-field">
+                        <app-ngx-editor height="129px" class="h115" minHieght="50px" [placeholder]="'Description '" [spellcheck]="true"  [(ngModel)]="category.description"  #description="ngModel" name="description"></app-ngx-editor>
+                    </div>
+                </div>
+                
+                <div class="uploade-image">
+                    <ul>
+                        <li *ngFor="let row of selected_image; let i=index" [ngClass]="{'active':category.profile_selected == row.id }">
+                            <img [src]="row.id ? uploadurl+row.image : row.image" >
+                            <span class="cancel-icon">
+                                <i class="material-icons check-icon" (click)="ProductProfile(i,row.id)">done</i>
+                                <i class="material-icons crose-icon " (click)="deleteProductImage(i,row)">clear</i>
+                            </span>									
+                        </li>
+                        <li class="add-bg-1">
+                            <label>
+                                <input type="file" (change)="onUploadChange($event)" style="display:none;" accept=".png, .jpg, .jpeg, .pdf" required multiple />
+                                <div class="other">
+                                    <i class="material-icons">add</i>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="save btn-save mt90" [ngClass]="{loading: savingData}">
+                    <button mat-button [disabled]="savingData" >SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="side-bg" (click)="toggle = !toggle"></div>
+</div> -->
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    <div class="category-field" >
+        <form name="category" (ngSubmit)="f.form.valid && savecategory(f)" #f="ngForm" novalidate autocomplete="off">
+            <div class="category-hadding">
+                <h2>Add Category</h2>
+                <i class="material-icons" (click)="toggle = !toggle;clearData()">clear</i>
+            </div>
+            
+            <div class="add-image">
+                <div class="option-field">
+                    <div class="control-field">
+                        <mat-form-field class="cs-input">
+                            <input matInput placeholder="Category Name" name="category_name" [(ngModel)] = "category.category_name" #category_name="ngModel" required>
+                        </mat-form-field>  
+                    </div>
+                </div>
+                
+                <div class="option-field mt15">
+                    <div class="control-field">
+                        <app-ngx-editor height="129px" class="h115" minHieght="50px" [placeholder]="'Description '" [spellcheck]="true"  [(ngModel)]="category.description"  #description="ngModel" name="description"></app-ngx-editor>
+                    </div>
+                </div>
+                
+                <div class="uploade-image">
+                    <ul>
+                        <li *ngFor="let row of selected_image; let i=index" [ngClass]="{'active':category.profile_selected == row.id }">
+                            <img [src]="row.id ? uploadurl+row.image : row.image" >
+                            <span class="cancel-icon">
+                                <i class="material-icons check-icon" (click)="ProductProfile(i,row.id)">done</i>
+                                <i class="material-icons crose-icon " (click)="deleteProductImage(i,row)">clear</i>
+                            </span>									
+                        </li>
+                        <!-- *ngIf="hideAddImage==false" -->
+                        <li  class="add-bg-1" *ngIf="hideAddImage==false">
+                            <label>
+                                <input type="file" (change)="onUploadChange($event)" style="display:none;" accept=".png, .jpg, .jpeg, .pdf" required multiple />
+                                <div class="other">
+                                    <i class="material-icons">add</i>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="save btn-save mt90" [ngClass]="{loading: savingData}">
+                    <button mat-button [disabled]="savingData" >SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="fab-btns">
+    <button (click)="exportproductCategory()"   mat-fab class="excel">
+        <img src="assets/excel.svg">
+    </button>
+    <button mat-fab color="primary" (click)="toggle = !toggle">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

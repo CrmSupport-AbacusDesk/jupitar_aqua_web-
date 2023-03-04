@@ -1,0 +1,477 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container" >
+    <div class="fixed">
+        <div class="tab-header">
+            <div class="tabs-list gift-tab-list">
+                <ul>
+                    <li (click)="mode='1';filter = {}; current_page=1; getAvailableCoupanList(''); " [ngClass]="{'active': mode == '1'}">
+                        <a>
+                            <p>ALL</p>
+                            <span>{{avialable_coupon_count}}</span>
+                        </a>
+                    </li>
+                    <li (click)="mode='2';filter = {}; current_page=1; getScannedList(''); " [ngClass]="{'active': mode == '2'}">
+                        <a>
+                            <p>SCANNED BY PLUMBER</p>
+                            <span>{{ sccaned_coupon_count}}</span>
+                        </a>
+                    </li>
+                    <li (click)="mode='4';filter = {}; current_page=1; getcodeSummaryist(''); " [ngClass]="{'active': mode == '4'}">
+                        <a>
+                            <p>Code Summary</p>
+                        </a>
+                    </li>
+                </ul>
+                <div class="master-btn pl15"  *ngIf="mode == '1' || mode == '2'">
+                    <button  mat-raised-button color="primary" (click)="openDatepicker()">Date Filter</button>
+                </div>
+            </div>
+            
+            <div class="left-auto">
+                <div class="master-btn" >
+                    <button  mat-raised-button routerLink="/add-coupon" color="primary"> Generate Coupon</button>
+                </div>
+
+                <div class="refresh-btn ml10  mr10" *ngIf="mode!='4'">
+                    <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="mode=='1'?getAvailableCoupanList('refresh'):mode=='2'?getScannedList('refresh'):mode=='3'?getRedeemList('refresh'):getcodeSummaryist('refresh')"><i class="material-icons">refresh</i></a>
+                </div>
+                
+               
+                <div class="top-pagination" *ngIf="mode == '1' && !(!filtering && coupon.length == 0 )  ">
+                    <ul>
+                        <li><p (click)="exportAvailableCouponList()">Pages {{ current_page }} of {{ last_page }}</p></li>
+                        <li><button mat-button  matTooltip="First Page" class="fisrt-btn" (click) = 'current1()'>First</button></li>
+                        <li><button mat-button  matTooltip="Previous Page" class="left-btn" (click) = 'redirect_previous1()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                        <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getAvailableCoupanList('')"></li>
+                        <li><button mat-button  matTooltip="Next Page" class="right-btn" (click) = 'redirect_next1()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                        <li><button mat-button  matTooltip="Last Page" class="last-btn" (click) = 'last1()'>Last</button></li>
+                    </ul>
+                </div>
+                <div class="top-pagination" *ngIf="mode == '2' && !(!filtering && scanned_coupon.length == 0 )  ">
+                    <ul>
+                        <li><p (click)="exportScannedCouponList()">Pages {{ current_page }} of {{ last_page }}</p></li>
+                        <li><button mat-button  matTooltip="First Page" class="fisrt-btn" (click) = 'current2()'>First</button></li>
+                        <li><button mat-button class="left-btn" (click) = 'redirect_previous2()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                        <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getScannedList('')"></li>
+                        <li><button mat-button class="right-btn" (click) = 'redirect_next2()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                        <li><button mat-button  matTooltip="Last Page" class="last-btn" (click) = 'last2()'>Last</button></li>
+                    </ul>
+                </div>
+                <div class="top-pagination"  *ngIf="mode == '3' && !(!filtering && scanned_coupon.length == 0 )  ">
+                    <ul>
+                        <li><p (click)="exportRedeemCouponList()">Pages {{ current_page }} of {{ last_page }}</p></li>
+                        <li><button mat-button  matTooltip="First Page" class="fisrt-btn" (click) = 'current3()'>First</button></li>
+                        <li><button mat-button class="left-btn" (click) = 'redirect_previous3()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                        <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getRedeemList('')"></li>
+                        <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                        <li><button mat-button  matTooltip="Last Page" class="last-btn" (click) = 'last3()'>Last</button></li>
+                    </ul>
+                </div>
+                
+                <div class="top-pagination"  *ngIf="mode == '4' && !(!filtering && coupon_code_summary.length == 0 )  ">
+                    <ul>
+                        <li>Pages {{ current_page }} of {{ last_page }}</li>
+                        <li><button mat-button  matTooltip="First Page" class="fisrt-btn" (click) = 'current4()'>First</button></li>
+                        <li><button mat-button class="left-btn" (click) = 'redirect_previous4()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                        <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getcodeSummaryist('')"></li>
+                        <li><button mat-button class="right-btn" (click) = 'redirect_next4()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                        <li><button mat-button  matTooltip="Last Page" class="last-btn" (click) = 'last4()'>Last</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="css-table"  *ngIf="mode == '1' && !(!filtering && coupon.length == 0 )  ">
+            <div class="sticky-header">
+                <div class="header">
+                    <table >
+                        <tr>
+                            <th class="w50 border-right text-center">S.No.</th>
+                            <th class="w140">Date / Created by</th>
+
+                            <!-- <th class="w180" >Product Name</th>
+                            <th class="w130 text-center" >Product Size</th> -->
+                            <th class="w180">Coupon Code</th>
+                            <th class="w130">Brand Name</th>
+
+                            <th>Remark</th>
+                            <th class="w50 text-center" >Action</th>
+                        </tr>                        
+                    </table>
+                </div>
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w50 border-right ">&nbsp;</th>
+                            <th class="w140">
+                                <div class="vaild-into">
+                                    <div class="date-form wp-21 mr10">
+                                        <i *ngIf="filter.date" class="material-icons" (click)="filter.date = '';getAvailableCoupanList('') ">clear</i>
+                                        
+                                        <mat-form-field>
+                                            <input matInput placeholder=" Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker1)" name="date" matInput (dateChange)="getAvailableCoupanList('')" [matDatepicker]="picker1" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </th> 
+                            <!-- <th class="w180">
+                                <div class="form-area wp-21">
+                                    <div class="search-form">
+                                        <input type="text" placeholder="Search" [(ngModel)]="filter.product_name"  (keyup.enter)="current_page = 1;getAvailableCoupanList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th> 
+                            <th class="w130">&nbsp;</th> -->
+                            <th class="w180">
+                                <div class="form-area wp-21">
+                                    <div class="search-form">
+                                        <input type="text" placeholder="Search" [(ngModel)]="filter.coupon_code"  (keyup.enter)="current_page = 1;getAvailableCoupanList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w130">
+                                <div class="search-form">
+                                    <input type="text" placeholder="Search ..." [(ngModel)]="filter.product_point_group"  (keyup.enter)="current_page = 1;getAvailableCoupanList('')">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th>&nbsp;</th>
+                            <th class="w50"></th>
+                    </table>
+                </div>
+            </div>
+        </div> 
+
+        <div class="css-table " *ngIf="mode == '2' && !(!filtering && scanned_coupon.length == 0 )  " >
+            <div class="sticky-header">
+                <div class="header">
+                    <table >
+                        <tr>
+                            <th class="w50 border-right text-center">S.No.</th>
+                            <th class="w130">Date / Created by</th>
+                            <!-- <th class="w160" >Product Name</th>
+                            <th class="w80 text-center">Size</th> -->
+                            <th class="w200" >Coupon Code</th>
+                            <th class="w130">Brand Name</th>
+
+                            <th>Used Date & Used By</th>
+                            <th class="w110">Mobile No.</th>
+                            <th class="w80 text-center ">Points</th>   
+                            <th class="w160">Remark</th>           
+                            <th class="w100">State</th>           
+                            <th class="w100">District</th>           
+                        </tr>
+                        
+                    </table>
+                </div>
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w50 border-right ">&nbsp;</th>
+                            <th class="w130">
+                                <div class="vaild-into">
+                                    <div class="date-form  mr10">
+                                        <i *ngIf="filter.date" class="material-icons" (click)="current_page=1;filter.date = '';getScannedList('') ">clear</i>
+                                        
+                                        <mat-form-field>
+                                            <input matInput placeholder=" Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker3)" name="date" matInput (dateChange)="current_page=1;getScannedList('')" [matDatepicker]="picker3" readonly> 
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    
+                                </div>
+                            </th>  
+                            <!-- <th class="w160">
+                                <div class="form-area wp-21">
+                                    <div class="search-form">
+                                        <input type="text" placeholder="Search" [(ngModel)]="filter.product_name"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w80"></th> -->
+                            <th class="w200">
+                                <div class="form-area wp-21">
+                                    <div class="search-form">
+                                        <input type="text" placeholder="Search" [(ngModel)]="filter.coupon_code"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w130">
+                                <div class="search-form">
+                                    <input type="text" placeholder="Search ..." [(ngModel)]="filter.product_point_group"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="vaild-into">
+                                    <div class="date-form wp-21 mr10">
+                                        <i *ngIf="filter.scan_date" class="material-icons" (click)="current_page=1;filter.scan_date = '';getScannedList('') ">clear</i>
+                                        
+                                        <mat-form-field>
+                                            <input matInput placeholder=" Search"  [(ngModel)]="filter.scan_date" (click)="current_page=1;openDatePicker(picker5)" name="scan_date" matInput (dateChange)="current_page=1;getScannedList('')" [matDatepicker]="picker5" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker5></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-area wp-21">
+                                        <div class="search-form">
+                                            <input type="text" placeholder="Search" [(ngModel)]="filter.used_by"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                            <i class="material-icons">search</i>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </th>
+                            
+                            <th class="w110">
+                                <div class="form-area wp-21">
+                                    <div class="search-form">
+                                        <input type="text" placeholder="Search" [(ngModel)]="filter.mobile"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w80">
+                                <div class="vaild-into">
+                                    <div class="form-area">
+                                        <div class="search-form">
+                                            <input type="text" placeholder="Search" [(ngModel)]="filter.points"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                            <i class="material-icons">search</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w160">
+                                <div class="vaild-into">
+                                    <div class="form-area">
+                                        <div class="search-form">
+                                            <input type="text"  placeholder="Search" [(ngModel)]="filter.remark"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                            <i class="material-icons">search</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>           
+                            <th class="w100">
+                                <div class="form-area">
+                                    <div class="search-form">
+                                        <input type="text"  placeholder="Search" [(ngModel)]="filter.state"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w100">
+                                <div class="form-area">
+                                    <div class="search-form">
+                                        <input type="text"  placeholder="Search" [(ngModel)]="filter.district"  (keyup.enter)="current_page = 1;getScannedList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>  
+        </div>
+
+        <div class="css-table" *ngIf="mode == '4' && !(!filtering && coupon_code_summary.length == 0 )  ">
+            <div class="sticky-header">
+                <div class="header">
+                    <table >
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w150" >Date</th>
+                            <th>Brand Name</th>
+                            <!-- <th class="w100">Total Coupon</th> -->
+                            <th class="w100">Total Coupon Value</th>
+                            <th class="w200">First coupon</th>
+                            <th class="w200">Last coupon</th>
+                            <!-- <th class="w150">Action</th> -->
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w30 border-right ">&nbsp;</th>
+                            <th class="w150">
+                                <div class="vaild-into">
+                                    <div class="date-form  mr10">
+                                        <i *ngIf="filter.date" class="material-icons" (click)="current_page=1;filter.date = '';getcodeSummaryist('') ">clear</i>
+                                        
+                                        <mat-form-field>
+                                            <input matInput placeholder=" Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker3)" name="date" matInput (dateChange)="current_page=1;getcodeSummaryist('')" [matDatepicker]="picker3" readonly> 
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    
+                                </div>
+                            </th>      
+                            
+                            <th>
+                                <div class="form-area">
+                                    <div class="search-form">
+                                        <input type="text"  placeholder="Search" [(ngModel)]="filter.product_point_group"  (keyup.enter)="current_page = 1;getcodeSummaryist('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th class="w100"></th>
+                            <th class="w200"></th>
+                            <th class="w200"></th>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+
+    <div class="css-table"  *ngIf="mode == '1' && coupon.length">
+        <div class="table-container">
+            <div class="table-body">
+                <table>
+                    <tr class="arject" *ngFor="let val of coupon; let i = index">
+                        <td class="w50 text-center">{{ i + 1 + sr_no }}</td>
+                        <td class="w140">{{val.date_created  == '0000-00-00 00:00:00' ? 'N/A' : val.date_created | date: 'dd MMM yyyy'}} / {{val.created_name}}</td>
+                        
+                        <!-- <td class="w180">{{val.product_name ? val.product_name : 'N/A'}}</td>
+                        <td class="w130 text-center">{{val.size ? val.size : 'N/A'}}</td> -->
+                        
+                        <td class="w180">{{val.coupon_code}}</td>
+                        <td class="w130">{{val.product_point_group}}</td>
+
+                        <td>{{val.remark ? val.remark: 'N/A'}}</td>
+                        <td class="w50">
+                            <div class="cs-action">
+                                <a class="ac-red" matTooltip="Delete" matTooltipPosition="below" 
+                                (click)="deleteCoupon(val.id)"><i class="material-icons">delete_sweep</i></a>
+                            </div>
+                          </td> 
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="css-table" *ngIf="mode == '2' && scanned_coupon.length" >
+        <div class="table-container">
+            <div class="table-body">
+                <table>
+                    <tr class="arject" *ngFor="let val of scanned_coupon; let i = index">
+                        <td class="w50 text-center">{{ i + 1 + sr_no }}</td>
+                        <td class="w130"><ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' "> {{val.date_created | date: 'dd MMM yyyy'}} / </ng-container>{{val.created_name}}</td>
+                        <!-- <td class="w160">{{val.product_name ? val.product_name : 'N/A'}}</td>
+                        <td class="w80 text-center">{{val.size ? val.size : 'N/A'}}</td> -->
+                        <td class="w200">{{val.coupon_code}}</td>
+                        <td class="w130">{{val.product_point_group}}</td>
+
+
+                        <!-- <td><a class="blue" routerLink="/offer-detail/{{val.offer_id}}" routerLinkActive="active">{{val.title}} #{{val.offer_code}} </a> / {{val.end_date | date : 'dd MMM yyyy'}}</td> -->
+                        <td><p>{{val.scan_by_karigar_date | date : 'dd MMM yyyy'}} / <a class="blue" routerLink="/karigar-detail/{{val.scan_by_karigar_id}}/1" routerLinkActive="active">{{val.first_name  | titlecase }} {{val.last_name  | titlecase }}</a></p></td>
+                        <td class="w110">{{val.mobile_no}}</td>
+                        <td class="w80 text-center"><span class="back-bg">{{val.karigar_coupon_value}}</span></td> 
+
+                        <td class="w160">{{val.remark}}</td>   
+                        <td class="w100">{{val.state}}</td>   
+                        <td class="w100">{{val.district}}</td>  
+                      
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="css-table" *ngIf="mode == '4' && coupon_code_summary.length">
+        <div class="table-container">
+            <div class="table-body">
+                <table>
+                    <tr *ngFor="let val of coupon_code_summary; let i = index">
+                        <td class="w30">{{ i + 1 }}</td>
+                        <td class="w150">{{val.date_created | date: 'dd MMM yyyy'}}</td>
+                        <!-- <td class="w100"><a routerLink="/offer-detail/{{val.offer_id}}" class="blue">Offer Id #{{val.offer_id}}</a></td> -->
+                        <!-- <td class="w100">{{val.total_coupon}}</td> -->
+                        <td>{{val.product_point_group}}</td>
+                        <td class="w100">{{val.total_coupon}}</td>
+
+                        <td class="w200">{{val.first_coupon_code}}</td>
+                        <td class="w200">{{val.last_coupon_code}}</td>
+                        <!-- <td class="w100" ><a class="blue" (click)="coupon_summary(val)">Summary</a></td> -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="date-not" *ngIf=" mode == '1' && ( !loading_list && (filtering && coupon.length == 0 ))">
+        <div class="no-img">
+            <img src="assets/result-not-found.png"> 
+        </div>
+    </div>
+    
+    <div class="date-not"  *ngIf=" mode == '1' && ( !loading_list && (!filtering && coupon.length == 0 ) ) ">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+    </div>
+    
+    <div class="date-not" *ngIf=" mode == '2' && ( !loading_list && (filtering && scanned_coupon.length == 0 ))">
+        <div class="no-img">
+            <img src="assets/result-not-found.png"> 
+        </div>
+    </div>
+    <div class="date-not"  *ngIf=" mode == '2' && ( !loading_list && (!filtering && scanned_coupon.length == 0 ) ) ">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+    </div>
+   
+   
+    <div class="date-not" *ngIf=" mode == '4' && ( !loading_list && (filtering && coupon_code_summary.length == 0 ))">
+        <div class="no-img">
+            <img src="assets/result-not-found.png"> 
+        </div>
+    </div>
+    <div class="date-not"  *ngIf=" mode == '4' && ( !loading_list && (!filtering && coupon_code_summary.length == 0 ) ) ">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+    </div>
+    
+    <!-- Excel code -->
+
+    <div class="fab-btns">
+        <!-- <button  mat-raised-button color="accent" style="cursor: inherit;" *ngIf="mode == '1' && coupon.length">
+            Total Coupon Value <strong >&#x20B9; {{avialableValue}}</strong>
+        </button> -->
+       
+        <button  (click)="exportAvailableCouponList()" *ngIf="mode == '1' && coupon.length" mat-fab class="excel">
+            <img src="assets/excel.svg">
+        </button>
+        <button   (click)="exportScannedCouponList()" *ngIf="mode == '2' && scanned_coupon.length" mat-fab class="excel">
+            <img src="assets/excel.svg">
+        </button>
+        <!-- <button  mat-raised-button color="accent" style="cursor: inherit;"  *ngIf="mode == '2' && scanned_coupon.length">
+            Coupon Value <strong >&#x20B9; {{scanValue}}</strong>
+        </button> -->
+        <button   (click)="exportSummary()" *ngIf="mode == '4' && coupon_code_summary.length"  mat-fab class="excel">
+            <img src="assets/excel.svg">
+        </button>
+    </div>
+</div>

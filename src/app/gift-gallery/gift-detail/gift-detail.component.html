@@ -1,0 +1,393 @@
+<div class="loader" *ngIf = "loading_list">
+  <div class="loding-logo">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>
+
+<div class="main-container">
+  <div class="container-outer">
+    <div class="row mb0">
+      <div class="col s6 pt15 pr15 mb15">
+        <div class="sprate-box gift-offer">
+          <div class="full-offer">
+            <div class="top-heading">
+              <h2>OFFER DETAIL</h2>
+            </div>
+          </div>
+          <div class="row mb0">
+            <div class="off">
+              <div class="col s3 padding0">
+                <div class="territory-infos ">
+                  <div class="cs-checkboxs  ">
+                    <div class="checkbox-outers">
+                      <img [src]="uploadUrl + getData.offer_banner" (click)="openDialog(uploadUrl + getData.offer_banner)">
+                      <!-- <img [src]="getData.offer_banner" (click)="openDialog4(getData.id,'test7')"> -->
+                    </div>
+                  </div>  
+                </div>
+              </div>
+              <div class="col s9 padding0">
+                <div class="option-field">
+                  <div class="row border-bottom">
+                    <div class="col s4">
+                      <div class="detail-field">
+                        <p>Title</p>
+                        <span class="blue">{{getData.title  | titlecase }}</span>
+                      </div>
+                    </div>
+                    <div class="col s4 padding0">
+                      <div class="detail-field">
+                        <p>Offer Code</p>
+                        <span># {{getData.offer_code}}</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  
+                  <div class="row mb0 ">
+                    <div class="col s4">
+                      <div class="detail-field">
+                        <p>Start Date</p>
+                        <span>{{getData.start_date | date: 'dd MMM yyyy'}}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="col s4 padding0">
+                      <div class="detail-field">
+                        <p>End Date</p>
+                        <span>{{getData.end_date | date: 'dd MMM yyyy'}}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="col s4 padding0">
+                      <div class="detail-field">
+                        <p>Status</p>
+                        <span class="{{getData.offer_status}}">{{getData.offer_status}}</span>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="row mb0 ">
+                    <div class="col s12">
+                      <div class="option-field">
+                        <div class="col s6">
+                          <div class="control-field"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mb0">
+            <div class="col s12">
+              <div class="my-scroll">
+                <div class="offer-12 gift-scroll">
+                  <span>Description:</span> <p  [innerHTML]="getData.description | titlecase  "></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col s6 pt15 mb15">
+        <div class="sprate-box gift-offer">
+          <div class="full-offer">
+            <div class="top-heading">
+              <h2>GIFT DETAIL</h2>
+              <mat-slide-toggle [name]="gift_status" [(ngModel)]="getData.giftStatus" (change)="updateGiftStatus($event)"></mat-slide-toggle>
+              
+            </div>
+          </div>
+          <div class="row mb0">
+            <div class="off">
+              <div class="col s3 padding0">
+                <div class="territory-infos ">
+                  <div class="cs-checkboxs  ">
+                    <div class="checkbox-outers">
+                      <img [src]="uploadUrl + getData.image" (click)="openDialog(uploadUrl + getData.image)">
+                      <!-- <img [src]="getData.image"  (click)="openDialog2( getData.gift_id,'test4')"> -->
+                    </div>
+                  </div>  
+                </div>
+              </div>
+              <div class="col s9 padding0">
+                <div class="option-field">
+                  <div class="row border-bottom">
+                    <div class="col s4">
+                      <div class="detail-field">
+                        <p>Title</p>
+                        <span class="blue">{{getData.gift_title  | titlecase }} #{{getData.id}}</span>
+                      </div>
+                    </div>
+                    
+                    
+                    <div class="col s8">
+                      <div class="review-se">
+                        <ul>
+                          <li [ngClass]="{'rating':getData.rating>=1}"><i class="material-icons"  >
+                            star
+                          </i></li>
+                          <li  [ngClass]="{'rating':getData.rating>=2}"><i class="material-icons">
+                            star
+                          </i></li>
+                          <li [ngClass]="{'rating':getData.rating>=3}"><i class="material-icons" >
+                            star
+                          </i></li>
+                          <li [ngClass]="{'rating':getData.rating>=4}"><i class="material-icons" >
+                            star
+                          </i></li>
+                          <li  [ngClass]="{'rating':getData.rating>=5}"><i class="material-icons">
+                            star
+                          </i></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    
+                  </div>
+                  
+                  <div class="row mb0 ">
+                    <div class="col s4">
+                      <div class="detail-field">
+                        <p> Date</p>
+                        <span>{{getData.gift_date | date: 'dd MMM yyyy'}}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="col s4 padding0">
+                      <div class="detail-field">
+                        <p>Created By</p>
+                        <span>{{getData.gift_created  | titlecase }}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="col s4 padding0">
+                      <div class="detail-field status dark-red">
+                        <div class="points">
+                          <span>&#8377; {{getData.coupon_points}}</span>
+                          <p>Points</p>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="row mb0 ">
+                    <div class="col s12">
+                      <div class="option-field">
+                        <div class="col s6">
+                          <div class="control-field"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="add-fields mt10">
+            <div class="row">
+              <div class="col s4">
+                <div class="offer-desc  request-bg cl-t20">
+                  <span>{{getData.redeem_all}}</span>
+                  <p class="pl15">Redeem Request</p>
+                </div>
+              </div>
+              
+              <div class="col s4">
+                <div class="offer-desc approved-bg cl-t20 ">
+                  
+                  <span>{{getData.redeem_approved}}</span>
+                  <p class="pl15">Approved</p>
+                </div>
+              </div>
+              
+              <div class="col s4">
+                <div class="offer-desc reject-bg cl-t20">
+                  
+                  <span>{{getData.redeem_reject}}</span>
+                  <p class="pl15" >Reject</p>
+                </div>
+              </div>
+              
+              
+            </div>
+          </div>
+          
+          <div class="col s6" *ngIf="getData.reason != ''">
+            <div class="sprate-box no-bgs ">
+              <div class="off">
+                <div class="col s12 padding0 ng-star-inserted mb20">
+                  <div class="detail-field my-scroll">
+                    <div class="space"><p>Deactive Reason :</p><span>{{getData.deactive_date | date:'d MMMM y'}} /{{ getData.deactive_name}}</span>
+                    </div>
+                    <div class="dactive-detail"><p>{{getData.reason}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  <div class="tab-header no-sticky">
+    <div class="tabs-list gift-tab-list pl15">
+      <ul>
+        <li (click)="filter = {};filter.gift_status = ''; getReedamList()" [ngClass]="{'active': filter.gift_status == ''}" >
+          <a>
+            <p>All</p>
+            <span>{{ reedam_all }}</span>
+          </a>
+        </li>
+        
+        <li (click)="filter = {};filter.gift_status = 'Pending'; getReedamList()" [ngClass]="{'active': filter.gift_status == 'Pending'}">
+          <a>
+            <p>PENDING</p>
+            <span class="request-bg">{{ reedam_pending }}</span>
+          </a>
+        </li>
+        <li (click)="filter = {};filter.gift_status = 'Approved'; getReedamList()" [ngClass]="{'active': filter.gift_status == 'Approved'}">
+          <a>
+            <p >APPROVED</p>
+            <span class="approved-bg">{{ reedam_approved }}</span>
+          </a>
+        </li>
+        <li (click)="filter = {};filter.gift_status = 'Reject'; getReedamList()" [ngClass]="{'active': filter.gift_status == 'Reject'}">
+          <a>
+            <p >REJECT</p>
+            <span class="reject-bg">{{ reedam_reject }}</span>
+          </a>
+        </li>
+      </ul>
+      
+      
+    </div>
+  </div>
+  
+  
+  <div class="container-outer">
+    <div class="container">
+      <div class="row">
+        <div class="css-table left-right-15">
+          <div class="sticky-header">
+            <div class="header">
+              <table>
+                
+                <tr>
+                  <th class="w30">&nbsp;</th>
+                  <th >Date / Kariger Name</th>
+                  <th class="w200">Mobile No.</th>
+                  <th class="w300">A/C Status</th>
+                  <th class="w300">Reedem Status</th>
+                  <th class="w200">Gift Status</th>
+                </tr>
+                
+              </table>
+            </div>
+            
+            <div class="header border-bott">
+              <table>
+                <tr>
+                  <th class="w30">&nbsp;</th>
+                  <th >
+                    <div class="search-form">
+                      <input type="text" placeholder="Name" [(ngModel)]="filter.name"  (keyup.enter)="current_page = 1;getReedamList()">
+                      <i class="material-icons">search</i>
+                    </div>
+                  </th>
+                  
+                  <th class="w200">
+                    <div class="search-form">
+                      <input type="text" placeholder="Mobile No." [(ngModel)]="filter.mobile"  (keyup.enter)="current_page = 1;getReedamList()">
+                      <i class="material-icons">search</i>
+                    </div>
+                  </th>
+                  
+                  <th class="w300">
+                    <div class="form-area">
+                      <div class="slect">
+                        <mat-form-field>
+                          <mat-label>Search</mat-label>
+                          <mat-select  [(ngModel)]="filter.account_status" name="account_status" #account_status="ngModel" (selectionChange)="getReedamList()">
+                            <mat-option value="">All</mat-option>
+                            <mat-option value="Verified">Verified</mat-option>
+                            <mat-option value="Pending">Pending</mat-option>
+                            <mat-option value="Reject">Reject</mat-option>
+                            <mat-option value="Suspect">Suspect</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </th>
+                  
+                  <th class="w300">
+                    <div class="form-area">
+                      <div class="slect">
+                        <mat-form-field>
+                          <mat-label>Search</mat-label>
+                          <mat-select [(ngModel)]="filter.gift_status" name="gift_status" #gift_status="ngModel" (selectionChange)="getReedamList()" >
+                            <mat-option value="" >All</mat-option>
+                            <mat-option value="Pending">Pending</mat-option>
+                            <mat-option value="Approved">Approved</mat-option>
+                            <mat-option value="Reject">Reject</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w200">
+                    <div class="form-area">             
+                      <button mat-button class="go" (click)="getReedamList()" >Go</button>
+                    </div>
+                  </th>
+                </tr>
+              </table>
+            </div>
+          </div>
+          
+          <div class="table-container">
+            <div class="table-body">
+              <table> 
+                <tr *ngFor="let val of redeem; let i = index">
+                  <td class="w30">{{i+1}}</td>
+                  <td ><p>{{val.date_created | date:'dd MMM yyyy'}} /
+                    <a class="blue" routerLink="/karigar-detail/{{val.karigar_id}}" routerLinkActive="active">{{val.first_name  | titlecase }} {{val.last_name  | titlecase }}</a></p></td>
+                    <td class="w200">{{val.mobile_no}}</td>
+                    <td class="w300 bg-change {{val.karigar_status}}">{{val.karigar_status}}</td>
+                    <td class="w300 {{val.gift_status}}">{{val.gift_status}}
+                      <p *ngIf="val.gift_status == 'Reject'"> / {{val.reject_reason}}</p>
+                    </td>
+                    <td class="w200 {{val.receive_status}}">{{val.receive_status}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- <div class="excel-btn">
+        <div class="image-area">
+          <a>
+            <img src="assets/excel.svg">
+          </a>
+        </div>
+      </div> -->
+      
+    </div>
+    
+    

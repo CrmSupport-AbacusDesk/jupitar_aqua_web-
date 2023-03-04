@@ -1,0 +1,70 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="gift-box">
+    <div class="gift-heading">
+        <p>Coupon Code Summary</p>
+        <div class="close-icon">
+            <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="coupon-code">
+            <h1>Total Coupon - {{total_coupon ? total_coupon : '0'}} -  &#8377; {{total_coupon_value ? total_coupon_value : '0'}}</h1>
+            <h1>Available Coupon - {{available_coupon ? available_coupon : '0'}} -  &#8377; {{available_coupon_value ? available_coupon_value : '0'}}</h1>
+        </div>
+        <div class="top-pagination">
+            <ul>
+                <li><p>Pages {{ pagenumber }} of {{ total_page }}</p></li>
+                <li><button mat-button class="left-btn" (click) ="getCouponSummary(pagelimit,(start-pagelimit),'')" [disabled]='pagenumber == 1'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                
+                <li><input type="text" placeholder="GO TO" [(ngModel)]="pagenumber" name="pagenumber"  (keyup.enter)="getCouponSummary(pagelimit,((pagenumber*pagelimit)-pagelimit),'')"  min="1" max="{{total_page}}"></li>
+                
+                <li><button mat-button class="right-btn" (click) = "getCouponSummary(pagelimit,(start+pagelimit),'')" [disabled]="pagenumber == total_page"><i class="material-icons">keyboard_arrow_right</i></button></li>
+            </ul>
+        </div>
+        <div class="css-table scroll-table">
+            <div class="sticky-header">
+                <div class="header">
+                    <table> 
+                        <tr>
+                            <th class="w50">S.No</th>
+                            <th class="w110">Date</th>
+                            <th class="w150">Coupon Code</th>
+                            <th class="w50">Coupon Value</th>
+                            <th class="w110" >Used By</th>
+                            <th class="w100">Used Date</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="table-container bg-color">
+                <div class="table-body">
+                    <table>
+                        <tr *ngFor="let val of coupon_data; let i = index">
+                            <td class="w50">{{i+1}}</td>
+                            <td class="w110" *ngIf="val.date_created  != '0000-00-00 00:00:00' ">{{val.date_created | date: 'dd MMM yyyy'}}</td>
+                            <td class="w150">{{val.coupon_code}}</td>
+                            <td class="w50">{{val.coupon_value }}</td>
+                            <td class="w110 bg-change">{{val.first_name ? val.first_name : 'N A'}}</td>
+                            <td class="w100" *ngIf="val.scan_date != '0000-00-00 00:00:00' ">{{val.scan_date | date: 'dd MMM yyyy'}}</td>
+                            <td class="w100" *ngIf="val.scan_date == '0000-00-00 00:00:00' ">N A</td>
+                        </tr>
+                    </table>
+                    <div class="excel-btn modal-excel-btn" (click)="exportCouponList()" >
+                        <div class="image-area">
+                            <a>
+                                <img src="assets/excel.svg">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>

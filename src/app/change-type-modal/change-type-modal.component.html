@@ -1,0 +1,36 @@
+<div class="gift-box">
+  <div class="gift-heading">
+    <p>Change User Type</p>
+    <div class="close-icon">
+      <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+    </div>
+  </div>
+  
+  <div class="trans">
+    <form name="userType" (ngSubmit)="f.form.valid && submit(f) " #f="ngForm" novalidate autocomplete="off">
+      <div class="option-field">
+
+        <div class="control-field">
+          <mat-form-field class="cs-input cs-multi-select">
+            <mat-select  placeholder="Type"  name="user_type" [(ngModel)]="userType.user_type" #user_type="ngModel" required>
+              <mat-option [value] ="1" >Plumber</mat-option>
+              <mat-option [value] ="2">Retailer</mat-option>
+            </mat-select>
+          </mat-form-field> 
+        </div>
+
+        <div class="control-field" *ngIf="userType.user_type == 2">
+          <mat-form-field class="cs-input">
+            <input matInput placeholder="Company Name" name="company_name" [(ngModel)] = "userType.company_name" #company_name="ngModel" required>
+        </mat-form-field>  
+        </div>
+      </div>
+      
+      
+      <div class="save mt10" [ngClass]="{loading: savingData}">
+        <button mat-button class="mb0"  [disabled]="savingData" >Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+

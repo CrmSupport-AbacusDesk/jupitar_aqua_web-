@@ -1,0 +1,199 @@
+<div class="loader" *ngIf = "loading_list">
+  <div class="loding-logo">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>
+
+<div class="main-container pb0">
+  <div class="fixed">
+    <div class="middle-container">
+      <div class="tabs-list">
+        <h1>Master</h1>
+        <!-- <div class="input-field">
+          <input type="text" placeholder="Search..." [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getProductList('')">
+          <i class="material-icons">
+            search
+          </i>
+        </div> -->
+      </div>
+      <div class="refresh-btn">
+        <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getProductList('refresh')"><i class="material-icons">refresh</i></a>
+      </div>
+      <div class="top-pagination">
+        <ul>
+          <li><p  >Pages {{ current_page }} of {{ last_page }}</p></li>
+          
+          <li><button mat-button class="left-btn" (click) = 'redirect_previous()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+          <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page" (keyup.enter)="currentPage()"></li>
+          <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-outer tab-container pr0">
+    <app-master-tab></app-master-tab>
+    
+    <div class="css-table">
+      <div class="sticky-header">
+        <div class="header">
+          <table>
+            <tr>
+              <th class="w50"></th>
+              <th class="w100">Date Created</th>
+              <th>Product Name</th>
+              <th class="w100 text-center" (click)="sortByPoints()">
+                <div class="view">
+                  <i class="material-icons">swap_vert</i>
+                  Plumber Points
+                </div>
+              </th>
+              <!-- <th class="w90 text-center" (click)="sortByPoints()">
+                <div class="view">
+                  <i class="material-icons">swap_vert</i>
+                   Retailer Points
+                  </div> 
+                </th> -->
+
+
+              <!-- <th class="w100 text-center">Painter Points</th>
+              <th class="w150">Last Update by</th> -->
+              <th class="w70">Action</th>
+            </tr>
+          </table>
+        </div>
+        
+        <div class="header border-bott">
+          <table>
+            <tr>
+              <th class="w50"></th>
+              <th class="w100">&nbsp;</th>
+              <th>
+                <div class="search-form">
+                  <input type="text" placeholder="Search.." [(ngModel)]="filter.product_name"  (keyup.enter)="current_page = 1;getProductList('')">
+                  <i class="material-icons">search</i>
+                </div>
+              </th>
+              <th class="w100 text-center">&nbsp;</th>
+              <!-- <th class="w100 text-center">&nbsp;</th>
+              <th class="w150">&nbsp;</th> -->
+              <!-- <th class="w90">&nbsp;</th> -->
+
+              <th class="w70">&nbsp;</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <div class="table-container ">
+        <div class="table-body mb70">
+          <table>
+            
+            
+            <tr *ngFor="let val of products; let i = index">
+              <td class="w50">{{ i + 1 + sr_no }}</td>
+              <td class="w100">
+                <ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' ">
+                  <div class="date-tr">
+                    <p>{{val.date_created | date: 'dd MMM yyyy'}}</p>
+                    <!-- <span> {{val.created_name}}</span> -->
+                  </div>
+                </ng-container>
+              </td>
+              <td>{{val.product_point_group}}</td>
+         <td class="w100 text-center">{{val.karigar_point}}</td> 
+              <!-- <td class="w90">{{val.retailer_point}}</td>  -->
+
+              <!-- <td class="w100 text-center">{{val.painter_point}}</td>
+              <td class="w150">{{val.last_updated_by}} - {{val.last_updated | date: 'dd MMM yyyy'}}</td> -->
+              <td class="w70">
+                <div class=" w70 text-center td-flex ">
+                  <button class="right" (click)="toggle = !toggle; editProduct(val.id,i)"><i class="material-icons">edit</i></button>
+                  <button class="cancel" (click)="deleteProduct(val.id, val.product_id)"><i
+                    class="material-icons">delete_sweep</i></button>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="add">
+    <button mat-button class="add-btn" (click)="toggle = !toggle; addProduct()">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+</div>
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+  <div class="category-field" [ngClass] ="{'active' : toggle == true}">
+    <form name="productForm" (ngSubmit)="f.form.valid && saveProduct() " ng-init="" #f="ngForm" novalidate autocomplete="off">
+      <div class="category-hadding">
+        <h2>{{isEditCalled ? 'Edit Group' : 'Add Group'}}</h2>
+        <i class="material-icons" (click)="toggle = !toggle;">clear</i>
+      </div>
+      <div class="add-image">
+        <div class="sco-12">
+          <div class="scrol-13">
+            
+            <div class="option-field">
+              <div class="control-field">
+                <mat-form-field class="cs-input">
+                  <input matInput placeholder="Product Name" name="product_point_group"  [(ngModel)]="productForm.product_point_group" #product_point_group="ngModel" required >
+                </mat-form-field>  
+              </div>
+            </div>
+            
+            <div class="option-field">
+              <div class="control-field">
+                <mat-form-field class="cs-input">
+                  <input matInput placeholder="Plumber Point" name="karigar_point"  [(ngModel)]="productForm.karigar_point" #karigar_point="ngModel" required>
+                </mat-form-field>  
+              </div>
+            </div>
+            <!-- <div  class="mt10">
+              <mat-checkbox labelPosition="before" (change)="copyDealerPoint($event)"
+              [(ngModel)]="productForm.copydealer_point" name="copydealer_point" #copydealer_point="ngModel" style="font-size: 14px;">
+            </mat-checkbox>
+            <span class="ml10">Same as Dealer Point</span>
+          </div> -->
+          <!-- <div class="option-field">
+            <div class="control-field">
+              <mat-form-field class="cs-input">
+                <input matInput placeholder="Painter Point" name="painter_point"  [(ngModel)]="productForm.painter_point" #painter_point="ngModel" required>
+              </mat-form-field>  
+            </div>
+          </div> -->
+          <!-- <div class="option-field">
+            <div class="control-field">
+              <mat-form-field class="cs-input">
+                <input matInput placeholder="Retailer Point" name="retailer_point"  [(ngModel)]="productForm.retailer_point" #retailer_point="ngModel" required>
+              </mat-form-field>  
+            </div>
+          </div>    -->
+        </div>
+      </div>
+      
+      <div class="save btn-save mt90"  [ngClass]="{loading: savingData}">
+        <button mat-button [disabled]="savingData" >
+          
+          <mat-icon class="wt-load" *ngIf="savingData">
+            <mat-spinner color="primary" diameter="30"></mat-spinner>
+          </mat-icon>
+          
+          <span *ngIf="!savingData">SAVE</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="side-bg" (click)="toggle = !toggle"></div>
+</div>
+
+<!-- <div class="excel-btn" (click)="exportproductList()">
+  <div class="image-area">
+    <a>
+      <img src="assets/excel.svg">
+    </a>
+  </div>
+</div> -->

@@ -1,0 +1,54 @@
+<div class="gift-box">
+    <div class="gift-heading">
+        <p>Feedback Reply</p>
+        <div class="close-icon">
+            <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+        </div>
+    </div>
+    
+    <div class="modal-body">
+        <div class="cs-form">
+            <div class="chat-type-logs">
+                <ng-container *ngFor="let row of msg_list;let i=index">
+                    <div class="message other" *ngIf="row.feedback!='' || row.attach_feedback!=''">
+                        <div class="message-text">
+                            <div class="message-tittle">
+                                <div class="name">{{row.full_name | titlecase}}</div>
+                                <div class="message-date">{{row.date_created == '0000-00-00 00:00:00' ? '' : row.date_created | date:'d MMM h:m a'}}</div>
+                            </div>
+                            <div class="message-desc">
+                                {{row.feedback ? row.feedback : ''}}
+                                <img *ngIf="row.attach_feedback!=''" src="{{upload_url+row.attach_feedback}}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="message admin" *ngIf="row.reply!='' || row.attach_reply!=''">
+                        <div class="message-text">
+                            <div class="message-tittle">
+                                <div class="name">Admin</div>
+                                <div class="message-date">{{row.reply_date == '0000-00-00' ? '' : row.reply_date | date:'d MMM h:m a'}}</div>
+                            </div>
+                            <div class="message-desc">
+                                {{row.reply ? row.reply : ''}}
+                                <img *ngIf="row.attach_reply" src="{{upload_url+row.attach_reply}}">
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            
+        </div>
+        
+        <div class="type-content">
+            <textarea class="h50" name="message" [(ngModel)]="karigar.messege" rows="10" placeholder="Type Messege"></textarea>
+            <a class="send-btn" mat-button matTooltip="Type Messege" matTooltipPosition="above" [disabled]="!karigar.messege" (click)="send_msg()"><i class="material-icons">send</i></a>
+            <div class="at-attachment">
+                <label>
+                    <input type="file" name="coupon" (change)="select($event)" accept=".jpg,.png,.jpeg">
+                    <i class="material-icons">attach_file</i>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+.cs-model-heading
+{
+      font-size: 14px;
+      padding: 10px;
+      border-bottom: 2px solid #588a07;
+}
+
+mat-dialog-content
+{
+      margin: 0px;
+      padding: 0px;
+}
+
+.date-filter
+{
+      padding: 0px;
+      
+      ul
+      {
+            display: flex;
+            justify-content: space-around;
+            
+            li
+            {
+                  mat-form-field
+                  {
+                        .mat-form-field-wrapper
+                        {
+                              .mat-form-field-flex
+                              {
+                                    .mat-form-field-infix
+                                    {
+                                          
+                                    }
+                              }
+                        }
+                  }
+            }
+      }
+}
+
+mat-dialog-actions
+{
+      margin-bottom: 0px;
+      padding: 16px;
+}

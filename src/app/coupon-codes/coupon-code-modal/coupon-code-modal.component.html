@@ -1,0 +1,35 @@
+<div class="sprate-box ">
+    <div class="full-offer">
+      <div class="top-heading">
+        <h2>Edit Coupon Remark</h2>
+        <div class="close-icon">
+          <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+        </div>
+      </div>
+    </div>
+      <div class="padding10">
+        <div class="row">       
+          <div class="col s12">
+            <div class="option-field">
+                <div class="control-field">
+                  <mat-form-field class="cs-input">
+                    <textarea matInput placeholder="Remark" name="remarks" [(ngModel)] = "coupon.remarks" #remarks="ngModel" class="h100"></textarea>
+                  </mat-form-field>  
+                </div>
+              </div>
+          </div>
+        </div>
+ 
+        
+        <div class="row">
+          <div class="col s12">
+            <div class="control-field">
+              <div class="save un-save">
+                <button mat-button  class="mb0 mt10" (click)="updateRemark(coupon.id)">UPDATE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+  </div>

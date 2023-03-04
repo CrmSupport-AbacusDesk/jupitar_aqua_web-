@@ -1,0 +1,112 @@
+
+<div class="loader" *ngIf="loading">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="fixed">
+        <div class="middle-container tab-header">
+            <div class="tabs-list gift-tab-list pl5">
+                <div class="input-field">
+                    <input type="text" placeholder="Search">
+                    <i class="material-icons">search</i>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="image-category" *ngFor="let row of karigar_list;let i=index;">
+        <div class="image-head">
+            <h2>{{row.full_name | titlecase}}</h2>
+            <div class="right-head" *ngIf="row.working_pics.length > limit">
+                <a class="link mr15" (click)="row.active = !row.active">{{row.active ? 'View Less' : 'View All'}}</a>
+            </div>
+        </div>
+        <div class="image-body" *ngIf="row.working_pics.length > 0">
+            <div class="slide-section {{row.active ? 'view-all' : ''}}">
+                <div class="sl-box" *ngFor="let data of row.working_pics;let idx=index">
+                    <div class="box-img" (click)="openDialog(data.image_name,'test1')">
+                        <img src="{{upload_url+data.image_name}}">
+                    </div>
+                    <div class="hvr-edit">
+                        <a class="delete-icn"><i class="material-icons" (click)="delete_selected(data,idx)">delete_sweep</i></a>
+                        <a class="edit-icn"><i class="material-icons" (click)="toggle = !toggle; editImage(data,idx)">edit</i></a>
+                    </div>  
+                    <div class="box content">
+                        <p>{{data.created_date_time | date:'d MMM y h:m a'}}</p>
+                    </div>
+                    <label *ngIf="row.select_all">
+                        <input type="checkbox" name="checked" [(ngModel)]="data.checked" (change)="check_item(i,idx)">
+                    </label>
+                </div>
+                <a *ngIf="row.total_pics != row.working_pics.length"><i class="material-icons" (click)="loadMore(row.karigar_id,i)">keyboard_arrow_right</i></a>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="side-main" [ngClass] ="{'on' : toggle == true}">
+        <div class="category-field" >
+            <form name="category" (ngSubmit)="f.form.valid && save_details(f)" #f="ngForm" novalidate autocomplete="off">
+                <div class="category-hadding">
+                    <h2>Edit Site Details</h2>
+                    <i class="material-icons" (click)="toggle = !toggle">clear</i>
+                </div>
+                
+                <div class="add-image">
+                    <div class="uploade-image">
+                        <ul>
+                            <li class="site-edit">
+                                <img [src]="upload_url+imageData.image_name">
+                                <a href="{{upload_url+imageData.image_name}}" download target="_blank"><i class="material-icons">get_app</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="option-field">
+                        <div class="control-field">
+                            <mat-form-field class="cs-input">
+                                <input matInput type="date" placeholder="Date Created" name="date_created" readonly [(ngModel)] = "imageData.date_created" #date_created="ngModel">
+                            </mat-form-field>  
+                        </div>
+                    </div>
+                    
+                    <div class="option-field">
+                        <div class="control-field">
+                            <mat-form-field class="cs-input">
+                                <input matInput placeholder="Design No." name="design_no" [(ngModel)] = "imageData.design_no" #design_no="ngModel" required>
+                            </mat-form-field>  
+                        </div>
+                    </div>
+                    
+                    <div class="option-field">
+                        <div class="control-field">
+                            <mat-form-field class="cs-input">
+                                <input matInput placeholder="Finish" name="finish" [(ngModel)] = "imageData.finish" #finish="ngModel" required>
+                            </mat-form-field>  
+                        </div>
+                    </div>
+                    
+                    <div class="option-field">
+                        <div class="control-field">
+                            <mat-form-field class="cs-input">
+                                <input type="number" matInput placeholder="Quantity" name="quantity" [(ngModel)] = "imageData.quantity" #quantity="ngModel" required>
+                            </mat-form-field>  
+                        </div>
+                    </div>
+                    <div class="save btn-save mt90" [ngClass]="{loading: savingData}">
+                        <button mat-button [disabled]="savingData" >SAVE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="side-bg" (click)="toggle = !toggle"></div>
+    </div>
+    
+    <div class="date-not" *ngIf="karigar_list.length == 0">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+    </div>
+</div>

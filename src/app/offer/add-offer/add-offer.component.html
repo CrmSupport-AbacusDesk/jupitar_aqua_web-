@@ -1,0 +1,336 @@
+<div class="main-container">
+    <div class="padding10">
+        <div class="container" *ngIf="!offer_id">
+            <form name="addOffer" (ngSubmit)="f.form.valid" #f="ngForm" novalidate autocomplete="off">
+                <div class="row">
+                    <div class="col s12 ">
+                        <div class="sprate-box ">
+                            <div class="full-offer">
+                                <div class="top-heading">
+                                    <h2>FULL OFFER INFORMATION</h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s8 ">
+                                    <div class="option-field">
+                                        <div class="row mb0">
+                                            <div class="col s4 ">
+
+
+                                                <!-- <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <input matInput placeholder="Retailer"   readonly>
+                                                    </mat-form-field>  
+                                                </div> -->
+
+
+                                                <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <mat-label>Select User Type</mat-label>
+                                                        <mat-select  [(ngModel)]="addOffer.user_type" name="user_type" #user_type="ngModel" required>
+                                                            <mat-option value=""></mat-option>
+                                                            <mat-option value="Plumber">Plumber</mat-option>
+                                                            <mat-option value="Retailer">Retailer</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>  
+                                                </div>
+                                            </div>
+                                            <div class="col s4">
+                                                <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <input matInput placeholder="Title" name="title" [(ngModel)] = "addOffer.title" #title="ngModel" required>
+                                                    </mat-form-field>  
+                                                </div>
+                                            </div>
+                                            <div class="col s4">
+                                                <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <input matInput placeholder="Offer Code" type="text"  name="offer_code" [(ngModel)] = "addOffer.offer_code" #offer_code="ngModel" required>
+                                                    </mat-form-field>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s4">
+                                                <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <input placeholder="Offer Start Date" [min]="mindate" [(ngModel)]="addOffer.start_date"  name="start_date" matInput  [matDatepicker]="picker1" required readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker1 ></mat-datepicker>
+                                                    </mat-form-field>  
+                                                </div>
+                                            </div>
+                                            <div class="col s4">
+                                                <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <input placeholder="Offer End Date" [min]="mindate" [(ngModel)]="addOffer.end_date"  name="end_date" matInput  [matDatepicker]="picker" required readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker ></mat-datepicker>
+                                                    </mat-form-field>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <h4>Description</h4>
+                                                <div class="control-field">
+                                                    <!-- <mat-form-field  class="cs-input"> -->
+                                                        <app-ngx-editor height="129px" minHieght="50px" [placeholder]="'Description'" [spellcheck]="true"  [(ngModel)]="addOffer.description"  #description="ngModel" name="description"></app-ngx-editor>
+                                                    </div>
+                                                </div>
+                                                <div class="col s6 ">
+                                                    <h4>Terms & Conditions</h4>
+                                                    <div class="control-field">
+                                                        <!-- <mat-form-field  class="cs-input"> -->
+                                                            <app-ngx-editor height="129px" class="h115" minHieght="50px" [placeholder]="'Terms & Conditions '" [spellcheck]="true"  [(ngModel)]="addOffer.terms"  #terms="ngModel" name="terms"></app-ngx-editor>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col s4 mt15 ">
+                                            <div class="option-field">
+                                                <div class="territory-infos">
+                                                    <div class="heads">
+                                                        <h2>OFFER BANNER</h2>
+                                                    </div>
+                                                    <div class="cs-checkboxs" style="height: 325px;">
+                                                        <div class="checkbox-outers image-inputes">
+                                                            <label>
+                                                                <input type="file" (change)="onUploadChange1($event)" style="display:none;" accept=".png, .jpg, .jpeg" required />
+                                                                <img  [src]="addOffer.offer_banner?addOffer.offer_banner:'../assets/default-image.png' " alt="" id="img">
+                                                                <h4>Upload Image</h4>
+                                                                <i class="material-icons add-file-icon" >add</i>
+                                                            </label>
+                                                        </div>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col s7">
+                                
+                                <div class="sprate-box ">
+                                    <div class="full-offer">
+                                        <div class="top-heading">
+                                            <h2>AREA WISE SELECTION</h2>
+                                            <p>Indicates required fields ( * )</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="main-pd">
+                                            <div class="col s6 ">
+                                                <div class="territory-info">
+                                                    <div class="head">
+                                                        <h2>STATE</h2>
+                                                        <mat-checkbox color="primary" class="fix-check" [(ngModel)]="addOffer.allStates" (change)="allState()"  name="allStates"  value="true"></mat-checkbox>
+                                                    </div>
+                                                    <div class="cs-checkbox">
+                                                        <div class="checkbox-outer">
+                                                            <section  class="checkbox-inner"  >
+                                                                <ng-container *ngFor = "let val of states;let i = index">
+                                                                    <mat-checkbox class="check-list" color="primary" [(ngModel)]="val.selected" (change)="getDistrictList()"  [name]="'state'+i"  value="true"> {{val.state_name}}</mat-checkbox>
+                                                                </ng-container>
+                                                            </section >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col s6 pr15">
+                                                <div class="territory-info">
+                                                    <div class="head">
+                                                        <h2>DISTRICTS</h2>
+                                                        <mat-checkbox class="fix-check"  color="primary" [(ngModel)]="addOffer.allDistrict" (change)="allDistrict()"  name="allDistrict"  value="true"></mat-checkbox>
+                                                        
+                                                        <!-- <i class="material-icons search-icon" matRipple>search</i>
+                                                            <input type="text" placeholder="search..." class="fix-search">
+                                                            <i class="material-icons close-icon" matRipple>clear</i> -->
+                                                        </div>
+                                                        <div class="cs-checkbox">
+                                                            <div class="checkbox-outer">
+                                                                
+                                                                <ng-container *ngFor = "let val of districts;let i = index">
+                                                                    <ng-container *ngIf="val.selected"  >
+                                                                        
+                                                                        <section  class="checkbox-inner"  >
+                                                                            <mat-checkbox class="check-list" color="primary" [(ngModel)]="val.stateWiseDistrict" (change)="allStateWiseDistrict(i)" [name]="'dist'+i"  > {{val.state_name}}</mat-checkbox>
+                                                                        </section >
+                                                                        
+                                                                        <section  class="checkbox-inner"   *ngFor = "let v of val.districts; let x = index">
+                                                                            <mat-checkbox class="check-list"  color="primary" [(ngModel)]="v.selected"  [name]="'district'+x+i"  value="true"> {{v.district_name}}</mat-checkbox>
+                                                                        </section >
+                                                                        
+                                                                    </ng-container>
+                                                                    
+                                                                </ng-container>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="col s5">
+                                    <div class="sprate-box ">
+                                        <div class="full-offer">
+                                            <div class="top-heading">
+                                                <h2>ADD GIFT</h2>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="padding5">
+                                            <div class="option-field">
+                                                <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <mat-select placeholder="Gifts" [(ngModel)]="gift" [name]="'gift'" >
+                                                            <mat-option *ngFor = "let gifts of giftlisting" [value]="gifts"  (click)="checkValue()">{{gifts.gift_title}}</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- <div class="col s7 ">
+                                                <div class="control-field">
+                                                    <mat-form-field class="cs-input">
+                                                        <mat-label>Select Gift</mat-label>
+                                                        <mat-select  [(ngModel)]="gift" name="gifting" required>
+                                                            <mat-option *ngFor="let gifts of giftlisting" [value]="gifts">{{gifts.gift_title}}</mat-option>
+                                                            <mat-checkbox color="primary" class="fix-check" [(ngModel)]="gift" (change)="allState()"  name="allStates"  value="true"></mat-checkbox>
+                                                        </mat-select>
+                                                    </mat-form-field>  
+                                                </div>
+                                            </div> -->
+                                            
+                                            <div class="row mb15 mt15"  >
+                                                <div class="col-12" *ngIf="btn_value">
+                                                    <div class="save un-save " style="cursor:pointer">
+                                                        <button mat-button  (click)="addgiftList()">ADD GIFT</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb15"  *ngIf="giftList?.length">
+                                                <div class="col s12 mt15">
+                                                    <div class="css-table left-right-15">
+                                                        <div class="sticky-header">
+                                                            <div class="header">
+                                                                <table> 
+                                                                    <tr>
+                                                                        <th class="w50" >&nbsp;</th>
+                                                                        <th class="w150" style="border-left: 1px solid #D2D2D2;">Title</th>
+                                                                        <th class="w100">Points</th>
+                                                                        <th >Specification</th>
+                                                                        <th class="w110">Action</th>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="table-container" >
+                                                            <div class="table-body">
+                                                                <table>
+                                                                    <tr *ngFor="let raw of giftList; let p = index">
+                                                                        <td class="w50" style="border-right: 1px solid #D2D2D2;">
+                                                                            <div class="image-thum"><img [src]="uploadUrl + raw.image" (click)="openDialog(uploadUrl + raw.image)"></div>
+                                                                        </td>
+                                                                        <td class="w150">{{ raw.gift_title }}</td>
+                                                                        <td class="w100">{{ raw.coupon_points }}</td>
+                                                                        <td>
+                                                                            <p  [innerHTML]="raw.gift_specification"></p>
+                                                                            <!-- <p >{{raw.gift_specification}}</p>
+                                                                            <div [innerHTML]="raw.gift_specification"></div> -->
+                                                                        </td>
+                                                                        <td class="w110 active">
+                                                                            <div class="action-btns mt11 left-btn opcity-non">
+                                                                                <div class="dele-sec" style="cursor:pointer" mat-raised-button (click)="RemoveItem(p)">
+                                                                                    <i class="material-icons">delete_sweep</i>
+                                                                                    <p>Delete</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>               
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="save un-save" [ngClass]="{loading: savingData}" >
+                                <button mat-button  [disabled]="savingData" (click)="saveOffer(f)" >SAVE</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="container" *ngIf="offer_id">
+                        <form name="coupon_form" (ngSubmit)="c.form.valid && uploadCoupon(c)" #c="ngForm" novalidate autocomplete="off">
+                            <div class="row">
+                                <div class="col s12 ">
+                                    <div class="sprate-box ">
+                                        <div class="full-offer">
+                                            <div class="top-heading">
+                                                <h2>IMPORT COUPON</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s8 ">
+                                                <div class="option-field">
+                                                    <div class="row">
+                                                        
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col s6">
+                                                            <div class="file-import">
+                                                                <div class="border-erea">
+                                                                    <label>
+                                                                        <input type="file" name="coupon" #coupon_data="ngModel" [(ngModel)]="coupon_ex"  (change)="onUploadChange($event,f)" accept=".csv"   style="display: none;" required>
+                                                                        <i class="material-icons">backup</i>
+                                                                        <h4>Import Coupon Code</h4>
+                                                                        
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col s6">
+                                                            <div class="downlode-file ">
+                                                                <a mat-button href="http://advance.abacusdesk.com/assets/CouponSampleFile.csv" class="link"> Download Sample File</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="save un-save" [ngClass]="{loading: savingData}" >
+                                <a mat-button  routerLink="/offer-list" class="link" > Cancel </a>
+                                <button mat-button  [disabled]="savingData"  >SAVE</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+            
+            
+            

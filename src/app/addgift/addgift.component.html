@@ -1,0 +1,144 @@
+<div class="main-container">
+  <div class="offer-container">
+    <div class="container" *ngIf="!offer_id">
+      <form name="addOffer" (ngSubmit)="f.form.valid" #f="ngForm" novalidate autocomplete="off">
+        
+            <div class="row">
+            
+                  
+                  <div class="col s12 ">
+                    
+                    <div class="sprate-box ">
+                      <div class="full-offer">
+                        <div class="top-heading">
+                          <h2>ADD GIFT</h2>
+                        </div>
+                      </div>
+                      
+                      <div class="pt0" style="padding: 10px;">
+                        <div class="row">
+                          <div class="col s6">
+                            <div class="option-field">
+                              <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                  <input matInput placeholder="Gift Title" name="gift_title" [(ngModel)] = "gift.gift_title" #gift_title="ngModel"  >
+                                </mat-form-field>  
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="col s6">
+                            <div class="option-field">
+                              <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                  <input matInput placeholder="Points" name="coupon_points" [(ngModel)] = "gift.coupon_points" #coupon_points="ngModel" (keypress)="numeric_Number($event)"  >
+                                </mat-form-field>  
+                              </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col s12">
+                            <div class="option-field">
+                              <div class="control-field">
+                                <app-ngx-editor height="129px" class="h115" minHieght="50px" [placeholder]="'Gift Specification '" [spellcheck]="true"  [(ngModel)]="gift.gift_specification"  #gift_specification="ngModel" name="gift_specification"></app-ngx-editor>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row mb0">
+                          <div class="col-12">
+                            <div class="cs-file">
+                              <p>Upload  Image</p>
+                              <ul>
+                                <li>
+                                  <div class="add-img-co">
+                                    <div class="cs-file  file-up">
+                                      <label>
+                                        <input type="file" (change)="onUploadChange2($event)" style="display:none;" accept=".png, .jpg, .jpeg " />
+                                        <img  [src]="img_id ? urlPath + gift.image : gift.image" alt="" id="img">
+                                        <i class="material-icons add-file-icon"  >add</i>
+                                      </label>
+                                    </div>
+                                    <div class="control-field">
+                                      <!-- <div class="plus-btn" style="right: inherit;">
+                                        <p (click)="addgiftList()" mat-raised-button color="warn" class="mt2" >
+                                          <i class="material-icons">add</i>
+                                        </p>
+                                      </div> -->
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                              <div class="save un-save " style="cursor:pointer">
+                                <button mat-button  (click)="addgiftList()">ADD GIFT</button>
+                              </div>
+                            </div>
+                            
+                            
+                          </div>
+                          
+                          
+                          <!-- <div class="col s12" *ngIf="giftList?.length">
+                            <div class="css-table left-right-15">
+                              <div class="sticky-header">
+                                <div class="header">
+                                  <table> 
+                                    <tr>
+                                      <th class="w50" >&nbsp;</th>
+                                      <th class="w150" style="border-left: 1px solid #D2D2D2;">Title</th>
+                                      <th class="w100">Points</th>
+                                      <th >Specification</th>
+                                      <th class="w110">Action</th>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              
+                              <div class="table-container" >
+                                <div class="table-body">
+                                  <table>
+                                    <tr *ngFor="let raw of giftList; let p = index">
+                                      <td class="w50" style="border-right: 1px solid #D2D2D2;">
+                                        <div class="image-thum"><img [src]="raw.image"></div>
+                                      </td>
+                                      
+                                      <td class="w150">{{ raw.gift_title }}</td>
+                                      <td class="w100">{{ raw.coupon_points }}</td>
+                                      <td>{{ raw.gift_specification }}</td>
+                                      
+                                      <td class="w110 active">
+                                        <div class="action-btns mt11 left-btn opcity-non">
+                                          
+                                          <div class="dele-sec" style="cursor:pointer" mat-raised-button (click)="RemoveItem(p)">
+                                            <i class="material-icons">delete_sweep</i>
+                                            <p>Delete</p>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>               
+                          </div> -->
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="save un-save" [ngClass]="{loading: savingData}" >
+                  <button mat-button  [disabled]="savingData" (click)="saveOffer(f)" >SAVE</button>
+                </div> -->
+              </form>
+            </div>
+            
+          </div>
+        </div>
+        
+        
+        

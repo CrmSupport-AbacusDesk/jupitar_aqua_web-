@@ -1,0 +1,85 @@
+.listing {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+    padding: 15px;
+    
+    .item-list {
+        display: grid;
+        grid-template-columns: 30px 1fr 40px;
+        grid-column-gap: 10px;
+        align-items: center;
+        min-height: 50px;
+        border-left: 5px solid var(--tertiary);
+        padding: 0px 10px;
+        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.1), 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 24px;
+        border-left: 4px solid #0084c9;
+        img{
+            height: 25px;
+        }
+        
+       a, p{
+            font-size: 13px;
+            font-weight: 500;
+            color: #000;
+            text-decoration: inherit;
+
+            span{
+                font-size: 12px;
+                margin-top: 5px;
+                display: inline-block;
+                position: relative;
+                padding-left: 10px;
+                padding-right: 10px;
+                color: var(--tertiary);
+
+                &:after{
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    transform: translateY(-50%);
+                    width: 6px;
+                    height: 6px;
+                    background: var(--success);
+                    border-radius: 10px;
+                }
+            }
+        }
+        
+        &:after{
+            content: '';
+            position: absolute;
+            content: '';
+            width: 0px;
+            height: 100%;
+            z-index: -1;
+            transition: width 0.6s;
+        }
+        
+        &:hover{
+            &:after{
+                width: 100%;
+                background-color: #e6ebff;
+            }
+
+            p{
+                span{
+                    color: var(--secondary);
+                }
+            }
+        }
+    }
+
+    .ac-red{
+        color: red;
+    }
+    .cs-action:hover{
+        cursor: pointer;
+    }
+}

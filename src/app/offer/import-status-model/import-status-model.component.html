@@ -1,0 +1,41 @@
+<div class="gift-box">
+  <div class="gift-heading">
+    <div class="export-count">
+        <span>{{exist_coupon.length}}</span>
+        <p> Invalid Coupon </p>
+    </div>
+    
+    <div class="close-icon">
+      <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+    </div>
+  </div>
+  
+  <div class="gift-body">
+    <div class="css-table ">
+      <div class="sticky-header">
+        <div class="header">
+          <table> 
+            <tr>
+              <th>Coupon Code </th>
+              <th class="w130">Coupon Value</th>
+              <th class="w150">Status</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <div class="table-container bg-color">
+        <div class="table-body">
+          <table>
+            <tr *ngFor="let val of exist_coupon; let i = index">
+              <td>{{val[0]}}</td>
+              <td class="w130">{{val[1]}}</td>
+              <td class="w150 " *ngIf="val[2] == 'NON APPLICABLE' ">Non Applicable</td>
+              <td class="w150" *ngIf="val[2] == 'DUPLICATE' ">Already Exist</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

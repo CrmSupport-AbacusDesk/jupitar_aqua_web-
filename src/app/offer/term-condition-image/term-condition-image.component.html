@@ -1,0 +1,64 @@
+<div class="row">
+    
+    <div class="sprate-box ">
+        <div class="full-offer">
+            <div class="top-heading">
+                <h2>AD Detail </h2>
+                <div class="close-icon">
+                    <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+                </div>
+            </div>
+        </div>
+        <form name="offer" (ngSubmit)="f.form.valid && addoffer(f) " #f="ngForm" novalidate autocomplete="off">
+            <div class="padding10">
+                <div class="row mb0">
+                    <div class="col s6 dis-flex">
+                        <div class="cs-file">
+                            <p>Upload English Image</p>
+                            <ul>
+                                <li>
+                                    <div class="add-img-co">
+                                        <div class="cs-file  file-up">
+                                            <label>
+                                                <input type="file" (change)="EnglishImage($event)" style="display:none;" accept=".png, .jpg, .jpeg " />
+                                                <img  [src]="tmpeng ? tmpeng : uploadUrl+offer.term_image" alt="" id="img">
+                                                <i class="material-icons add-file-icon" >add</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col s6 dis-flex">
+                        <div class="cs-file">
+                            <p>Upload Hindi Image</p>
+                            <ul>
+                                <li>
+                                    <div class="add-img-co">
+                                        <div class="cs-file file-up">
+                                            <label>
+                                                <input type="file" (change)="HindiImage($event)" style="display:none;" accept=".png, .jpg, .jpeg " />
+                                                <img  [src]="tmphin ? tmphin : uploadUrl+offer.hin_term_image" alt="" id="img">
+                                                <i class="material-icons add-file-icon" >add</i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row mb0">
+                        <div class="col s12">
+                            <div class="control-field">
+                                <div class="save un-save">
+                                    <button mat-button  class="mb0" >UPDATE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

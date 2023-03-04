@@ -1,0 +1,29 @@
+<div class="gift-box">
+    <div class="gift-heading" style="padding: 12px 10px;">
+        <div class="export-count" style="display: inherit;">
+            <p>Assign Bonus Points</p>
+        </div>
+        
+        <div class="close-icon">
+            <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+        </div>
+    </div>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" value="40"></mat-progress-bar>
+    
+    <div class="modal-body pt0">
+        <div class="row mb0">
+            <div class="col s12">
+                <div class="option-field">
+                    <div class="control-field">
+                        <mat-form-field class="cs-input">
+                            <input matInput type="number" placeholder="Bonus Points" name="point" [(ngModel)]="point">
+                        </mat-form-field>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-raised-button color="primary" (click)="assign_points()" [disabled]="!point">Submit</button>
+        </div>
+    </div>
+</div>

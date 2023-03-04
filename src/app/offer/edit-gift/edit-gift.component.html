@@ -1,0 +1,173 @@
+<div class="sprate-box" *ngIf="type == 1">
+  <div class="full-offer">
+    <div class="top-heading">
+      <h2>Add GIFT</h2>
+      <div class="close-icon">
+        <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+      </div>
+    </div>
+  </div>
+  <form name="offer" (ngSubmit)="f.form.valid && addoffer(f) " #f="ngForm" novalidate autocomplete="off">
+    <div class="padding10">
+      <div class="row">
+        <div class="col s12">
+          <div class="option-field">
+            <div class="control-field">
+              <mat-form-field class="cs-input">
+                <mat-select placeholder="Gifts" [(ngModel)]="gift" [name]="'gift'" >
+                  <mat-option *ngFor = "let gifts of newGift" [value]="gifts" (click)="checkValue()">{{gifts.gift_title}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p class="aler_hint" *ngIf="newGift.length == 0">All gift are already added!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb15 mt15" *ngIf="btn_value">
+        <div class="col-12">
+          <div class="control-field">
+            <div class="save un-save">
+              <button type="text" mat-button  class="mb0" (click)="addgiftList()">ADD GIFT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row mb15"  *ngIf="giftList?.length">
+        <div class="col s12 mt15">
+          <div class="css-table left-right-15">
+            <div class="sticky-header">
+              <div class="header">
+                <table> 
+                  <tr>
+                    <th class="w50" >&nbsp;</th>
+                    <th class="w150" style="border-left: 1px solid #D2D2D2;">Title</th>
+                    <th class="w100">Points</th>
+                    <th >Specification</th>
+                    <th class="w110">Action</th>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            
+            <div class="table-container" >
+              <div class="table-body">
+                <table>
+                  <tr *ngFor="let raw of giftList; let p = index">
+                    <td class="w50" style="border-right: 1px solid #D2D2D2;">
+                      <div class="image-thum"><img [src]="uploadUrl + raw.image"></div>
+                    </td>
+                    <td class="w150">{{ raw.gift_title }}</td>
+                    <td class="w100">{{ raw.coupon_points }}</td>
+                    <td>{{ raw.gift_specification }}</td>
+                    <td class="w110 active">
+                      <div class="action-btns mt11 left-btn opcity-non">
+                        <div class="dele-sec" style="cursor:pointer" mat-raised-button (click)="RemoveItem(p)">
+                          <i class="material-icons">delete_sweep</i>
+                          <p>Delete</p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>               
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col s12">
+          <div class="control-field">
+            <div class="save un-save">
+              <button mat-button  class="mb0">SAVE GIFT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </form>
+</div>
+
+<div class="sprate-box" *ngIf="type == 2">
+  <div class="full-offer">
+    <div class="top-heading">
+      <h2>EDIT GIFT</h2>
+      <div class="close-icon">
+        <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+      </div>
+    </div>
+  </div>
+  <form name="offer" (ngSubmit)="f.form.valid && addoffer(f) " #f="ngForm" novalidate autocomplete="off">
+    <div class="padding10">
+      <div class="row">
+        <div class="col s6">
+          <div class="option-field">
+            <div class="control-field">
+              <mat-form-field class="cs-input">
+                <input matInput placeholder="Gift Title" name="gift_title" [(ngModel)] = "offer.gift_title" #gift_title="ngModel"  [disabled]="total_redeem > 0" required>
+              </mat-form-field>  
+            </div>
+          </div>
+        </div>
+        
+        <div class="col s6">
+          <div class="option-field">
+            <div class="control-field">
+              <mat-form-field class="cs-input">
+                <input matInput placeholder="Coupan Points" name="coupon_points" [(ngModel)] = "offer.coupon_points" #coupon_points="ngModel" (keypress)="numeric_Number($event)" [disabled]="total_redeem > 0" required>
+              </mat-form-field>  
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">       
+        <div class="col s12">
+          <div class="option-field">
+            <div class="control-field">
+              <app-ngx-editor height="129px" class="h115" minHieght="50px" [placeholder]="'Gift Specification '" [spellcheck]="true"  [(ngModel)]="offer.gift_specification"  #gift_specification="ngModel" name="gift_specification"></app-ngx-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-12">
+          <div class="cs-file">
+            <p>Upload Image</p>
+            <ul>
+              <li>
+                <div class="add-img-co">
+                  <div class="cs-file  file-up">
+
+                    <label>
+                      <input type="file" (change)="onUploadChange2($event)" style="display:none;" accept=".png, .jpg, .jpeg " />
+
+                      <img  [src]="tmpimg ? tmpimg : uploadUrl+ offer.image" alt="" id="img">
+                      <i class="material-icons add-file-icon" >add</i>
+                    </label>
+
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="row">
+        <div class="col s12">
+          <div class="control-field">
+            <div class="save un-save">
+              <button mat-button  class="mb0">UPDATE GIFT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </form>
+</div>
