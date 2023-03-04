@@ -1,0 +1,38 @@
+<div class="gift-box">
+    <div class="gift-heading">
+        <p>USER DETAILS</p>
+        <div class="close-icon">
+            <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+        </div>
+    </div>
+    
+    <div class="gift-body">
+        <div class="css-table ">
+            <div class="sticky-header">
+                <div class="header">
+                    <table> 
+                        <tr>
+                            <th >Offer </th>
+                            <th class="w150 text-center">Coupon Value</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="table-container bg-color">
+                <div class="table-body">
+                    <table>
+                        <tr>
+                            <td>Referral/Welcome Point</td>
+                            <td class="w150 text-center">{{karigar_referral_point.referal_point_balance}}</td>
+                        </tr>
+                        <tr *ngFor="let val of balance; let i = index">
+                            <td><a  routerLink="/offer-detail"  routerLink="/offer-detail/{{val.id}}" class="link">{{val.title  | titlecase }}</a></td>
+                            <td class="w150 text-center">{{val.offer_balance}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

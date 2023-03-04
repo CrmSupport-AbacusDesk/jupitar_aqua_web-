@@ -1,0 +1,35 @@
+<div class="gift-box">
+  <div class="gift-heading">
+    <p>Select Offer</p>
+    <div class="close-icon">
+      <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+    </div>
+  </div>
+  
+  <div class="trans">
+    <form name="offer" (ngSubmit)="f.form.valid && addoffer(f) " #f="ngForm" novalidate autocomplete="off">
+      <div class="form-area">
+        <div class="slect none-bo">
+          <mat-form-field>
+            <mat-label>Search</mat-label>
+            <mat-select  name="offer_id" [(ngModel)]="offer.offer_id" #offer_id="ngModel" required>
+              <mat-option *ngFor="let val of offers" [value]="val.id"> {{val.title}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      
+      <!-- <div class="option-field">
+        <div class="control-field">
+          <mat-form-field  class="cs-input">
+            <textarea matInput placeholder="Description" class="h106" name="desc" [(ngModel)] = "offer.desc" #desc="ngModel" required></textarea>
+          </mat-form-field>
+        </div>
+      </div> -->
+      
+      <div class="save mt10" [ngClass]="{loading: savingData}">
+        <button mat-button class="mb0"  [disabled]="savingData" >SAVE</button>
+      </div>
+    </form>
+  </div>
+</div>

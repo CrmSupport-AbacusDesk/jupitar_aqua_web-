@@ -1,0 +1,66 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container ">
+    <div class="sticky-header">
+        <div class="middle-container">
+            <div class="tabs-list">
+                <h1>Master</h1>
+                <div class="input-field">
+                    <!-- <input type="text"  placeholder="Search..." required /> -->
+                    <!-- <i class="material-icons">
+                        search
+                    </i> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <!-- <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li> -->
+                <!-- <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li> -->
+                <li routerLink="/digitallist" routerLinkActive="active"><a>Digital Catalogue</a></li>
+                <li routerLink="/coupon-code-master" routerLinkActive="active"><a>Product Point Master</a></li>
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <!-- <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li> -->
+                <!-- <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li> -->
+                <!-- <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li> -->
+                <!-- <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li> -->
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/app-banner-list" routerLinkActive="active"><a>App Banner</a></li>
+                <li routerLink="/gifts" routerLinkActive="active"><a>Master Gift</a></li>
+
+                <!-- <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li> -->
+                <!-- <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li> -->
+            </ul>
+        </div>
+        <div class="image-list">
+            <ul>
+                <li *ngFor="let val of banner; let i = index">
+                    <div class="image-section1 ap_banr">
+                        <img [src]="db.myurl+'app/uploads/'+val.banner" (click)="openDialog(val.banner,'test8')" >
+                    </div>
+                    <div class="hvr-edit">
+                        <a class="delete-icn"><i class="material-icons" (click)="deleteImage(val.id)">delete_sweep</i></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+   
+    <div class="fab-btns">
+        <button mat-fab color="primary"  >
+            <label>
+                <input style="display:none;" type="file" (change)="profilefileChange($event)" name="file" placeholder="Upload file" accept=".png,.jpg,.jpeg" multiple />
+                <i class="material-icons">add</i>
+            </label>
+        </button>
+    </div>
+</div>

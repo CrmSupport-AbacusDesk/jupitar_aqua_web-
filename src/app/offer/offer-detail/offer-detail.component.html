@@ -1,0 +1,329 @@
+<div class="main-container">
+    <div class="offer-container">
+        <div class="loader" *ngIf = "loading_list">
+            <div class="loding-logo">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col s8 padding0">
+                    <div class="sprate-box ">
+                        <div class="full-offer">
+                            <div class="top-heading">
+                                <h2>OFFER DETAIL</h2>
+                                <div class="no-fixed">
+                                    <button mat-button (click)="edit()"><i class="material-icons">edit</i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb0">
+                            <div class="off pb0">
+                                <div class="col s12 padding0">
+                                    <div class="option-field">
+                                        <div class="row mb15">
+                                            <div class="col s6 ">
+                                                <div class="detail-field">
+                                                    <p>User Type</p>
+                                                    <span>{{getData.user_type == 'Retailer' ? 'Retailer':'Plumber'  }}</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col s6 ">
+                                                <div class="detail-field">
+                                                    <p>Title</p>
+                                                    <span>{{getData.title  | titlecase }}</span>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="row mb15">
+                                            <div class="col s6 ">
+                                                <div class="detail-field">
+                                                    <p>Offer Code</p>
+                                                    <span># {{getData.offer_code}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col s6 ">
+                                                <div class="detail-field">
+                                                    <p>Offer Start Date</p>
+                                                    <span>{{getData.start_date | date:'dd MMM yyyy'}}</span>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="row mb15">
+                                            <div class="col s6 ">
+                                                <div class="detail-field">
+                                                    <p>Offer End Date</p>
+                                                    <span>{{getData.end_date | date:'dd MMM yyyy'}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col s6 ">
+                                                <div class="detail-field ngc-field">
+                                                    <p>Offer Status</p>
+                                                    <mat-slide-toggle name='offer_status' [(ngModel)]="getData.newsStatus" (change)="updateStatus($event)" 
+                                                    [disabled]="getData.start_date > today || getData.end_date < today"></mat-slide-toggle>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- <div class="col s6 padding0">
+                                                <div class="detail-field ngc-field" (click)="addTermConditionImage()" >
+                                                    <p>AD Detail</p>
+                                                    <div class="add-co" style="cursor: pointer;">
+                                                        <i class="material-icons">add</i>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        
+                                        <div class="row"  *ngIf="getData.reason != ''">
+                                            <div class="col s12 ">
+                                                <div class="detail-field my-scroll">
+                                                    <div class="space">
+                                                        <p>Deactive Reason :</p>
+                                                        <!-- <span>{{getData.deactive_date | date:'d MMMM y'}} {{ getData.deactive_name ? '/ '+getData.deactive_name : ''}}</span>  -->
+                                                        <span>{{getData.deactive_date=="0000-00-00"?"":getData.deactive_date | date:'d MMMM y'}} {{ getData.deactive_name ? '/ '+getData.deactive_name : ''}}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    <div class="dactive-detail">
+                                                        <p>{{getData.reason}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row pl5 pr5">
+                            <div class="col s6">
+                                <div class="option-field">
+                                    <div class="territory-infos my-scroll">
+                                        <div class="heads">
+                                            <h2>DESCRIPTION</h2>
+                                        </div>
+                                        
+                                        <div class="condition-list padding15">
+                                            <ul>
+                                                <li><p  [innerHTML]="getData.description"></p></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <div class="option-field">
+                                    <div class="territory-infos my-scroll">
+                                        <div class="heads">
+                                            <h2>TERMS & CONDITION</h2>
+                                        </div>
+                                        
+                                        <div class="condition-list padding15">
+                                            <ul>
+                                                <li><p  [innerHTML]="getData.terms"></p></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s4 pl15">
+                    <div class="territory-infos mb15">
+                        <div class="head">
+                            <!-- <h2>OFFER BANNER(ENGLISH & HINDI)</h2> -->
+                            <h2>OFFER BANNER</h2>
+                        </div>
+                        <div class="uploaded-banner" style="cursor: zoom-in;">
+                            <img [src]="uploadUrl + getData.offer_banner" (click)="openDialog(uploadUrl + getData.offer_banner)">
+                        </div>
+                    </div>
+                    
+                    <div class="territory-infos my-scroll">
+                        <div class="head">
+                            <h2>OFFER SUMMARY</h2>
+                        </div>
+                        
+                        <div class="offer-summery">
+                            <ul>
+                                <li *ngFor="let val of logs; let i = index">
+                                    <div class="offer-list">
+                                        <div class="odder-cradet">
+                                            <p>#{{val.title}}</p>
+                                            <span>{{val.created_name}}</span>
+                                        </div>
+                                        
+                                        
+                                        <div class="time-info">
+                                            <i class="material-icons">watch_later</i>
+                                            <p>{{val.date_created  | date: 'dd MMM yyyy h:mm a' }}</p>
+                                        </div>
+                                    </div>
+                                    <h4>{{val.remark}}</h4>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col s7 padding0">
+                    <div class="sprate-box  scroll">
+                        <div class="full-offer">
+                            <div class="top-heading">
+                                <h2>GIFT DETAIL</h2>
+                                <div class="add-co">
+                                    <i class="material-icons" (click)="editgift(0,0, 1)"  >add</i>
+                                </div>
+                            </div>
+                            
+                            <div class="css-table left-right-10">
+                                <div class="sticky-header">
+                                    <div class="header">
+                                        <table> 
+                                            <tr>
+                                                <th class="w50">S.no</th>
+                                                <th class="w50">Id</th>
+                                                <th >Title</th>
+                                                <th class="w100">Points</th>
+                                                <th class="w165" >Gift Redeem Request</th>
+                                                <th class="w80">Image</th>
+                                                <th class="w50">Status</th>
+                                                <th class="w70">Action</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-container">
+                                    <div class="table-body">
+                                        <table>
+                                            <tr *ngFor="let v of gift; let i = index">
+                                                <td class="w50">{{ i + 1 }}</td>
+                                                <td class="w50">#{{v.gift_id}}</td>
+                                                <td >{{v.gift_title  | titlecase }}</td>
+                                                <td class="w100">{{v.coupon_points}}</td>
+                                                <td class="w165">
+                                                    <div class="request">
+                                                        <button mat-button (click)="giftRedeem(v.gift_id,v.total_redeem)" >
+                                                            <p>{{v.total_redeem}}</p>
+                                                            <i class="material-icons">keyboard_arrow_right </i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td class="w80">
+                                                    <div class="image-thum">
+                                                        <img [src]="uploadUrl + v.image" (click)="openDialog(uploadUrl + v.image)">
+                                                    </div>
+                                                </td>
+                                                <td class="w50">
+                                                    <mat-slide-toggle name="gift_status" [(ngModel)]="v.giftStatus" (change)="updateGiftStatus($event,v.gift_id)" ></mat-slide-toggle>
+                                                </td>
+                                                
+                                                <td class="w70 text-center padding0">
+                                                    <div class="td-flex">
+                                                        <button class="right" (click)="editgift(v.gift_id,v.total_redeem, 2)"><i class="material-icons">edit</i></button>
+                                                        <!-- <button class="right" (click)="editgift(v.gift_id,v.total_redeem)"><i class="material-icons">edit</i></button> -->
+                                                        <button class="cancel" *ngIf="v.total_redeem == '0'" (click)="deleteGift(v.gift_id)"><i class="material-icons">delete_sweep</i></button>
+                                                        <button  *ngIf="v.total_redeem != '0'" ></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>   
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <form name="addOffer" (ngSubmit)="f.form.valid && saveOffer(f) " #f="ngForm" novalidate autocomplete="off">
+                        <div class="col s5 pl15 ">
+                            
+                            <div class="sprate-box ">
+                                <div class="full-offer">
+                                    <div class="top-heading">
+                                        <h2>AREA WISE SELECTION</h2>
+                                        <p>Indicates required fields ( * )</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="main-pd">
+                                        <div class="col s6 ">
+                                            <div class="territory-info">
+                                                <div class="head">
+                                                    <h2>STATE</h2>
+                                                    <mat-checkbox class="fix-check" color="primary" [(ngModel)]="addOffer.allStates" (change)="allState()"  name="allStates"  value="true"></mat-checkbox>
+                                                    
+                                                </div>
+                                                <div class="cs-checkbox">
+                                                    <div class="checkbox-outer">
+                                                        <section  class="checkbox-inner" *ngFor = "let val of states;let i = index" >
+                                                            <mat-checkbox class="check-list" color="primary" [(ngModel)]="val.selected" (change)="getDistrictList()"  [name]="'state'+i"  value="true" [disabled]="val.karigar_id_state > 0"> {{val.state_name}}</mat-checkbox>
+                                                        </section >
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col s6">
+                                            <div class="territory-info">
+                                                <div class="head">
+                                                    <h2>DISTRICTS</h2>
+                                                    <mat-checkbox class="fix-check" [(ngModel)]="addOffer.allDistrict" (change)="allDistrict()"  name="allDistrict"  value="true"></mat-checkbox>
+                                                    
+                                                </div>
+                                                <div class="cs-checkbox">
+                                                    <div class="checkbox-outer">
+                                                        
+                                                        <ng-container *ngFor = "let val of districts;let i = index">
+                                                            <ng-container *ngIf="val.selected"  >
+                                                                
+                                                                <section  class="checkbox-inner new-bg-add"  >
+                                                                    <mat-checkbox class="check-list"  color="primary"  [(ngModel)]="val.stateWiseDistrict" (change)="allStateWiseDistrict(i)" [name]="'dist'+i"  [disabled]="val.karigar_id_state > 0"> {{val.state_name}}</mat-checkbox>
+                                                                </section >
+                                                                
+                                                                <section  class="checkbox-inner"   *ngFor = "let v of val.districts; let x = index">
+                                                                    <mat-checkbox class="check-list" color="primary" [(ngModel)]="v.selected"   [name]="'district'+x+i"  value="true"  [disabled]="v.karigar_id_district > 0"> {{v.district_name}}</mat-checkbox>
+                                                                </section >
+                                                                
+                                                            </ng-container>
+                                                            
+                                                        </ng-container>
+                                                        
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="save un-save" [ngClass]="{loading: savingData}" >
+                                    <button mat-button  [disabled]="savingData"  class="mb21 mr10">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

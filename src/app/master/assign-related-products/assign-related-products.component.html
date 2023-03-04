@@ -1,0 +1,33 @@
+<div class="gift-box">
+  <div class="gift-heading">
+    <p>Assign Related Products</p>
+    <div class="close-icon">
+      <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+    </div>
+  </div>
+  
+  <div class="trans">
+    <div class="option-field">
+      
+      <div class="control-field">
+        
+        <mat-form-field class="cs-input cs-multi-select">
+          <mat-select  placeholder="Select Product" (selectionChange)="selectRelatedProducts($event.value)">
+            <mat-option >
+              <ngx-mat-select-search aria-placeholder="search" (keyup)="getProductList($event.target.value)"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let val of products" [value]="val.id" >
+              {{val.product_name +" "+ val.product_code}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    
+    
+    <div class="save mt10">
+      <button mat-button class="mb0"  (click)="saveRelatedProducts()">Save</button>
+    </div>
+  </div>
+</div>
+

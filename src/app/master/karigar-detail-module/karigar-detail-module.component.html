@@ -1,0 +1,69 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="gift-box">
+    <div class="gift-heading">
+        <p>KARIGAR DETAILS</p>
+        <div class="close-icon">
+            <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+        </div>
+    </div>
+    
+    <div class="gift-body">
+        <div class="css-table ">
+            <div class="sticky-header">
+                <div class="header">
+                    <table> 
+                        <tr>
+                            <th>Kariger Name </th>
+                            <th class="w130">Mobile No.</th>
+                            <th>Address</th>
+                            <th>Dealer</th>
+                            <th>Sales Executive</th>
+                            <th>Wallet</th>
+                            <th>Status</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="table-container bg-color">
+                <div class="table-body">
+                    <table>
+                        <tr *ngFor="let val of karigar; let i = index">
+                            <td>
+                                <a class="blue">{{val.first_name | titlecase }} {{val.last_name | titlecase }}</a>
+                            </td>
+                            <td class="w130">{{val.mobile_no}}</td>
+                            <td>{{val.city}} {{val.district}} {{val.state}}</td>
+                            <td>{{val.dealer_counter_name}}</td>
+                            <td>{{val.sales_name}}</td>
+                            <td>{{val.balance_point}}</td>
+                            <td>{{val.status}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="top-pagination">
+        <ul>
+            <li><p>Pages {{ current_page }} of {{ last_page }}</p></li>
+            <li><button mat-button class="left-btn" (click) = 'redirect_previous()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+            <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getKarigarList()"></li>
+            <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+        </ul>
+    </div>
+</div>
+
+<div class="excel-btn" (click)="exportKarigar()" style="right: 85px;">
+    <div class="image-area">
+        <a>
+            <img src="assets/excel.svg">
+        </a>
+    </div>
+</div>
+
+

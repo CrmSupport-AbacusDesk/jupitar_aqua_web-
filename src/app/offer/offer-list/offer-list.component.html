@@ -1,0 +1,217 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+
+<div class="main-container">
+    <div class="fixed">
+        <div class="tab-header">
+            <div class="tabs-list gift-tab-list">
+                <ul>
+                    <li (click)="filter = {};filter.status = ''; getOfferList('')" [ngClass]="{'active': filter.status == ''}" >
+                        <a>
+                            <p>All</p>
+                            <span>{{ offer_all }}</span>
+                        </a>
+                    </li>
+                    <li (click)="filter = {};filter.status = 'Active'; getOfferList('')" [ngClass]="{'active': filter.status == 'Active'}" >
+                        <a>
+                            <p>Active</p>
+                            <span>{{ offer_active }}</span>
+                        </a>
+                    </li>
+                    <li (click)="filter = {};filter.status = 'Deactive'; getOfferList('')" [ngClass]="{'active': filter.status == 'Deactive'}" >
+                        <a>
+                            <p>Deactive</p>
+                            <span>{{ offer_deactive }}</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="input-field"   *ngIf="(filter.status == '' && offer_all ) || (filter.status == 'Active' && offer_active ) || (filter.status == 'Deactive' && offer_deactive )  ">
+                    <input type="text" placeholder="Search" [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getOfferList('')">
+                    <i class="material-icons">
+                        search
+                    </i>
+                </div>
+                
+                <div class="master-btn pl15">
+                    <button  mat-raised-button color="primary" (click)="openDatepicker()">Date Filter</button>
+                </div>
+            </div>
+            
+            <div class="refresh-btn">
+                <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getOfferList('refresh');refresh_counts()"><i class="material-icons">refresh</i></a>
+            </div>
+            
+            <div class="top-pagination"  >
+                
+                <ul  *ngIf="(filter.status == '' && offer_all ) || (filter.status == 'Active' && offer_active ) || (filter.status == 'Deactive' && offer_deactive )  "> 
+                    <li><p >Pages {{ current_page }} of {{ last_page }}</p></li>
+                    <li><button mat-button  matTooltip="First Page" class="fisrt-btn" (click) = 'current1()'>First</button></li>
+                    <li><button mat-button class="left-btn" (click) = 'redirect_previous()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                    <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getOfferList('')"></li>
+                    <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                    <li><button mat-button  matTooltip="Last Page" class="last-btn" (click) = 'last1()'>Last</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="css-table"  *ngIf="(filter.status == '' && offer_all ) || (filter.status == 'Active' && offer_active ) || (filter.status == 'Deactive' && offer_deactive )  ">
+            <div class="sticky-header" >
+                <div class="header" >
+                    <table>
+                        
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w140">Date / Created by</th>
+                            <th class="w100">Type</th>
+                            <th>Title</th>
+                            <th class="w100">Offer Code</th>
+                            <th class="w110">Start Date</th>
+                            <th class="w110">End Date</th>
+                            <!-- <th class="w135">Total Coupon</th> -->
+                            <!-- <th class="w122">Coupon Value</th> -->
+                            <th class="w70 text-center">Gift</th>
+                            <th class="w100">Status</th>
+                        </tr>
+                        
+                    </table>
+                </div>
+                
+                <div class="header border-bott">
+                    <table>
+                        <tr>
+                            <th class="w30">&nbsp;</th>
+                            <th class="w140">
+                                <div class="date-form">
+                                    <i *ngIf="filter.date" class="material-icons" (click)="filter.date = '';getOfferList('') ">clear</i>
+                                    <mat-form-field >
+                                        <input placeholder="Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker1)" name="date" matInput (dateChange)="getOfferList('')" [matDatepicker]="picker1" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </th>
+                            <th class="w100">
+                                <div class="form-area">
+                                    <div class="slect mr0">
+                                        <mat-form-field>
+                                            <mat-label>All</mat-label>
+                                            <mat-select  [(ngModel)]="filter.user_type" name="user_type" #user_type="ngModel" (selectionChange)="getOfferList('')">
+                                                <mat-option value="All" >All</mat-option>
+                                                <mat-option value="Plumber" >Plumber</mat-option>
+                                              <mat-option value="Retailer">Retailer</mat-option>
+                                             
+    
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="search-form">
+                                    <input type="text" placeholder="Title" [(ngModel)]="filter.title"  (keyup.enter)="current_page = 1;getOfferList('')">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            <th class="w100">
+                                <div class="search-form">
+                                    <input type="text" placeholder="Offer Code" [(ngModel)]="filter.offer_code"  (keyup.enter)="current_page = 1;getOfferList('')">
+                                    <i class="material-icons">search</i>
+                                </div>
+                            </th>
+                            
+                            <th class="w110">
+                                <div class="date-form">
+                                    <i *ngIf="filter.start_date" class="material-icons" (click)="filter.start_date = '';getOfferList('') ">clear</i>
+                                    <mat-form-field >
+                                        <input placeholder="Start Date" [(ngModel)]="filter.start_date" (click)="openDatePicker(picker2)" name="start_date" matInput (dateChange)="getOfferList('')" [matDatepicker]="picker2" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </th>
+                            
+                            <th class="w110">
+                                <div class="date-form">
+                                    <i *ngIf="filter.end_date" class="material-icons" (click)="filter.end_date = '';getOfferList('') ">clear</i>
+                                    <mat-form-field >
+                                        <input placeholder="End Date" [(ngModel)]="filter.end_date" (click)="openDatePicker(picker3)" name="end_date" matInput (dateChange)="getOfferList('')" [matDatepicker]="picker3" readonly> 
+                                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </th>
+                            
+                            <!-- <th class="w135"></th> -->
+                            <!-- <th class="w122"></th> -->
+                            <th class="w70"></th>
+                            <th class="w100">
+                                <!-- <div class="form-area">
+                                    <button mat-button class="go"  (click)="getOfferList('')">Go</button>
+                                </div> -->
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="css-table" *ngIf="offer.length">
+        <div class="table-container">
+            <div class="table-body">
+                <table>
+                    <tr *ngFor="let val of offer; let i = index">
+                        <td class="w30">{{ ( (current_page - 1 ) * 20 ) + ( i+1 ) }}</td>
+                        <td class="w140"><ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' "> {{val.date_created | date: 'dd MMM yyyy'}} / {{val.created_name}} </ng-container></td>
+                        <td class="w100">
+                            {{val.user_type == 'Retailer' ? 'Retailer':'Plumber' }}
+                        </td>
+                        <td><a    routerLink="/offer-detail/{{val.id}}" class="blue">{{val.title  | titlecase }}</a></td>
+                        <td class="w100">#{{val.offer_code}}</td>
+                        <td class="w110">{{val.start_date | date: 'dd MMM yyyy'}}</td>
+                        <td class="w110">{{val.end_date | date: 'dd MMM yyyy'}}</td>
+                        <!-- <td class="w135 text-center">{{val.total_coupon}}</td> -->
+                        <!-- <td class="w122 text-center">{{val.total_coupon_value}}</td> -->
+                        <td class="w70 text-center "><span class="back-bg">{{val.total_gift}}</span></td>
+                        <td class="w100" >
+                            <mat-slide-toggle [name]="'offer_status'+i" [(ngModel)]="val.newsStatus" (change)="updateStatus(i,$event)" [disabled]="val.start_date > today || val.end_date < today"
+                                [disabled]="is_edit=='true'"></mat-slide-toggle>
+                                
+                                <div class="over-sec lar-h12">
+                                    <i class="material-icons deactive dlt_ico"  (click)="deleteOffer(val.id)" >delete_sweep</i>
+                                </div> 
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="date-not" *ngIf="!loading_list && !offer.length && ( (filter.status == '' && offer_all ) || (filter.status == 'Active' && offer_active ) || (filter.status == 'Deactive' && offer_deactive ) )">
+            <div class="no-img">
+                <img src="assets/result-not-found.png"> 
+            </div>
+        </div>
+        
+        <div class="date-not"  *ngIf="!loading_list && ( (filter.status == '' && !offer_all ) || (filter.status == 'Active' && !offer_active ) || (filter.status == 'Deactive' && !offer_deactive ) ) ">
+            <div class="no-img">
+                <img src="assets/not-available.jpg"> 
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="fab-btns">
+        <button (click)="exportoffers()" *ngIf="offer.length" mat-fab class="excel">
+            <img src="assets/excel.svg">
+        </button>
+        <button mat-fab color="primary" routerLink="/add-offer" >
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
+    

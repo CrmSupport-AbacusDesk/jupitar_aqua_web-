@@ -1,0 +1,25 @@
+<div class="gift-box">
+    <div class="gift-heading">
+        <p>Assign Coupon Manually To Karigar </p>
+        <div class="close-icon">
+            <button mat-button mat-dialog-close ><i class="material-icons">clear</i></button>
+        </div>
+    </div>
+    <div class="trans">
+        <form name="offer" (ngSubmit)="f.form.valid && submit() " #f="ngForm" novalidate autocomplete="off">
+            <div class="option-field">
+                <div class="control-field">
+                    <mat-form-field class="cs-input">
+                        <input matInput placeholder="Select Karigar" aria-label="Select karigar" [matAutocomplete]="karigar_name" name="karigar_name" (keyup)="search_karigar()" [(ngModel)]="form.karigar_name" #karigar_name="ngModel" required>
+                        <mat-autocomplete #karigar_name="matAutocomplete">
+                            <mat-option *ngFor="let row of karigar_list;let b = index" (click)="set_id(row)" [value]="row.full_name">{{row.full_name}}</mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="save mt10" >
+                <button mat-button class="mb0">Assign</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<h2 class="cs-model-heading">Date Filter</h2>
+<mat-dialog-content class="mat-typography mat-model">
+  <div class="option-field">
+    <div class="row mb0">
+      <div class="col s6 pl10">
+        <div class="control-field">
+          <mat-form-field class="cs-input">
+            <input matInput [matDatepicker]="from" [max]="today" placeholder="From" [(ngModel)]="data.from">
+            <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+            <mat-datepicker #from></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col s6 pr10">
+        <div class="control-field">
+          <mat-form-field class="cs-input">
+            <input matInput [matDatepicker]="to" [min]="data.from" [max]="today" placeholder="TO" [(ngModel)]="data.to">
+            <mat-datepicker-toggle matSuffix [for]="to"></mat-datepicker-toggle>
+            <mat-datepicker #to></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="submit()" cdkFocusInitial>Go</button>
+</mat-dialog-actions>

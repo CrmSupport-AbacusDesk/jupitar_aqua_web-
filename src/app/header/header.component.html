@@ -1,0 +1,75 @@
+<!-- top-header -->
+<header>
+    <div class="top-header">
+        <div class="other-sec">
+            
+            <div class="logo">
+                <img src="assets/logo.png">
+                <!-- <div id="nav-icon" (click)="toggleHeader()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div> -->
+            </div>
+            
+            <div class="navigation">
+                <ul>
+                    <li><a routerLink="/dashboard"  routerLinkActive="active" (click)="refershCount()">Dashboard</a></li>
+                    <li><a routerLink="/offer-list"  routerLinkActive="active" (click)="refershCount()">Offer</a></li>
+                    <li><a routerLink="/gift-list"  routerLinkActive="active" (click)="refershCount()">Gift Gallery</a></li>
+                    <li><a routerLink="/redeem-request-list" routerLinkActive="active" (click)="refershCount()">Redeem Request
+                        <span *ngIf="pending_redeem_request > 0 ">{{pending_redeem_request}} </span>
+                    </a></li>
+                    <li><a routerLink="/karigar-list/1" routerLinkActive="active" (click)="refershCount()">Plumber</a></li>
+                    <li><a routerLink="/dealer-list/1" routerLinkActive="active" (click)="refershCount()">Retailer</a></li>
+                    <li><a routerLink="/distributor-list/1" routerLinkActive="active">Distributor</a></li>
+                    <li><a routerLink="/contractor-list" routerLinkActive="active" (click)="refershCount()">Retailer Code 
+                        <span *ngIf="pending_redeem_request_retailer > 0 ">{{pending_redeem_request_retailer}} </span>
+                    </a></li>
+                   
+                    <li><a routerLink="/coupon-code-list" routerLinkActive="active" (click)="refershCount()">Coupon Codes</a></li>
+                    <li>
+                        <a routerLink="/feedback-list" routerLinkActive="active" (click)="refershCount()">Feedback
+                           <span *ngIf="unreadFeedCount > 0 ">{{unreadFeedCount}} </span>
+                        </a>
+                    </li>
+                    <!-- <li><a routerLink="/site-gallery" routerLinkActive="active">Site Gallery</a></li> -->
+                    <!-- <li><a routerLink="/furniture-ideas" routerLinkActive="active">Furniture Ideas</a></li> -->
+                    <li><a routerLink="/faq-questionnaire" routerLinkActive="active">FAQ</a></li>
+                    <li><a routerLink="/digitallist" routerLinkActive="active">Master</a></li>         
+                </ul>
+            </div>
+        </div>
+        
+        <div class="connect-alignment" style="position: absolute; right: 15px;">
+            <ul>
+                <!--  <li>
+                    <div class="abacus-connect ">
+                        <button (click)="gotoAbacusConnect()">
+                            <img src="assets/img/abacus-icon.png">
+                            <p>Abacus Connect</p>
+                            <span *ngIf="task_cn!='0'">{{task_cn}}</span>
+                        </button>
+                    </div>
+                </li> -->
+                <li>
+                    <div class="top-nav">
+                        <ul>
+                            <li>
+                                <button mat-button [matMenuTriggerFor]="menu" class="mat-drop pl0">Welcome {{this.db.datauser.username}}</button>
+                                <mat-menu #menu="matMenu">
+                                    <a mat-menu-item (click)="logout()">Log Out</a>
+                                </mat-menu>
+                            </li> 
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+</header>
+
+<footer>
+    <img src="assets/abacusdesk.png" alt="">
+</footer>

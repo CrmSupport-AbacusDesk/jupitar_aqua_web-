@@ -1,0 +1,87 @@
+<div class="loader" *ngIf="loading">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="fixed">
+        <div class="middle-container tab-header">
+            <div class="tabs-list gift-tab-list pl5">
+                <a class="back-btn mr0"><i class="material-icons">arrow_back</i></a>
+                <div class="input-field">
+                    <input type="text" placeholder="Search">
+                    <i class="material-icons">search</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="image-list fur-change">
+        <ul>
+            <li *ngFor="let row of subcategory_list">
+                <div class="image-section1" (click)="openDialog(row.image_name,'test1')">
+                    <img src='{{upload_url+row.image_name}}'>
+                </div>
+                <div class="hvr-edit">
+                    <a (click)="delete_item(row)" class="delete-icn"><i class="material-icons">delete_sweep</i></a>
+                </div>
+            </li>
+        </ul>
+    </div> 
+    
+    <div class="add">
+        <button (click)="toggle = !toggle" mat-button class="add-btn"><i class="material-icons">add</i></button>
+    </div>
+    
+    <div class="date-not" *ngIf="subcategory_list.length == 0">
+        <div class="no-img">
+            <img src="assets/not-available.jpg"> 
+        </div>
+    </div>
+</div>
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    <div class="category-field" >
+        <form #f="ngForm" name="category" (ngSubmit)="f.valid && saveSubcategory()">
+            <div class="category-hadding">
+                <h2>Add {{category.category}} Image</h2>
+                <i (click)="toggle = false;" class="material-icons">clear</i>
+            </div>
+            
+            <div class="add-image">
+                <!-- <div class="option-field">
+                    <div class="control-field">
+                        <mat-form-field class="cs-input">
+                            <input matInput placeholder="Category Name" name="subcate_name" [(ngModel)]="data.subcate_name">
+                        </mat-form-field>  
+                    </div>
+                </div> -->
+                
+                <div class="uploade-image">
+                    <ul>
+                        <li *ngFor="let row of cat_image">
+                            <img [src]="row.id ? upload_url+row.image_name : row.image_name" >
+                            <span class="cancel-icon">
+                                <i class="material-icons crose-icon">clear</i>
+                            </span>									
+                        </li>
+                        <li class="add-bg-1">
+                            <label>
+                                <input type="file" (change)="select($event)" style="display:none;" required multiple/>
+                                <div class="other">
+                                    <i class="material-icons">add</i>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="save btn-save mt90">
+                    <button mat-button [disabled]="savingData" >SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="side-bg"></div>
+</div>

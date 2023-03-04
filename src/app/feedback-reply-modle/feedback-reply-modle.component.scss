@@ -1,0 +1,147 @@
+
+.mat-dialog-container
+{
+      padding: 0px !important;
+}
+
+
+
+
+
+.chat-type-logs 
+{
+    min-height: auto;
+    max-height: 400px;
+    overflow: auto;
+    background: #ffffff;
+    padding: 0px 5px;
+    
+    .message
+    {
+        display: flex;
+        align-items: flex-start;
+        box-sizing: content-box;
+        
+        .message-text 
+        {
+            position: relative;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;
+            box-sizing: border-box;
+            border: 1px solid #af9f00;
+        }
+        
+        .message-tittle 
+        {
+            margin: -10px -10px 10px -10px;
+            border-radius: 10px 10px 0px 0px;
+            padding: 10px;
+            position: relative;
+            background: #fbf4af;
+            border-bottom: 1px solid #e4d004;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .name 
+        {
+            font-weight: 500;
+        }
+        
+        .message-date
+        {
+            font-size: 10px;
+            padding-left: 15px;
+            color: #777;
+        }
+        
+        .message-desc
+        {
+            line-height: 18px;
+        }
+        
+        &.other
+        {
+            flex-direction: row;
+
+            .message-desc
+            {
+                img
+                {
+                    width: 180px;
+                    height: 120px;
+                }
+            }
+            
+        }
+        &.admin
+        {
+            flex-direction: row-reverse;
+            
+            .message-desc
+            {
+                text-align: right;
+
+                img
+                {
+                    width: 180px;
+                    height: 120px;
+                }
+            }
+        }
+    }
+   
+}
+
+
+.type-content 
+{
+    position: relative;
+    margin: 15px -15px -15px -15px;
+    background: #f9f9f9;
+    
+    textarea 
+    {
+        width: calc(100% - 50px);
+        border: 0px;
+        background: #f9f9f9;
+        min-height: 50px;
+        padding: 10px;
+        box-sizing: border-box;
+        resize: none;
+        position: relative;
+        outline: none;
+        
+        &::placeholder
+        {
+            color: #000000;
+            opacity: 1; /* Firefox */
+        }
+    }
+    
+    &:focus-within
+    {
+        box-shadow: 0 -6px 10px -4px rgb(185, 225, 255);
+    }
+    
+}
+
+a, button
+{
+    &.send-btn
+    {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        color: #000000;
+        min-width: 40px;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        padding: 0px 10px;
+        
+    }
+}

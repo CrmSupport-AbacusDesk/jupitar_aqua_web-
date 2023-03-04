@@ -1,0 +1,126 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container ">
+    <div class="fixed">
+        <div class="middle-container">
+            <div class="tabs-list">
+                <h1>Master</h1>
+                <div class="input-field">
+                    <input type="text" placeholder="Search..." [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getVedioList('')">
+                    <i class="material-icons">
+                        search
+                    </i>
+                </div>
+            </div>
+            <div class="refresh-btn">
+                <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getVedioList('refresh')"><i class="material-icons">refresh</i></a>
+            </div>
+        </div>
+    </div>
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <!-- <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li> -->
+                <!-- <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li> -->
+                <li routerLink="/digitallist" routerLinkActive="active"><a>Digital Catalogue</a></li>
+                <li routerLink="/coupon-code-master" routerLinkActive="active"><a>Product Point Master</a></li>
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <!-- <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li> -->
+                <!-- <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li> -->
+                <!-- <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li> -->
+                <!-- <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li> -->
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/app-banner-list" routerLinkActive="active"><a>App Banner</a></li>
+                <li routerLink="/gifts" routerLinkActive="active"><a>Master Gift</a></li>
+
+                <!-- <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li> -->
+                <!-- <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li> -->
+            </ul>
+        </div>
+        <div class="news-list">
+            <ul>
+                <li *ngFor="let val of vedios; let i = index">
+                    <div class="image-section">
+                        
+                        <iframe width="100%" height="100%" [src]="val.url | safe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="hvr-edit">
+                            <a class="delete-icn"><i class="material-icons" (click)="deleteProduct(val.id)">delete_sweep</i></a>
+                            <a class="edit-icn"><i class="material-icons" (click)="toggle = !toggle; editvideo(val.id,i)">edit</i></a>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p>{{val.desc  | titlecase}}</p>
+                    </div>
+                    <div class="choose-one">
+                        <div class="mat-toggal">
+                            <p>Status</p>
+                            <mat-slide-toggle [name]="'status'+i" [(ngModel)]="val.newsStatus" (change)="updateStatus(i,$event)" ></mat-slide-toggle>
+                        </div>
+                        
+                        <div class="contet-text" *ngIf="val.reason != ''">
+                            <div class="text">
+                                <h4>Reason </h4>
+                                <span>{{val.deactive_date | date:'dd MMM yyyy'}} / {{val.deactive_name}}</span>
+                            </div>
+                            <p>{{val.reason}} </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    
+    <div class="category-field" [ngClass] ="{'active' : toggle == true}">
+        <form name="vedioForm" (ngSubmit)="f.form.valid && saveVedio(f)" #f="ngForm" novalidate autocomplete="off">
+            <div class="category-hadding">
+                <h2>Add Video</h2>
+                <i class="material-icons" (click)="toggle = !toggle">clear</i>
+            </div>
+            
+            <div class="add-image">
+                <div class="option-field">
+                    <div class="control-field">
+                        <mat-form-field class="cs-input">
+                            <input matInput placeholder="URL" name="url" [(ngModel)] = "vedioForm.url" #url="ngModel" required>
+                        </mat-form-field>  
+                    </div>
+                </div>
+                
+                
+                
+                <div class="option-field">
+                    <div class="control-field ">
+                        <mat-form-field class="cs-input">
+                            <textarea matInput placeholder="Description " class="h115" name="desc" [(ngModel)] = "vedioForm.desc" #desc="ngModel"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="save btn-save mt250" [ngClass]="{loading: savingData}">
+                    <button mat-button [disabled]="savingData">SAVE</button>
+                </div>
+                
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<div class="fab-btns">
+    <button mat-fab color="primary" (click)="toggle = !toggle; addVideo()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

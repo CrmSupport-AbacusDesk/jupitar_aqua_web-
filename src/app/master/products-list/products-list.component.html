@@ -1,0 +1,302 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<div class="main-container ">
+    <div class="fixed">
+        <div class="middle-container">
+            <div class="tabs-list">
+                <h1>Master</h1>
+                <div class="input-field">
+                    <input type="text" placeholder="Search..." [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getProductList('')">
+                    <i class="material-icons">
+                        search
+                    </i>
+                </div>
+            </div>
+            <div class="refresh-btn">
+                <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getProductList('refresh')"><i class="material-icons">refresh</i></a>
+            </div>
+            <div class="top-pagination">
+                <ul>
+                    <li><p  >Pages {{ current_page }} of {{ last_page }}</p></li>
+                    
+                    <li><button mat-button class="left-btn" (click) = 'redirect_previous()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                    <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"></li>
+                    <li><button mat-button class="right-btn" (click) = 'redirect_next()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                </ul>
+                <div class="master-btn ml20" *ngIf="assign_arr.length > 0 ">
+                    <button style="background: #6daf24;;" mat-button (click)="assign_related_product()">Assign Related Products</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <li routerLink="/digitallist" routerLinkActive="active"><a>Digital Catalogue</a></li>
+                <li routerLink="/coupon-code-master" routerLinkActive="active"><a>Product Point Master</a></li>
+                <!-- <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li> -->
+                <!-- <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li> -->
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <!-- <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li> -->
+                <!-- <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li> -->
+                <!-- <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li> -->
+                <!-- <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li> -->
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/app-banner-list" routerLinkActive="active"><a>App Banner</a></li>
+                <li routerLink="/gifts" routerLinkActive="active"><a>Master Gift</a></li>
+
+                <!-- <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li> -->
+                <!-- <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li> -->
+            </ul>
+        </div>
+        <div class="row">
+            <div class="css-table left-right-15">
+                <div class="sticky-header">
+                    <div class="header">
+                        <table>
+                            
+                            <tr>
+                                <th class="w30"></th>
+                                <th class="w50"></th>
+                                <th class="w120">Date Created</th>
+                                <th class="w120">Category</th>
+                                <th>Product Name</th>
+                                <th class="w80 text-center">Size</th>
+                                <th class="w100 text-right">MRP</th>
+                                <th class="w90 text-right">Points</th>
+                                <th class="w90">Status</th>
+                                <th class="w70">Action</th>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                    
+                    <div class="header border-bott">
+                        <table>
+                            <tr>
+                                <th class="w30"></th>
+                                <th class="w50"></th>
+                                <th class="w120">
+                                    <div class="date-form">
+                                        <i *ngIf="filter.date" class="material-icons" (click)="filter.date = '';getProductList('') ">clear</i>
+                                        
+                                        <mat-form-field >
+                                            <input placeholder="Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker)"  name="date" matInput (dateChange)="getProductList('')" [matDatepicker]="picker" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </th>
+                                <th class="w120">
+                                    <div class="form-area">
+                                        <div class="slect">
+                                            <mat-form-field>
+                                                <mat-label>All</mat-label>
+                                                <mat-select  name="category_name"  (selectionChange)="getProductList('')"  [(ngModel)]="filter.category_name" #category_name="ngModel" required>
+                                                    <mat-option  value=""> All </mat-option>
+                                                    <mat-option *ngFor="let val of category" [value]="val.id"> {{val.category_name}} </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="search-form">
+                                        <input type="text" placeholder="Name" [(ngModel)]="filter.product_name"  (keyup.enter)="current_page = 1;getProductList('')">
+                                        <i class="material-icons">search</i>
+                                    </div>
+                                </th>
+                                <th class="w80"></th>
+                                <th class="w100"></th>
+                                <th class="w90"></th>
+                                <th class="w90">
+                                    <div class="form-area">
+                                        <div class="slect">
+                                            <mat-form-field>
+                                                <mat-label>All</mat-label>
+                                                <mat-select  [(ngModel)]="filter.status" name="status" #status="ngModel" (selectionChange)="getProductList('')">
+                                                    <mat-option value="">All</mat-option>
+                                                    <mat-option value="Active">Active</mat-option>
+                                                    <mat-option value="Deactive">Deactive</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th class="w70"></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-body">
+                        <table>
+                            <tr *ngFor="let val of products; let i = index">
+                                <td class="w30 text-center" style="border-right: 0px !important;"><mat-checkbox name="checked" [(ngModel)]="val.checked" (change)="select_product($event,i)"></mat-checkbox></td>
+                                <td class="w50" *ngIf="val.image_name"><img [src]="uploadurl+val.image_name" (click)="openDialog( val.image_name,'test1')" ></td>
+                                <td class="w50" *ngIf="!val.image_name"><img src="../../../assets/not-available.jpg" ></td>
+                                <td class="w120">
+                                    <ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' ">
+                                        {{val.date_created | date: 'dd MMM yyyy'}} <strong> {{val.created_name}}</strong>
+                                    </ng-container>
+                                </td>
+                                <td class="w120">{{val.category_name |titlecase}}</td>
+                                <td>{{val.product_name |titlecase}}</td>
+                                <td class="w80 text-center">{{val.length}}*{{val.width}}</td>
+                                <td class="w100 text-right">&#8377; {{val.mrp}}</td>
+                                <td class="w90 text-right">
+                                    &#8377; {{val.points}}
+                                </td>
+                                <td class="w90 text-center">
+                                    <mat-slide-toggle [name]="'status'+i" [(ngModel)]="val.newsStatus" (change)="updateStatus(i,$event)" ></mat-slide-toggle>
+                                </td>
+                                <td class="w70">
+                                    <div class="td-flex">
+                                        <button class="right" (click)="toggle = !toggle; editProduct(val.id,i)"><i class="material-icons">edit</i></button>
+                                        <button class="cancel" (click)="deleteProduct(val.id, val.product_id)"><i class="material-icons">delete_sweep</i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div style="height: 60px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    <div class="category-field" [ngClass] ="{'active' : toggle == true}">
+        <form name="productForm" (ngSubmit)="f.form.valid && saveProduct() " #f="ngForm" novalidate autocomplete="off">
+            <div class="category-hadding">
+                <h2>Add Product</h2>
+                <i class="material-icons" (click)="toggle = !toggle;removeImage()">clear</i>
+            </div>
+            <div class="add-image">
+                <div class="sco-12">
+                    <div class="scrol-13">
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <mat-select placeholder="Category Name" name="category_id"  [(ngModel)]="productForm.category_id" #category_id="ngModel"  required>
+                                        <mat-option *ngFor="let val of category" [value]="val.id" > {{val.category_name}} </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Product Name" name="product_name"  [(ngModel)]="productForm.product_name" #product_name="ngModel" required >
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        <!-- <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Product Code" name="product_code"  [(ngModel)]="productForm.product_code" #product_code="ngModel" required >
+                                </mat-form-field>  
+                            </div>
+                        </div> -->
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Length" name="length"  [(ngModel)]="productForm.length" #length="ngModel" required>
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Width" name="width"  [(ngModel)]="productForm.width" #width="ngModel" required>
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Product Price" name="mrp"  [(ngModel)]="productForm.mrp" #mrp="ngModel">
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Points" name="points"  [(ngModel)]="productForm.points" #points="ngModel">
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;font-size: initial;color: darkslategray;">
+                            <div >
+                                <mat-checkbox labelPosition="before" (change)="newArrival($event)"
+                                [(ngModel)]="productForm.new_arrival" name="new_arrival" #new_arrival="ngModel">
+                                    New Arrival
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="uploade-image">
+                    <ul>
+                        <li *ngFor="let row of selected_image; let i=index" [ngClass]="{'active': productForm.profile_selected == row.id}">
+                            <img src="{{row.id ? uploadurl+row.image : row.image}}">
+                            <span class="cancel-icon">
+                                <i class="material-icons check-icon"  (click)="ProductProfile(i,row.id)">done</i>
+                                <i class="material-icons crose-icon" (click)="deleteProductImage(i,row)">clear</i>
+                            </span>
+                        </li>
+                        <li class="add-bg-1" *ngIf="addImageIcon==true">
+                            <label>
+                                <input type="file" (change)="onUploadChange($event)" style="display:none;" accept=".png, .jpg, .jpeg," multiple required />
+                                <div class="other">
+                                    <i class="material-icons">add</i>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                
+                
+                <div class="save btn-save mt90"  [ngClass]="{loading: savingData}">
+                    <button mat-button [disabled]="savingData" >
+                        
+                        <mat-icon class="wt-load" *ngIf="savingData">
+                            <mat-spinner color="primary" diameter="30"></mat-spinner>
+                        </mat-icon>
+                        
+                        <span *ngIf="!savingData">SAVE</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="side-bg" (click)="toggle = !toggle"></div>
+</div>
+
+<div class="excel-btn" (click)="exportproductList()" style="right: 85px;">
+    <div class="image-area">
+        <a>
+            <img src="assets/excel.svg">
+        </a>
+    </div>
+</div>
+
+<div class="fab-btns">
+    <button (click)="exportproductList()"   mat-fab class="excel">
+        <img src="assets/excel.svg">
+    </button>
+    <button mat-fab color="primary"  (click)="toggle = !toggle; addProduct()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

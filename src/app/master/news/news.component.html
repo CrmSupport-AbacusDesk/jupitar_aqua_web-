@@ -1,0 +1,158 @@
+<div class="loader" *ngIf = "loading_list">
+    <div class="loding-logo">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="main-container">
+    <div class="fixed">
+        <div class="middle-container">
+            <div class="tabs-list">
+                <h1>Master</h1>
+                <div class="input-field">
+                    <input type="text" placeholder="Search..." [(ngModel)]="filter.search"  (keyup.enter)="current_page = 1;getNewsList('')">
+                    <i class="material-icons">
+                        search
+                    </i>
+                </div>
+            </div>
+            <div class="refresh-btn">
+                <a mat-button matTooltip="Refresh" matTooltipPosition="below" (click)="getNewsList('refresh')"><i class="material-icons">refresh</i></a>
+            </div>
+        </div>
+    </div>
+    <div class="container-outer tab-container">
+        <div class="master-tab">
+            <ul>
+                <li routerLink="/productcategory-list" routerLinkActive="active"><a>Product Category</a></li>
+                <li routerLink="/products-list" routerLinkActive="active"><a>Products</a></li>
+                <li routerLink="/demo-karigar-list" routerLinkActive="active"><a>Demo Karigar</a></li>
+                <li routerLink="/news-list" routerLinkActive="active"><a>News</a></li>
+                <li routerLink="/video-list" routerLinkActive="active"><a>Videos</a></li>
+                <li routerLink="/login-banner-list" routerLinkActive="active"><a>Login Banner</a></li>
+                <li routerLink="/distributor-list" routerLinkActive="active"><a>Distributor</a></li>
+                <li routerLink="/karigar-data" routerLinkActive="active"><a>Karigar Data</a></li>
+                <li routerLink="/sales-executive-list" routerLinkActive="active"><a>Sales Executive</a></li>
+                <li routerLink="/daily-coupon-access" routerLinkActive="active"><a>Daily Coupon Access</a></li>
+                <li routerLink="/company-profile" routerLinkActive="active"><a>Company Profile</a></li>
+                <li routerLink="/referral-master" routerLinkActive="active"><a>Points Master</a></li>
+                <li routerLink="/message-history" routerLinkActive="active"><a>Message History</a></li>
+                <li routerLink="/notification-history" routerLinkActive="active"><a>Notification History</a></li>
+            </ul>
+        </div>
+        <div class="news-list">
+            <ul>
+                <li *ngFor="let val of news; let i = index">
+                    <div class="image-section">
+                        <img [src]="val.image" (click)="openDialog( val.id,'test3')">
+                        <!-- <div class="btn-hover">
+                            <button mat-button class="edit" (click)="toggle = !toggle; editNews(val.id,i)">EDIT</button>
+                            <button mat-button class="delete" (click)="deleteProduct(val.id)">DELETE</button>
+                        </div> -->
+                        <div class="hvr-edit">
+                            <!-- <a><i class="material-icons" (click)="toggle = !toggle; editCategory(val.id,i)">delete_sweep</i></a> -->
+                            <a class="delete-icn"><i class="material-icons" (click)="deleteProduct(val.id)">delete_sweep</i></a>
+                            <a class="edit-icn"><i class="material-icons" (click)="toggle = !toggle; editNews(val.id,i)">edit</i></a>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h1>{{val.title  | titlecase}}</h1>
+                        <p>{{val.desc  | titlecase}}</p>
+                    </div>
+                    <div class="choose-one">
+                        <div class="mat-toggal">
+                            <p>Status</p>
+                            <mat-slide-toggle [name]="'status'+i" [(ngModel)]="val.newsStatus" (change)="updateStatus(i,$event)" ></mat-slide-toggle>
+                        </div>
+                        <div class="deflex">
+                            <p>Source</p>
+                            <h1>{{val.source  | titlecase}}</h1>
+                        </div>
+                    </div>
+                    
+                    <div class="choose-one" *ngIf="val.reason !=''">
+                        <div class="contet-text">
+                            <div class="text">
+                                <h4>Reason </h4>
+                                <span>{{val.deactive_date |date:'dd MMM yyyy'}} / {{val.deactive_name}}</span>
+                            </div>
+                            <p>{{val.reason}}</p>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+    <div class="add">
+        <button mat-button class="add-btn" (click)="toggle = !toggle; addNews()"><i class="material-icons " >add</i></button>
+    </div>
+</div>
+
+
+<div class="side-main" [ngClass] ="{'on' : toggle == true}">
+    <div class="category-field" [ngClass] ="{'active' : toggle == true}">
+        <form name="newsForm" (ngSubmit)="f.form.valid && saveNews(f)" #f="ngForm" novalidate autocomplete="off">
+            <div class="category-hadding">
+                <h2>Add News</h2>
+                <i class="material-icons" (click)="toggle = !toggle">clear</i>
+            </div>
+            
+            <div class="add-image">
+                <div class="sco-12 ">
+                    <div class="scrol-13">
+                        
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Title" name="title" [(ngModel)] = "newsForm.title" #title="ngModel" required>
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field">
+                                <mat-form-field class="cs-input">
+                                    <input matInput placeholder="Source" name="source" [(ngModel)] = "newsForm.source" #source="ngModel" >
+                                </mat-form-field>  
+                            </div>
+                        </div>
+                        
+                        <div class="option-field">
+                            <div class="control-field ">
+                                <mat-form-field class="cs-input">
+                                    <textarea matInput placeholder="Description " class="h115" name="desc" [(ngModel)] = "newsForm.desc" #desc="ngModel"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cs-file change-fields">
+                    <p>Image</p>
+                    <ul>
+                        <li>
+                            <div class="cs-file">
+                                <label>
+                                    <input type="file" (change)="onUploadChange($event)" style="display:none;" accept=".png, .jpg, .jpeg, .pdf" required />
+                                    <img  [src]="newsForm.image" alt="" id="img">
+                                    <h4>Uplode Image</h4>
+                                    <i class="material-icons">
+                                        add
+                                    </i>
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="save btn-save mt15"  [ngClass]="{loading: savingData}">
+                    <button mat-button [disabled]="savingData">SAVE</button>
+                </div>
+                
+            </div>
+            
+        </form>
+    </div>
+    <div class="side-bg" (click)="toggle = !toggle"></div>
+</div>

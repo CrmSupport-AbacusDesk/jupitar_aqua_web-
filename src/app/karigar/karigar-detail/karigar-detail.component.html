@@ -1,0 +1,817 @@
+
+<div class="main-container" >
+    <div class="padding10">
+        
+        <div class="loader" *ngIf="loading_list">
+            <div class="loding-logo">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s8 ">
+                <div class="sprate-box">
+                    <div class="full-offer">
+                        <div class="top-heading no-justify">
+                            <a class="back-btn" (click)="goBack()"><i class="material-icons">arrow_back</i></a>
+                            <h2>PLUMBER DETAIL</h2>
+                            <!-- <div class="btn-align">
+                                <button class="back-btn" (click)="openBonusPoint()">BONUS POINTS</button>
+                            </div> -->
+                        </div>
+                        
+                        <div class="detail-info pr0">
+                            <div class="img-box">
+                                <div class="name-box point-sec" (click)="balanceModel(getData.id)">
+                                    <div class="points ">
+                                        <a>{{total_wallet_points}}</a>
+                                        <h4>Balance Points</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="basic-details">
+                                <div class="profile-info">
+                                    <ul>
+                                        <li>
+                                            <figure>
+                                                <div class="left-img zoom-cursor">
+                                                    <img [src]="uploadUrl + getData.profile"  (click)="openDialog(uploadUrl + getData.profile)" >
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Name</p>
+                                                    <span>{{getData.first_name | titlecase }} {{getData.last_name | titlecase }}</span>
+                                                </div>
+                                            </figure>
+                                        </li>
+                                        <li>
+                                            
+                                            <figure>
+                                                <div class="left-img">
+                                                    <img src="assets/contact.svg">
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Mobile No.</p>
+                                                    <span>{{getData.mobile_no}}</span>
+                                                </div>
+                                            </figure>
+                                            
+                                        </li>
+                                        
+                                        <li>
+                                            <figure>
+                                                <div class="left-img">
+                                                    <img src="assets/calendar.svg">
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Date of Birth</p>
+                                                    <span>{{getData.dob  | date : 'dd MMM yyyy'}}</span>
+                                                </div>
+                                            </figure>
+                                            
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        
+                                        <li>
+                                            <p>Status</p>
+                                            <div class="center">
+                                                <select class="{{getData.status}}" name="status" placeholder="Status" [(ngModel)]="getData.status" (change)="karigarsSatus() ">
+                                                    <option class="Verified" value="Verified">Verified</option>
+                                                    <option class="Reject" value="Reject">Reject</option>
+                                                    <option class="Pending" value="Pending">Pending</option>
+                                                    <option class="Suspect" value="Suspect">Suspect</option>
+                                                </select> 
+                                            </div>
+                                        </li>
+                                        
+                                        <li>
+                                            <p>Status {{getData.status}} Date</p>
+                                            <span>{{getData.status_update_date | date : 'dd MMM yyyy' }}</span>
+                                        </li>
+
+                                        <li>
+                                            <figure>
+                                                <div class="left-img">
+                                                    <img src="assets/qr-code.svg">
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Referral Code</p>
+                                                    <span>{{!getData.referral_code ? 'N/A' : getData.referral_code | uppercase}}</span>
+                                                </div>
+                                            </figure>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li *ngIf="getData.reference_by">
+                                            <figure>
+                                                <div class="left-img">
+                                                    <img src="assets/man.svg">
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Reference By</p>
+                                                    <span>{{getData.reference_by}} / {{getData.reference_mobile_no}}</span>
+                                                </div>
+                                            </figure>
+                                        </li>
+                                        <li>
+                                            <figure>
+                                                <div class="left-img">
+                                                    <img src="assets/book.svg">
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Address</p>
+                                                    <span>{{getData.address | titlecase }}   {{getData.city | titlecase }} {{getData.district | titlecase }} {{getData.state | titlecase }} {{getData.pincode}}</span>
+                                                    
+                                                </div>
+                                            </figure>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div class="col s4 ">
+                <div class="territory-infos my-scroll">
+                    <div class="head">
+                        <h2>POINTS SUMMARY</h2>
+                    </div>
+                    
+                    <div class="offer-summery h230" >
+                        <ul>
+                            <li style="padding: 10px 16px;" *ngFor="let row of points_summry">
+                                <div class="offer-list" *ngIf="row.date_created">
+                                    <div class="odder-cradet">
+                                        <p>{{row.points}} {{row.summary ? row.summary : 'N/A'}}</p>
+                                    </div>
+                                    
+                                    <div class="time-info">
+                                        <i class="material-icons">watch_later</i>
+                                        <p>{{row.date_created | date:'d MMM y'}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="row">
+
+            <!-- <div class="col s6">
+                <div class="sprate-box gift-offer">
+                    <div class="full-offer">
+                        <div class="top-heading">
+                            <h2> DEALER DETAIL</h2>
+                        </div>
+                        <div class="detail-info pl0 pr0">
+                            
+                            <div class="basic-details">
+                                <div class="profile-info">
+                                    <ul>
+                                        <li>
+                                            <p>Counter Name</p>
+                                            <span>{{!getData.parent_counter_name?'N/A':getData.parent_counter_name | titlecase }}</span>
+                                        </li>
+                                        
+                                        <li>
+                                            <p>Contact Person</p>
+                                            <span>{{!getData.parent_counter_contact_person? 'N/A' : getData.parent_counter_contact_person| titlecase}}</span>
+                                        </li>
+                                        <li>
+                                            <p>Mobile No.</p>
+                                            <span>{{!getData.parent_counter_mobile ? 'N/A' : getData.parent_counter_mobile}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sprate-box gift-offer mt15">
+                    <form name="karigarform" (ngSubmit)="f.form.valid && submit_manual_permission()" #f="ngForm" novalidate autocomplete="off">
+                        <div class="full-offer">
+                            <div class="top-heading">
+                                <h2>Manual Coupon Code Permission ?</h2>
+                                <mat-radio-group aria-label="Select an option" name="manual_permission" [(ngModel)] = "getData.manual_permission" required #manual_permission="ngModel">
+                                    <mat-radio-button [value]="1" [checked]="getData.manual_permission == '1'" class="pr70">Yes</mat-radio-button>
+                                    <mat-radio-button [checked]="getData.manual_permission == '0'" [value]="0">No</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            
+                            <div class="row option-field pl0"  *ngIf="getData.manual_permission == '1' ">
+                                <div class="col s5">
+                                    <div class="control-field">
+                                        <mat-form-field class="cs-input">
+                                            <input placeholder="Valid Upto" [(ngModel)]="getData.manual_vaild_upto" (click)="openDatePicker(picker1)" [min]="mindate" name="manual_vaild_upto" matInput required [matDatepicker]="picker1" >
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1 ></mat-datepicker>
+                                        </mat-form-field>  
+                                    </div>
+                                </div>
+                                <div class="col s5">
+                                    <div class="control-field">
+                                        <mat-form-field class="cs-input">
+                                            <input matInput type="number" placeholder="Limit"  name="coupon_limit" [(ngModel)]="getData.coupon_limit" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col s2">
+                                    <div class="save mt20">
+                                        <button mat-button class="mb0">SAVE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> -->
+
+
+
+            <div class="col s6  ">
+                <div class="sprate-box gift-offer">
+                    <div class="full-offer">
+                        <div class="top-heading">
+                            <h2>DOCUMENT DETAIL</h2>
+                        </div>
+                        <div class="detail-info pl0 pr0">
+                            <div class="img-box">
+                                <img [src]="uploadUrl + getData.document_image " (click)="openDialog(uploadUrl + getData.document_image)">
+                            </div>
+                            <div class="basic-details">
+                                <div class="profile-info">
+                                    <ul>
+                                        <li>
+                                            <p>Document Type</p>
+                                            <span>{{getData.document_type!='' ? getData.document_type : 'N/A'}}</span>
+                                        </li>
+                                        
+                                        <li>
+                                            <p>Document Number</p>
+                                            <span>{{getData.document_no ? getData.document_no : 'N/A'}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" >
+                <div class="used-code">
+                    <div class="tab-header">
+                        <div class="tab-header no-sticky gift-tab-list ">
+                            <div class="tabs-list gift-tab-list ">
+                                <ul>
+                                    <li (click)="mode='1'; getReferral()" [ngClass]="{'active': mode == '1'}" >
+                                        <a>
+                                            <p>POINT RECEIVE BY RETAILERS</p>
+                                            <span>{{point_transfer.length}}</span>
+                                        </a>
+                                    </li>
+
+
+                                    
+
+                                    <!-- <li (click)="mode='1'; getScannedList()" [ngClass]="{'active': mode == '1'}" >
+                                        <a>
+                                            <p>POINT WALLET</p>
+                                            <span>{{coupon_scanned_count}}</span>
+                                        </a>
+                                    </li> -->
+
+                                    <li (click)="mode='2'; getReedamList()" [ngClass]="{'active': mode == '2'}" >
+                                        <a>
+                                            <p>REDEEM REQUEST</p>
+                                            <span>{{reedam_all}}</span>
+                                        </a>
+                                    </li>
+
+                                    <li (click)="mode='3'; getReferral()" [ngClass]="{'active': mode == '3'}" >
+                                        <a>
+                                            <p>OTHER POINTS</p>
+                                            <span>{{referral_data.length}}</span>
+                                        </a>
+                                    </li>
+
+                                    <li (click)="mode='5'; getAssignPlumber()" [ngClass]="{'active': mode == '5'}" >
+                                        <a>
+                                            <p>ASSIGN RETAILER</p>
+                                            <span>{{retailer_count}}</span>
+                                        </a>
+                                    </li>
+
+                                    
+                                </ul>
+                            </div>
+                        </div>					
+                        <div class="dobale">
+                            <div class="top-pagination" *ngIf="mode == '1'">
+                                <ul>
+                                    <li><p >Pages {{ current_page }} of {{ last_page }}</p></li>
+                                    <li><button mat-button class="left-btn" (click) = 'redirect_previous2()'><i class="material-icons">keyboard_arrow_left</i></button></li>
+                                    <li><input type="text" placeholder="GO TO" [(ngModel)]="current_page"  (keyup.enter)="getScannedList()"></li>
+                                    <li><button mat-button class="right-btn" (click) = 'redirect_next2()'><i class="material-icons">keyboard_arrow_right</i></button></li>
+                                </ul>
+                            </div>
+                            <!-- <div class="sprate">
+                                <div class="downlode-file">
+                                    <a mat-button class="link" (click)="export()">Export Excel</a>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sprate-box no-box">
+
+
+
+                 <!-- <div class="css-table " *ngIf="mode == '1'">     
+                        <div class="sticky-header bo-non">
+                            <div class="header">
+                                <table>
+                                    <tr>
+                                        <th class="w50"></th>
+                                        <th class="w110">Date Created</th>
+                                        <th class="w150" >Scan Date</th>
+                                        <th class="w200" >Brand Name</th>
+                                        <th>Coupon Code</th>
+                                        <th>Offer / Valid Upto </th>
+                                        <th class="w135">Points</th>
+                                        <th class="w150">Action</th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="header">
+                                <table>
+                                    <tr>
+                                        <th class="w50"></th>
+                                        <th class="w110">
+                                            <div class="date-form">
+                                                <i *ngIf="filter.date" class="material-icons" (click)="filter.date = '';getScannedList() ">clear</i>
+                                                <mat-form-field>
+                                                    <input matInput placeholder=" Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker3)" name="date" matInput (dateChange)="getScannedList()" [matDatepicker]="picker3" readonly>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </th>
+                                        <th class="w150">
+                                            <div class="date-form">
+                                                <i *ngIf="filter.used_date" class="material-icons" (click)="filter.used_date = '';getScannedList() ">clear</i>
+                                                
+                                                <mat-form-field>
+                                                    <input matInput placeholder=" Search"  [(ngModel)]="filter.used_date" (click)="openDatePicker(picker5)" name="used_date" matInput (dateChange)="getScannedList()" [matDatepicker]="picker5" readonly>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker5></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </th>
+                                        <th class="w200">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Search" [(ngModel)]="filter.product_point_group"  (keyup.enter)="current_page = 1;getScannedList()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        <th></th>
+
+                                        
+                                       <th class="go-btn">
+                                            <div class="vaild-into">
+                                                <div class="form-area wp-21 mr10">
+                                                    <div class="search-form">
+                                                        <input type="text" placeholder="Search" [(ngModel)]="filter.offer_title"  (keyup.enter)="current_page = 1;getScannedList()">
+                                                        <i class="material-icons">search</i>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="date-form wp-21 mr10">
+                                                    <i *ngIf="filter.end_date" class="material-icons" (click)="filter.end_date = '';getScannedList() ">clear</i>
+                                                    
+                                                    <mat-form-field>
+                                                        <input matInput placeholder=" Search"  [(ngModel)]="filter.end_date" (click)="openDatePicker(picker4)" name="end_date" matInput (dateChange)="getScannedList()" [matDatepicker]="picker4" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker4></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="form-area">             
+                                                <button mat-button class="go" (click)="getScannedList()">Go</button>
+                                            </div>
+                                        </th> 
+                                        <th class="w135">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Search" [(ngModel)]="filter.points"  (keyup.enter)="current_page = 1;getScannedList()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        <th class="w150"></th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <div class="table-body" *ngIf="scanned_coupon.length > 0">
+                                <table>
+                                    <tr *ngFor="let val of scanned_coupon; let i = index">
+                                        <td class="w50">{{ i + 1 }}</td>
+                                        <td class="w110" ><ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' "> {{val.date_created | date: 'dd MMM yyyy'}} </ng-container></td>
+                                        <td class="w150">{{val.scan_by_karigar_date | date : 'dd MMM yyyy'}} </td>
+                                        <td class="w200">{{val.product_point_group}} </td>
+                                        <td >{{val.coupon_code}} </td>
+
+                                        <td><a  routerLink="/offer-detail"  routerLink="/offer-detail/{{val.offer_id}}" class="blue">{{val.title}} #{{val.offer_code}}</a> / {{val.end_date | date : 'dd MMM yyyy'}}</td>
+                                        <td class="w135">{{val.karigar_coupon_value}}</td>
+                                        <td class="w150 active">
+                                            <button mat-button class="color-btn" *ngIf="val.coupon_value == val.actual_coupon_point" (click)="reponeCoupon(val.id)">Reopen</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="date-not" *ngIf="scanned_coupon.length == 0">
+                                <div class="no-img">
+                                    <img src="assets/not-available.jpg"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      -->
+
+
+
+
+
+
+
+                     <div class="css-table" *ngIf="mode == '1'">
+                        <div class="sticky-header bo-non">
+                            <div class="header">
+                                <table>
+                                    <tr>
+                                        <th class="w50">S No</th>
+                                        <th class="w200">Date Created</th>
+                                        <th class="w100">Log Type</th>
+                                        <th class="w100">Points</th>
+                                        <th>Summary</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <div class="table-body" *ngIf="point_transfer.length > 0">
+                                <table> 
+                                    <tr  *ngFor="let val of point_transfer; let i = index">
+                                        <td class="w50">{{ i + 1 }}</td>
+                                        <td class="w200">{{ val.date_created | date: 'dd MMM yyyy' }}</td>
+                                        <td class="w100">{{val.log_type}}</td>
+                                        <td class="w100">{{val.points}}</td>
+                                        <td>{{val.summary}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="date-not" *ngIf="point_transfer.length == '0'">
+                                <div class="no-img">
+                                    <img src="assets/not-available.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <div class="css-table" *ngIf="mode == '2'">
+                        <div class="sticky-header">
+                            <div class="header">
+                                <table>
+                                    <tr>
+                                        <th class="w30">&nbsp;</th>
+                                        <th class="w170">Date</th>
+                                        <th class="w115">Req. ID</th>
+                                        <th class="w100">Mobile No.</th>
+                                        <th class="w200">Gift</th>
+                                        <th class="w50">Points</th>
+                                        <th class="w220">Offer</th>
+                                        <th class="w130">Redeem Status</th>
+                                        <th class="w125">Gift Status</th>
+                                        <th class="w110">Action</th>
+                                        <th class="w110">Reedem detail</th>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div class="header border-bott">
+                                <table>
+                                    <tr>
+                                        <th class="w30">&nbsp;</th>
+                                        <th class="w170">
+                                            <div class="date-form">
+                                                <i *ngIf="filter.date" class="material-icons" (click)="filter.date = '';getReedamList() ">clear</i>
+                                                
+                                                <mat-form-field >
+                                                    <input placeholder="Date" [(ngModel)]="filter.date"  name="date" matInput (click)="openDatePicker(picker1)" (dateChange)="getReedamList()" [matDatepicker]="picker1">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </th>
+                                        
+                                        <th class="w115">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Req Id." [(ngModel)]="filter.id"  (keyup.enter)="current_page = 1;getReedamList()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        
+                                        <th class="w100">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Mobile No." [(ngModel)]="filter.mobile"  (keyup.enter)="current_page = 1;getReedamList()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        
+                                        <th class="w200">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Gift" [(ngModel)]="filter.gift"  (keyup.enter)="current_page = 1;getReedamList()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        <th class="w50"></th>
+                                        <th class="w220">
+                                            <div class="date-form">
+                                                <i *ngIf="filter.end_date" class="material-icons" (click)="filter.end_date = '';getReedamList() ">clear</i>
+                                                
+                                                <mat-form-field >
+                                                    <input placeholder="Offer Date" [(ngModel)]="filter.end_date"  name="end_date" (click)="openDatePicker(picker2)" matInput (dateChange)="getReedamList()" [matDatepicker]="picker2">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker2></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </th>
+                                        
+                                        <th class="w130">
+                                            <div class="form-area">
+                                                <div class="slect">
+                                                    <mat-form-field>
+                                                        <mat-label>Search</mat-label>
+                                                        <mat-select [(ngModel)]="filter.gift_status" name="gift_status" #gift_status="ngModel" (selectionChange)="getReedamList()" >
+                                                            <mat-option value="" >All</mat-option>
+                                                            <mat-option value="Pending">Pending</mat-option>
+                                                            <mat-option value="Approved">Approved</mat-option>
+                                                            <mat-option value="Reject">Reject</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        
+                                        <th class="w125">
+                                            <div class="form-area">
+                                                <div class="slect">
+                                                    <mat-form-field>
+                                                        <mat-label>Search</mat-label>
+                                                        <mat-select [(ngModel)]="filter.received_status" name="received_status" #received_status="ngModel" (selectionChange)="getReedamList()">
+                                                            <mat-option value="">All</mat-option>
+                                                            <mat-option value="Received">Received</mat-option>
+                                                            <mat-option value="shipped">shipped</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        
+                                        <th class="w110">
+                                        </th>
+                                        <th class="w100">
+                                            <!-- <div class="form-area">             
+                                                <button mat-button class="go" (click)="getReedamList()">Go</button>
+                                            </div> -->
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <div class="table-body" *ngIf="redeem.length > 0">
+                                <table> 
+                                    <tr  *ngFor="let val of redeem; let i = index">
+                                        <td class="w30">{{ i + 1 }}</td>
+                                        <td  class="w170"><ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' "> {{val.date_created | date: 'dd MMM yyyy'}} </ng-container></td>
+                                        <td class="w115"><a class="blue pl5" routerLink="/redeem-request-detail/{{val.id}}">{{val.invoice_id  }}</a></td>
+                                        <td class="w100">{{val.mobile_no}}</td>
+                                        <td class="w200">{{val.gift_title}}</td>
+                                        <td class="w50">{{val.gift_points}}</td>
+                                        <td class="w220"><a  routerLink="/offer-detail"  routerLink="/offer-detail/{{val.offer_id}}" class="blue">{{val.title}} #{{val.offer_code}}</a> / {{val.end_date | date: 'dd MMM yyyy'}}</td>
+                                        <td class="w130  {{val.gift_status}}" >{{val.gift_status}}
+                                            <p *ngIf="val.reject_reason"> / {{val.reject_reason}}</p>
+                                        </td>
+                                        <td class="w125 {{val.receive_status}}">
+                                            
+                                            <div class="center"  *ngIf="val.receive_status != 'Received' && val.gift_status == 'Approved'   ">
+                                                <select class="{{val.receive_status}}"  [name]="'receive_status'+i" placeholder="Status" [(ngModel)]="val.receive_status" (change)="karigarsSatus(i) " >
+                                                    <option  value="">---</option>
+                                                    <option  value="Shipped" class="Shipped">Shipped</option>
+                                                </select> 
+                                            </div>
+                                            
+                                            <ng-container *ngIf="val.receive_status == 'Received'  ">
+                                                {{val.receive_status}}
+                                            </ng-container>
+                                            
+                                        </td>
+                                        <td class="w110 blue"><a (click)="requestchangeStatus(i, val.id, val.gift_status )" *ngIf="val.receive_status != 'Received'  && val.gift_status != 'Reject' ">Gift Status</a></td>
+                                        <td class="w100" ><a class="blue" (click)="coupon_summary(val.id)">Summary</a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="date-not" *ngIf="redeem.length == 0">
+                                <div class="no-img">
+                                    <img src="assets/not-available.jpg"> 
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
+                    
+                    <div class="css-table" *ngIf="mode == '3'">
+                        <div class="sticky-header">
+                            <div class="header">
+                                <table>
+                                    <tr>
+                                        <th class="w50">S No</th>
+                                        <th class="w200">Date Created</th>
+                                        <th class="w100">Log Type</th>
+                                        <th class="w100">Points</th>
+                                        <th>Summary</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <div class="table-body" *ngIf="referral_data.length > 0">
+                                <table> 
+                                    <tr  *ngFor="let val of referral_data; let i = index">
+                                        <td class="w50">{{ i + 1 }}</td>
+                                        <td class="w200">{{ val.date_created | date: 'dd MMM yyyy' }}</td>
+                                        <td class="w100">{{val.log_type}}</td>
+                                        <td class="w100">{{val.points}}</td>
+                                        <td>{{val.summary}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="date-not" *ngIf="referral_data.length == '0'">
+                                <div class="no-img">
+                                    <img src="assets/not-available.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                  
+
+
+
+                    <div class="css-table " *ngIf="mode == '5'">
+                        <div class="sticky-header bo-non">
+                            <div class="header">
+                                <table>
+                                    <tr>
+                                        <th class="w50"></th>
+                                        <th class="w200">Company Name</th>
+                                        <th class="" > Name</th>
+                                        <th class="w150" >Mobile Number</th>
+                                        <th class="w150" >State</th>
+                                        <th class="w150" >District</th>
+                                       
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="header">
+                                <table>
+                                    <tr>
+                                        <th class="w50"></th>
+                                        <!-- <th class="w110">
+                                            <div class="date-form">
+                                                <i *ngIf="filter.date" class="material-icons" (click)="filter.date = ''; getAssignPlumber() ">clear</i>
+                                                <mat-form-field>
+                                                    <input matInput placeholder=" Date" [(ngModel)]="filter.date" (click)="openDatePicker(picker3)" name="date" matInput (dateChange)="getScannedList()" [matDatepicker]="picker3" readonly>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </th> -->
+                                        
+                                        <th class="w200">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Search" [(ngModel)]="filter.company_name"  (keyup.enter)="current_page = 1; getAssignPlumber()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Search" [(ngModel)]="filter.full_name"  (keyup.enter)="current_page = 1; getAssignPlumber()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        <th class="w150">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Search" [(ngModel)]="filter.mobile_no"  (keyup.enter)="current_page = 1; getAssignPlumber()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        <th class="w150">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Search" [(ngModel)]="filter.state"  (keyup.enter)="current_page = 1; getAssignPlumber()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+                                        <th class="w150">
+                                            <div class="search-form">
+                                                <input type="text" placeholder="Search" [(ngModel)]="filter.district"  (keyup.enter)="current_page = 1; getAssignPlumber()">
+                                                <i class="material-icons">search</i>
+                                            </div>
+                                        </th>
+
+                                     
+
+                                        
+                                        <!-- <th class="go-btn">
+                                            <div class="vaild-into">
+                                                <div class="form-area wp-21 mr10">
+                                                    <div class="search-form">
+                                                        <input type="text" placeholder="Search" [(ngModel)]="filter.offer_title"  (keyup.enter)="current_page = 1;getScannedList()">
+                                                        <i class="material-icons">search</i>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="date-form wp-21 mr10">
+                                                    <i *ngIf="filter.end_date" class="material-icons" (click)="filter.end_date = '';getScannedList() ">clear</i>
+                                                    
+                                                    <mat-form-field>
+                                                        <input matInput placeholder=" Search"  [(ngModel)]="filter.end_date" (click)="openDatePicker(picker4)" name="end_date" matInput (dateChange)="getScannedList()" [matDatepicker]="picker4" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker4></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="form-area">             
+                                                <button mat-button class="go" (click)="getScannedList()">Go</button>
+                                            </div>
+                                        </th> -->
+                                   
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <div class="table-body" *ngIf="assignplumber.length > 0">
+                                <table>
+                                    <tr *ngFor="let val of assignplumber; let i = index">
+                                        <td class="w50">{{ i + 1 }}</td>
+                                      
+                                        <!-- <td class="w200"><a  class="blue" routerLink="dealer-detail/11/1">{{val.company_name}} </a></td> -->
+                                        <td class="w200"><a class="blue" routerLink="/dealer-detail/{{val.id}}/{{current_page}}" >{{val.company_name}}</a></td>
+                                        <td>{{val.full_name}} </td>
+                                        <td class="w150">{{val.mobile_no}} </td>
+                                        <td class="w150">{{val.state}} </td>
+                                        <td class="w150">{{val.district}} </td>
+                                       
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="date-not" *ngIf="assignplumber.length == 0">
+                                <div class="no-img">
+                                    <img src="assets/not-available.jpg"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+            </div>
+            <div class="add-button">
+                <button mat-button (click)="edit()"><i class="material-icons">edit</i></button>
+            </div>
+        </div>
+    </div>
+    

@@ -1,0 +1,39 @@
+<div class="gift-box">
+    <div class="gift-heading">
+      <p>Coupon Code Summary</p>
+      <div class="close-icon">
+        <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="css-table scroll-table">
+        <div class="sticky-header">
+          <div class="header">
+            <table> 
+              <tr>
+                <th class="w50">S.No</th>
+                <th class="w110">Date</th>
+                <th class="w150">Coupon Code</th>
+                <th class="w50">Coupon Value</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+        
+        <div class="table-container bg-color">
+          <div class="table-body">
+            <table>
+              <tr *ngFor="let val of coupon_data; let i = index">
+                <td class="w50">{{i+1}}</td>
+                <td class="w110" *ngIf="val.date_created  != '0000-00-00 00:00:00' ">{{val.date_created | date: 'dd MMM yyyy'}}</td>
+                <td class="w150">{{val.coupon_code}}</td>
+                <td class="w50">{{val.coupon_value }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        
+      </div>
+  </div>
+    
+  </div>
