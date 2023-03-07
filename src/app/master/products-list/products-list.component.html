@@ -71,7 +71,7 @@
                                 <th>Product Name</th>
                                 <th class="w80 text-center">Size</th>
                                 <th class="w100 text-right">MRP</th>
-                                <th class="w90 text-right">Points</th>
+                                <!-- <th class="w90 text-right">Points</th> -->
                                 <th class="w90">Status</th>
                                 <th class="w70">Action</th>
                             </tr>
@@ -116,7 +116,7 @@
                                 </th>
                                 <th class="w80"></th>
                                 <th class="w100"></th>
-                                <th class="w90"></th>
+                                <!-- <th class="w90"></th> -->
                                 <th class="w90">
                                     <div class="form-area">
                                         <div class="slect">
@@ -153,9 +153,9 @@
                                 <td>{{val.product_name |titlecase}}</td>
                                 <td class="w80 text-center">{{val.length}}*{{val.width}}</td>
                                 <td class="w100 text-right">&#8377; {{val.mrp}}</td>
-                                <td class="w90 text-right">
+                                <!-- <td class="w90 text-right">
                                     &#8377; {{val.points}}
-                                </td>
+                                </td> -->
                                 <td class="w90 text-center">
                                     <mat-slide-toggle [name]="'status'+i" [(ngModel)]="val.newsStatus" (change)="updateStatus(i,$event)" ></mat-slide-toggle>
                                 </td>
