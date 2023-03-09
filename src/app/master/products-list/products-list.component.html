@@ -142,8 +142,8 @@
                         <table>
                             <tr *ngFor="let val of products; let i = index">
                                 <td class="w30 text-center" style="border-right: 0px !important;"><mat-checkbox name="checked" [(ngModel)]="val.checked" (change)="select_product($event,i)"></mat-checkbox></td>
-                                <td class="w50" *ngIf="val.image_name"><img [src]="uploadurl+val.image_name" (click)="openDialog( val.image_name,'test1')" ></td>
-                                <td class="w50" *ngIf="!val.image_name"><img src="../../../assets/not-available.jpg" ></td>
+                                <td class="w50" *ngIf="val.image"><img [src]="uploadurl+val.image" (click)="openDialog( val.image,'test1')" ></td>
+                                <td class="w50" *ngIf="!val.image"><img src="../../../assets/not-available.jpg" ></td>
                                 <td class="w120">
                                     <ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' ">
                                         {{val.date_created | date: 'dd MMM yyyy'}} <strong> {{val.created_name}}</strong>
@@ -229,21 +229,21 @@
                                 </mat-form-field>  
                             </div>
                         </div>
-                        <div class="option-field">
+                        <!-- <div class="option-field">
                             <div class="control-field">
                                 <mat-form-field class="cs-input">
                                     <input matInput placeholder="Points" name="points"  [(ngModel)]="productForm.points" #points="ngModel">
                                 </mat-form-field>  
                             </div>
-                        </div>
-                        <div style="margin-top: 10px;font-size: initial;color: darkslategray;">
+                        </div> -->
+                        <!-- <div style="margin-top: 10px;font-size: initial;color: darkslategray;">
                             <div >
                                 <mat-checkbox labelPosition="before" (change)="newArrival($event)"
                                 [(ngModel)]="productForm.new_arrival" name="new_arrival" #new_arrival="ngModel">
                                     New Arrival
                                 </mat-checkbox>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 

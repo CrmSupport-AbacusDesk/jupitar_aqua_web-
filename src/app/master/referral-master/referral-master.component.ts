@@ -23,6 +23,10 @@ export class ReferralMasterComponent implements OnInit {
       console.log(resp);
       this.loading_list = false;
       this.refer.wlcom_points = resp['refer_othr_detail'].first_reg_point;
+
+      this.refer.retailer_wlcom_points = resp['refer_othr_detail'].retailer_wlcom_points;
+
+
       this.refer.referal_point = resp['refer_othr_detail'].referral_points;
       this.refer.owner_referal_point = resp['refer_othr_detail'].owner_ref_point;
       this.refer.birthday_points = resp['refer_othr_detail'].birthday_points;

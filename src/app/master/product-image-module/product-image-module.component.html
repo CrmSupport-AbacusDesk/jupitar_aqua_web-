@@ -10,7 +10,25 @@
             </div>
             <button mat-button [mat-dialog-close]="false" ><i class="material-icons">clear</i></button>
         </div>
+
+
+
+        <div class="gift-box product-img " *ngIf=" part_data.mode == 'test6'">  
+            <div class="form-area dwn_rl">
+                <img [src]="uploadUrl+documentImage.document_image">
+                <a href="{{uploadUrl+documentImage.document_image}}" download target="_blank" ><i class="material-icons ico_dwn">get_app</i></a>
+            </div>
+            <button mat-button [mat-dialog-close]="false" ><i class="material-icons ">clear</i></button>
+        </div>
         
+
+        <div class="gift-box product-img " *ngIf=" part_data.mode == 'test7'">  
+            <div class="form-area dwn_rl">
+                <img [src]="uploadUrl+document_image_back.document_image_back">
+                <a href="{{uploadUrl+document_image_back.document_image_back}}" download target="_blank" ><i class="material-icons ico_dwn">get_app</i></a>
+            </div>
+            <button mat-button [mat-dialog-close]="false" ><i class="material-icons ">clear</i></button>
+        </div>
         
     </mat-dialog-content>
 </div>

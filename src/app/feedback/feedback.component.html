@@ -76,6 +76,7 @@
                             <th class="w170">Msg Date</th>
                             <th class="w200">Karigar Name</th>
                             <th class="w150">Mobile No.</th>
+                            <th class="w200">Type</th>
                             <th>Address</th>
                             <th class="w70 text-center">{{filter.msg_status}} Messages</th>
                             <th class="w70 text-center">Reply</th>
@@ -100,6 +101,27 @@
                                     <i class="material-icons">search</i>
                                 </div>
                             </th>
+
+                            <th  class="w200">
+                                <!-- <div class="search-form">
+                                    <input type="text" placeholder="Type" [(ngModel)]="filter.user_type"  (keyup.enter)="current_page = 1;getFeedbackList(pagelimit,start,'')">
+                                    <i class="material-icons">search</i>
+                                </div> -->
+                                <div class="form-area">
+                                    <div class="slect mr0">
+                                <mat-form-field>
+                                    <mat-label>All</mat-label>
+                                <mat-select    [(ngModel)]="filter.user_type"  name="user_type" #user_type="ngModel" (selectionChange)="current_page = 1;getFeedbackList(pagelimit,start,'') ">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value="1">Plumber</mat-option>
+                                    <mat-option value="2">Retailer</mat-option>
+                                </mat-select>
+                                </mat-form-field>
+                            </div>
+                            </div>
+
+                            </th>
+
                             <th></th>
                             <th class="w70"></th>
                             <th class="w70"></th>
@@ -118,6 +140,29 @@
                         <td class="w170"> {{val.date_created  == '0000-00-00' ? 'N/A' : val.date_created | date: 'dd MMM yyyy'}}</td>
                         <td class="w200"><a class="blue" routerLink="/karigar-detail/{{val.karigar_id}}/{{current_page}}" routerLinkActive="active">{{val.first_name | titlecase }} {{val.last_name | titlecase }}</a></td>
                         <td class="w150">{{val.mobile_no}}</td>
+
+                        <td class="w200">
+                            <!-- {{val.user_type == '1' ? Carpenter : Dealer }} -->
+
+                            <!-- {{val.user_type}} -->
+
+                    <ng-container *ngIf="val.user_type=='1' ">
+                         
+                   Plumber
+                          
+                    </ng-container> 
+
+                     <ng-container *ngIf="val.user_type=='2' ">
+                          
+                     Retailer
+                        
+                    </ng-container> 
+
+
+
+
+                        </td>
+
                         <td>{{val.address }} {{!val.city? '' : ' , '+val.city | titlecase }} {{!val.district? '' : ' , '+val.district | titlecase }} {{!val.state? '' : ' , '+val.state | titlecase }}</td>
                         <td class="w70 text-center">{{val.total_msg}} </td>
                         <td class="w70 text-center"><a style="cursor: pointer;" (click)="reply(val.karigar_id)"  matTooltip="Reply"  matTooltipPosition="above"><i class="material-icons">send</i></a></td>

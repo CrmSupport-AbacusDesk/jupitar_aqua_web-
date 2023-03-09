@@ -80,6 +80,21 @@
 
                                         </li>
 
+
+                                        <li>
+                                            <figure>
+                                                <div class="left-img">
+                                                    <img src="assets/calendar.svg">
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Date of Anniversary</p>
+                                                    <span>{{getData.doa | date : 'dd MMM yyyy'}}</span>
+                                                </div>
+                                            </figure>
+
+                                        </li>
+
+
                                         <li>
                                             <p>Status</p>
                                             <div class="center">
@@ -144,18 +159,7 @@
 
                                     <ul>
                                       
-                                        <li>
-                                            <figure>
-                                                <div class="left-img">
-                                                    <img src="assets/calendar.svg">
-                                                </div>
-                                                <div class="right-cont">
-                                                    <p>Date of Anniversary</p>
-                                                    <span>{{getData.doa | date : 'dd MMM yyyy'}}</span>
-                                                </div>
-                                            </figure>
-
-                                        </li>
+                                      
                                         <li *ngIf="getData.reference_by">
                                             <figure>
                                                 <div class="left-img">
@@ -228,8 +232,11 @@
                         <div class="detail-info pl0 pr0">
                             <div class="img-box">
                                 <img [src]="uploadUrl + getData.document_image "
-                                    (click)="openDialog(uploadUrl + getData.document_image)">
+                                    (click)="openDialog(uploadUrl + getData.document_image,'test6')">
                                 <!-- <img src="{{getData.document_image ? getData.document_image : 'assets/default-image.png'}}" (click)="getData.document_image!='' && openDialog( getData.id,'test6')"> -->
+                            </div>
+                            <div class="img-box">
+                                <img [src]="uploadUrl + getData.document_image_back " (click)="openDialog(uploadUrl + getData.document_image_back,'test7')">
                             </div>
                             <div class="basic-details">
                                 <div class="profile-info">
@@ -396,12 +403,12 @@
                                             <span>{{totalCount}}</span>
                                         </a>
                                     </li>
-                                    <li (click)="mode='4'; getReferral()" [ngClass]="{'active': mode == '4'}">
+                                    <!-- <li (click)="mode='4'; getReferral()" [ngClass]="{'active': mode == '4'}">
                                         <a>
                                             <p>PLUMNER POINT TRANSFER</p>
                                             <span>{{point_transfer.length}}</span>
                                         </a>
-                                    </li>
+                                    </li> -->
 
 
 
@@ -426,12 +433,12 @@
                                         </a>
                                     </li>
 
-                                    <li (click)="mode='6'; getAssignPlumberList()" [ngClass]="{'active': mode == '6'}">
+                                    <!-- <li (click)="mode='6'; getAssignPlumberList()" [ngClass]="{'active': mode == '6'}">
                                         <a>
                                             <p>ASSIGN PLUMBER LIST</p>
                                             <span>{{assignplumber.length}}</span>
                                         </a>
-                                    </li>
+                                    </li> -->
 
 
 

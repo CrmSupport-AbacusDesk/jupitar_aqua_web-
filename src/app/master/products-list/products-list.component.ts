@@ -81,7 +81,7 @@ export class ProductsListComponent implements OnInit {
             this.last_page = d.products.last_page;
             this.total_products =d.products.total;
             this.products = d.products.data;
-            // this.selected_image=d.products.image;
+            this.selected_image=d.products.image;
             this.productForm =  this.products;
             
             for(let i=0;i<this.products.length;i++)
@@ -157,7 +157,7 @@ export class ProductsListComponent implements OnInit {
             if(this.image)
             {
                 this.image.append("created_by",this.db.datauser.id);
-                this.image.append("product_id",d.product_id);
+                this.image.append("product_id",this.productForm.id);
                 
                 this.db.fileData(this.image,"productImage")
                 .subscribe(resp=>{
@@ -264,7 +264,7 @@ export class ProductsListComponent implements OnInit {
         console.log('====================================');
         this.dialog.delete('Product').then((result) => {
             if(result) {
-                this.db.post_rqst({product_id : product_id, id:id}, 'master/productDelete')
+                this.db.post_rqst({product_id : this.productForm.id}, 'master/productDelete')
                 .subscribe(d => {
                     console.log(d);
                     this.getProductList('');

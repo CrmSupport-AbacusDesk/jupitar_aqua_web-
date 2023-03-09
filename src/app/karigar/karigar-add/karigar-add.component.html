@@ -16,21 +16,21 @@
                                 </div>
                             </div>
                             <div class="row mb0 option-field">
-                                <div class="col s3">
+                                <div class="col s4">
                                     <div class="control-field">
                                         <mat-form-field class="cs-input">
                                             <input matInput placeholder="First Name" name="first_name" [(ngModel)] = "karigarform.first_name" #first_name="ngModel" required>
                                         </mat-form-field>  
                                     </div>
                                 </div>
-                                <div class="col s3">
+                                <div class="col s4">
                                     <div class="control-field">
                                         <mat-form-field class="cs-input">
                                             <input matInput placeholder="Last Name" name="last_name" [(ngModel)] = "karigarform.last_name" #last_name="ngModel" required >
                                         </mat-form-field>  
                                     </div>
                                 </div>
-                                <div class="col s3">
+                                <div class="col s4">
                                     <div class="control-field">
                                         <mat-form-field class="cs-input">
                                             <input placeholder="D.O.B" class="h46" [(ngModel)]="karigarform.dob" (click)="openDatePicker(picker)" [max]="date1" name="dob" matInput  [matDatepicker]="picker" required readonly>
@@ -39,13 +39,58 @@
                                         </mat-form-field>  
                                     </div>
                                 </div>
-                                <div class="col s3">
+
+
+
+                                <div class="col s4">
+                                    <div class="control-field">
+                                        <mat-form-field class="cs-input">
+                                            <input placeholder="D.O.A" class="h46" [(ngModel)]="karigarform.doa"
+                                                (click)="openDatePicker(pickerDoa)" [max]="date1" name="doa"
+                                                matInput [matDatepicker]="pickerDoa" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="pickerDoa">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerDoa></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+
+                                <div class="col s4">
                                     <div class="control-field">
                                         <mat-form-field class="cs-input">
                                             <input matInput placeholder="Mobile No." (keypress)="numeric_Number($event)" name="mobile_no" [(ngModel)] = "karigarform.mobile_no" #mobile_no="ngModel" maxlength="10" minlength="10" required >
                                         </mat-form-field>  
                                     </div>
                                 </div>
+
+
+
+
+                                <div class="col s4" *ngIf="karigarform.country_id != 99">
+                                    <div class="control-field">
+                                        <div>
+                                            <mat-form-field class="cs-input cs-multi-select">
+                                                <mat-select placeholder="Select State" name="state"  (selectionChange)="getDistrictList(1)" [(ngModel)]="karigarform.state" #state="ngModel" required>
+                                                    <mat-option *ngFor = "let val of states" [value]="val.state_name"> {{val.state_name}} </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col s4" *ngIf="karigarform.country_id == 99">
+                                    <div class="control-field">
+                                        <div>
+                                            <mat-form-field class=" cs-input cs-multi-select">
+                                                <mat-select placeholder="Select State" name="state"  (selectionChange)="getDistrictList(1)" [(ngModel)]="karigarform.state" #state="ngModel" required>
+                                                    <mat-option *ngFor = "let val of states" [value]="val.state_name"> {{val.state_name}} </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                             <div class="row mb0">
                                 <div class="col s8 ">
@@ -53,28 +98,7 @@
                                         <div class="row mb0">
 
                                         
-                                            <div class="col s6" *ngIf="karigarform.country_id != 99">
-                                                <div class="control-field">
-                                                    <div>
-                                                        <mat-form-field class="cs-input cs-multi-select">
-                                                            <mat-select placeholder="Select State" name="state"  (selectionChange)="getDistrictList(1)" [(ngModel)]="karigarform.state" #state="ngModel" required>
-                                                                <mat-option *ngFor = "let val of states" [value]="val.state_name"> {{val.state_name}} </mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field>  
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col s6" *ngIf="karigarform.country_id == 99">
-                                                <div class="control-field">
-                                                    <div>
-                                                        <mat-form-field class=" cs-input cs-multi-select">
-                                                            <mat-select placeholder="Select State" name="state"  (selectionChange)="getDistrictList(1)" [(ngModel)]="karigarform.state" #state="ngModel" required>
-                                                                <mat-option *ngFor = "let val of states" [value]="val.state_name"> {{val.state_name}} </mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                          
                                             
                                             <div class="col s6 ">
                                                 <div class="control-field">
@@ -94,8 +118,7 @@
                                                     </div>  
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
+
                                             <div class="col s6">
                                                 <div class="control-field">
                                                     <div>
@@ -105,6 +128,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+
+                                        </div>
+                                        <div class="row">
+                                          
                                             <div class="col s6" >
                                                 <div class="control-field">
                                                     <div>
@@ -213,11 +241,38 @@
                                                         <input type="file" (change)="onUploadChange($event)" style="display:none;" accept=".png, .jpg, .jpeg, .pdf"  />
                                             <img  [src]="docId ? uploadUrl+karigarform.document_image : karigarform.document_image" alt="" id="img" *ngIf="karigarform.document_image != null">
                                                         <i class="material-icons add-file-icon" >add</i>
+
+                                                        <div>
+                                                            <span class="fnt_img">Front Side Image</span>
+                                                        </div>
+
                                                     </label>
 
 
                                                 </div>
                                             </li>
+
+                                            <li *ngIf="karigarform.document_type == 'Adharcard'">
+                                                <div class="cs-file file-up ">
+                                                    <label>
+                                                        <input type="file" (change)="onUploadback($event)"
+                                                            style="display:none;" accept=".png, .jpg, .jpeg, .pdf" />
+                                                            <img  [src]="docIds ? uploadUrl+karigarform.document_image_back : karigarform.document_image_back" alt="" id="img" *ngIf="karigarform.document_image_back != null">
+                                                        <div class="fix-label">
+                                                            <div>
+                                                                <i class="material-icons add-file-icon">add</i>
+                                                            </div>
+                                                            <div>
+                                                                <span class="fnt_img">Back Side Image</span>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </li>
+
+
+
                                         </ul>
                                     </div>
                                 </div>

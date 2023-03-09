@@ -25,6 +25,8 @@ export class DealerAddComponent implements OnInit {
   date1:any;
   uploadUrl:any='';
   docId:any;
+  docIds:any;
+    filter: any={};
   
   constructor(public db: DatabaseService, private route: ActivatedRoute, private router: Router, public ses: SessionStorage,public matDialog: MatDialog,  public dialog: DialogComponent) { this.date1 = new Date();}
   
@@ -35,6 +37,7 @@ export class DealerAddComponent implements OnInit {
           this.karigar_id = params['dealer_id'];
 
           this.docId = params['dealer_id'];
+          this.docIds = params['dealer_id'];
           
           if (this.karigar_id)
           {
@@ -86,7 +89,7 @@ export class DealerAddComponent implements OnInit {
       .subscribe(d => {  
           this.loading_list = false;  
           this.states = d.states;
-this.distributorList(this.states);
+this.distributorList(this.states,'');
 
       });
   }
@@ -102,16 +105,27 @@ this.distributorList(this.states);
       .subscribe(d => {  
           this.loading_list = false;
           this.districts = d.districts;  
-          this.distributorList(st_name)
+          this.distributorList(st_name,'')
       });
   }
 
 
-  distributorList(state){   
+  distributorList(event,state){   
+    console.log(event);
     console.log(state);
+
     
-   
-    this.db.post_rqst({'state':state} ,'app_karigar/distributorList')
+    
+    this.filter.search = event;
+    this.filter.state = this.karigarform.state;
+
+
+    console.log("you search : "+event);
+
+
+
+    this.db.post_rqst({'filter':this.filter}, 'app_karigar/distributorList')
+    // this.db.post_rqst({'state':state} ,'app_karigar/distributorList')
     .subscribe(d => {  
         
         this.distributorlist = d['karigars'];
@@ -231,6 +245,19 @@ handleReaderLoaded(e) {
 }
 
 
+onUploadback(evt: any) {
+    const file = evt.target.files[0];
+    console.log(file);
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = this.handleReaderLoaded2.bind(this);
+        reader.readAsBinaryString(file);
+        this.docIds = '';
+    }
+}
+handleReaderLoaded2(e) {
+    this.karigarform.document_image_back = 'data:image/png;base64,' + btoa(e.target.result) ;
+}
 
 
 

@@ -5563,7 +5563,7 @@ footer
                         cursor: pointer;
                         i
                         {
-                            color: var(--white);
+                            color: #df2f2f;
                         }
                     }
                 }
@@ -8667,3 +8667,30 @@ i.dlt_ico {
     background-repeat: no-repeat !important;
    
 }
+
+
+
+
+
+
+.mat-dialog-container {
+
+    overflow: unset !important; 
+ 
+ }
+ 
+ h2.hed_mr {
+    border-bottom: 2px solid #0084c9;
+    padding-bottom: 7px;
+    padding-left: 12px;
+}
+
+ .mrdrt {
+    height: 146px;
+}
+
+button.bt_pr {
+    margin-right: 10px;
+}
+
+

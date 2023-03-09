@@ -69,6 +69,10 @@ export class KarigarDetailComponent implements OnInit {
             this.loading_list = false;
             console.log(d);
             this.getData = d.karigar;
+
+            if(this.getData.doa == '0000-00-00'){
+                this.getData.doa = '';
+            }
             this.getData.coupon_limit = d.karigar.manual_coupon_limit;
             this.total_wallet_points = parseInt(this.getData.balance_point) + parseInt(this.getData.referal_point_balance);
         });

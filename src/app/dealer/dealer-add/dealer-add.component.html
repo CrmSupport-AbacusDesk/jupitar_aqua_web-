@@ -51,6 +51,7 @@
                                                 </mat-form-field>
                                             </div>
                                         </div>
+                                     
                                     </div>
 
 
@@ -58,6 +59,21 @@
 
 
                                     <div class="row mb0">
+
+                                        <div class="col s4">
+                                            <div class="control-field">
+                                                <mat-form-field class="cs-input">
+                                                    <input placeholder="D.O.A" class="h46" [(ngModel)]="karigarform.doa"
+                                                        (click)="openDatePicker(pickerDoa)" [max]="date1" name="doa"
+                                                        matInput [matDatepicker]="pickerDoa" readonly>
+                                                    <mat-datepicker-toggle matSuffix [for]="pickerDoa">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #pickerDoa></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+
                                         <div class="col s4 ">
                                             <div class="control-field">
                                                 <mat-form-field class="cs-input">
@@ -81,18 +97,7 @@
                                         </div>
 
 
-                                        <div class="col s4">
-                                            <div class="control-field">
-                                                <mat-form-field class="cs-input">
-                                                    <input placeholder="D.O.A" class="h46" [(ngModel)]="karigarform.doa"
-                                                        (click)="openDatePicker(pickerDoa)" [max]="date1" name="doa"
-                                                        matInput [matDatepicker]="pickerDoa" readonly>
-                                                    <mat-datepicker-toggle matSuffix [for]="pickerDoa">
-                                                    </mat-datepicker-toggle>
-                                                    <mat-datepicker #pickerDoa></mat-datepicker>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
+                                    
 
 
                                     </div>
@@ -175,6 +180,15 @@
                                                                 name="distributor_id"
                                                                 [(ngModel)]="karigarform.distributor_id"
                                                                 #distributor_id="ngModel">
+
+
+
+                                                                <mat-option >
+                                                                    <ngx-mat-select-search noEntriesFoundLabel="'no data found'" placeholderLabel="Search..." (input)="distributorList($event.target.value)"></ngx-mat-select-search>
+                                                                  </mat-option>
+
+
+
                                                                 <mat-option *ngFor="let val of distributorlist"
                                                                     [value]="val.id"> {{val.company_name}}
                                                                     {{val.mobile_no}}</mat-option>
@@ -366,10 +380,37 @@
                                                     <input type="file" (change)="onUploadChange($event)" style="display:none;" accept=".png, .jpg, .jpeg, .pdf"  />
                                         <img  [src]="docId ? uploadUrl+karigarform.document_image : karigarform.document_image" alt="" id="img" *ngIf="karigarform.document_image != null">
                                                     <i class="material-icons add-file-icon" >add</i>
+                                                    <div>
+                                                        <span class="fnt_img">Front Side Image</span>
+                                                    </div>
                                                 </label>
 
                                             </div>
                                         </li>
+
+
+
+                                        <li *ngIf="karigarform.document_type == 'Adharcard'">
+                                            <div class="cs-file file-up ">
+                                                <label>
+                                                    <input type="file" (change)="onUploadback($event)"
+                                                        style="display:none;" accept=".png, .jpg, .jpeg, .pdf" />
+                                                        <img  [src]="docIds ? uploadUrl+karigarform.document_image_back : karigarform.document_image_back" alt="" id="img" *ngIf="karigarform.document_image_back != null">
+                                                    <div class="fix-label">
+                                                        <div>
+                                                            <i class="material-icons add-file-icon">add</i>
+                                                        </div>
+                                                        <div>
+                                                            <span class="fnt_img">Back Side Image</span>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </li>
+
+
+
                                     </ul>
                                 </div>
                             </div>

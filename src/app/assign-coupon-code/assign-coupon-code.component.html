@@ -1,0 +1,46 @@
+
+<div class="mrdrt">
+
+<h2 class="cs-model-heading  hed_mr">Assign Coupon</h2>
+<mat-dialog-content class="mat-typography mat-model">
+  <div class="option-field">
+    <div class="row mb0">
+      <div class="col s6 pl10">
+        <div class="control-field">
+          <mat-form-field class="cs-input">
+            <input matInput  placeholder="Coupon Code" [(ngModel)]="data.coupon_code" disabled>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col s6 pr10">
+        
+        <div class="control-field">
+          <mat-form-field class=" cs-input cs-multi-select">
+            <mat-select placeholder="Carpenter" name="karigar" [(ngModel)]="data.karigar_id" #Karigar="ngModel" 
+            required>
+            
+            <mat-option >
+              <ngx-mat-select-search  noEntriesFoundLabel="'no data found'"  placeholderLabel="Search.."  (keyup)="getKariger($event.target.value)"></ngx-mat-select-search>
+            </mat-option>
+            
+            <mat-option *ngFor="let pc of karigar;" value={{pc.karigar_id}}
+            >
+            {{pc.full_name}} - ({{pc.mobile_no}})
+          </mat-option> 
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      
+      
+    </div>
+  </div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+<button mat-button mat-dialog-close>Cancel</button>
+<button mat-raised-button color="primary"  class="bt_pr" (click)="assignCoupon()" [disabled]="!data.karigar_id" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
+
+
+</div>

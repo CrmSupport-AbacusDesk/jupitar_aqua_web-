@@ -53,10 +53,16 @@ export class ProductImageModuleComponent implements OnInit {
     //     {
     //         this.getKarigarImge();
     //     }
-    //     if( this.part_data.mode == 'test6' )
-    //     {
-    //         this.getKarigarDocument();
-    //     }
+        if( this.part_data.mode == 'test6' )
+        {
+            this.getKarigarDocument();
+        }
+
+        if( this.part_data.mode == 'test7' )
+        {
+            this.getKarigarDocument();
+        }
+
     //     if( this.part_data.mode == 'test7' )
     //     {
     //         this.getOfferImage();
@@ -113,68 +119,68 @@ export class ProductImageModuleComponent implements OnInit {
     //     });
     // }
     
-    // gift:any = {};
-    // getGift() {
-    //     this.loading_list = true;
-    //     this.db.post_rqst(  {'id' : this.part_data.id  } , 'offer/giftImage')
-    //     .subscribe( d => {
-    //         console.log( d );
-    //         this.loading_list = false;
-    //         this.gift = d.giftImage;
-    //         console.log(this.gift);
-    //     });
-    // }
+    gift:any = {};
+    getGift() {
+        this.loading_list = true;
+        this.db.post_rqst(  {'id' : this.part_data.id  } , 'offer/giftImage')
+        .subscribe( d => {
+            console.log( d );
+            this.loading_list = false;
+            this.gift = d.giftImage;
+            console.log(this.gift);
+        });
+    }
 
-    // mastergift:any = {};
-    // mastergiftimage() {
-    //     this.mastergift=this.part_data.id;
-    // }
+    mastergift:any = {};
+    mastergiftimage() {
+        this.mastergift=this.part_data.id;
+    }
     
-    // karigarImage:any = {};
-    // getKarigarImge() {
-    //     this.loading_list = true;
-    //     this.db.post_rqst(  {'reedem_id':this.part_data.reedem_id, 'id' : this.part_data.id  } , 'karigar/karigarImage')
-    //     .subscribe( d => {
-    //         console.log( d );
-    //         this.loading_list = false;
-    //         this.karigarImage = d.karigarImage;
-    //         console.log(this.gift);
-    //     });
-    // }
+    karigarImage:any = {};
+    getKarigarImge() {
+        this.loading_list = true;
+        this.db.post_rqst(  {'reedem_id':this.part_data.reedem_id, 'id' : this.part_data.id  } , 'karigar/karigarImage')
+        .subscribe( d => {
+            console.log( d );
+            this.loading_list = false;
+            this.karigarImage = d.karigarImage;
+            console.log(this.gift);
+        });
+    }
     
-    // documentImage:any = {};
-    // getKarigarDocument() {
-    //     this.loading_list = true;
-    //     this.db.post_rqst(  {'reedem_id':this.part_data.reedem_id, 'id' : this.part_data.id  } , 'karigar/karigarDocumentImage')
-    //     .subscribe( d => {
-    //         console.log( d );
-    //         this.loading_list = false;
-    //         this.documentImage = d.documentImage;
-    //         console.log(this.gift);
-    //     });
-    // }
+    documentImage:any = {};
+    getKarigarDocument() {
+        this.loading_list = true;
+        this.db.post_rqst(  {'reedem_id':this.part_data.reedem_id, 'id' : this.part_data.id  } , 'karigar/karigarDocumentImage')
+        .subscribe( d => {
+            console.log( d );
+            this.loading_list = false;
+            this.documentImage = d.documentImage;
+            console.log(this.gift);
+        });
+    }
     
-    // offerImage:any = {};
-    // getOfferImage() {
-    //     this.loading_list = true;
-    //     this.db.post_rqst(  {'id' : this.part_data.id  } , 'offer/offerImage')
-    //     .subscribe( d => {
-    //         console.log( d );
-    //         this.loading_list = false;
-    //         this.offerImage = d.offerImage;
-    //         console.log(this.offerImage);
-    //     });
-    // }
+    offerImage:any = {};
+    getOfferImage() {
+        this.loading_list = true;
+        this.db.post_rqst(  {'id' : this.part_data.id  } , 'offer/offerImage')
+        .subscribe( d => {
+            console.log( d );
+            this.loading_list = false;
+            this.offerImage = d.offerImage;
+            console.log(this.offerImage);
+        });
+    }
     
-    // redeemGiftImage:any = {};
-    // getGiftImage() {
-    //     this.loading_list = true;
-    //     this.db.post_rqst(  {'id' : this.part_data.offer_gift_id  } , 'offer/redeemgiftImage')
-    //     .subscribe( d => {
-    //         console.log( d );
-    //         this.loading_list = false;
-    //         this.redeemGiftImage = d.redeemGiftImage;
-    //         console.log(this.offerImage);
-    //     });
-    // }
+    redeemGiftImage:any = {};
+    getGiftImage() {
+        this.loading_list = true;
+        this.db.post_rqst(  {'id' : this.part_data.offer_gift_id  } , 'offer/redeemgiftImage')
+        .subscribe( d => {
+            console.log( d );
+            this.loading_list = false;
+            this.redeemGiftImage = d.redeemGiftImage;
+            console.log(this.offerImage);
+        });
+    }
 }

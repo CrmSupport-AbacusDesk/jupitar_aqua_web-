@@ -23,6 +23,7 @@ export class KarigarAddComponent implements OnInit {
     date1:any;
     uploadUrl:any='';
     docId:any;
+    docIds:any;
     
     constructor(public db: DatabaseService, private route: ActivatedRoute, private router: Router, public ses: SessionStorage,public matDialog: MatDialog,  public dialog: DialogComponent) { this.date1 = new Date();}
     
@@ -32,6 +33,7 @@ export class KarigarAddComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.karigar_id = params['karigar_id'];
             this.docId = params['karigar_id'];
+            this.docIds = params['karigar_id'];
             
             if (this.karigar_id)
             {
@@ -202,6 +204,23 @@ export class KarigarAddComponent implements OnInit {
         this.karigarform.document_image = 'data:image/png;base64,' + btoa(e.target.result) ;
         console.log( this.karigarform.document_image );
     }
+
+
+
+    onUploadback(evt: any) {
+        const file = evt.target.files[0];
+        console.log(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = this.handleReaderLoaded2.bind(this);
+            reader.readAsBinaryString(file);
+            this.docIds = '';
+        }
+    }
+    handleReaderLoaded2(e) {
+        this.karigarform.document_image_back = 'data:image/png;base64,' + btoa(e.target.result) ;
+    }
+
 
 
     selectSales()

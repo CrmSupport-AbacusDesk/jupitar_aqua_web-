@@ -9,6 +9,7 @@ import { SessionStorage } from 'src/app/_services/SessionService';
 import { CouponCodeModalComponent } from '../coupon-code-modal/coupon-code-modal.component';
 import { MastetDateFilterModelComponent } from 'src/app/mastet-date-filter-model/mastet-date-filter-model.component';
 import { ManualAssignModelComponent } from '../manual-assign-model/manual-assign-model.component';
+import { AssignCouponCodeComponent } from 'src/app/assign-coupon-code/assign-coupon-code.component';
 
 
 @Component({
@@ -422,4 +423,37 @@ export class CouponCodeListComponent implements OnInit {
             }
         });
       } 
+
+
+
+
+
+
+      openAssignManualCoupon(val,mode): void {
+        console.log(val.coupon_code);
+        console.log(mode);
+        
+        
+        const dialogRef = this.alrt.open(AssignCouponCodeComponent, {
+            width: '600px',
+            data: { 
+                mode:mode,
+                value:val.coupon_code,
+                
+            }
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+            if(result == undefined){
+                console.log(result);
+                this.getAvailableCoupanList("");
+            }
+        });
+    }
+
+
+
+
+
 }

@@ -50,10 +50,21 @@
                             <div class="col s3">
                                 <div class="control-field">
                                     <mat-form-field class="cs-input">
-                                        <input matInput placeholder="Welcome Points" (keypress)="number($event)" name="wlcom_points" [(ngModel)]="refer.wlcom_points">
+                                        <input matInput placeholder="Plumber Welcome Points" (keypress)="number($event)" name="wlcom_points" [(ngModel)]="refer.wlcom_points">
                                     </mat-form-field>  
                                 </div>
                             </div>
+
+
+                            <div class="col s3">
+                                <div class="control-field">
+                                    <mat-form-field class="cs-input">
+                                        <input matInput placeholder="Retailer Welcome Points" (keypress)="number($event)" name="retailer_wlcom_points" [(ngModel)]="refer.retailer_wlcom_points">
+                                    </mat-form-field>  
+                                </div>
+                            </div>
+
+
                             <div class="col s3">
                                 <div class="control-field">
                                     <mat-form-field class="cs-input">
@@ -75,8 +86,8 @@
                                     </mat-form-field>  
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb0">
+                    
+                        <!-- <div class="row mb0"> -->
                             <div class="col s3">
                                 <div class="control-field">
                                     <mat-form-field class="cs-input">
@@ -99,6 +110,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>

@@ -112,6 +112,7 @@ import { ContractorSatusModalComponent } from './contractor/contractor-satus-mod
 import { ChangeTypeModalComponent } from './change-type-modal/change-type-modal.component';
 import { MasterTabComponent } from './master-tab/master-tab.component';
 import { DigitallistComponent } from './digitallist/digitallist.component';
+import { AssignCouponCodeComponent } from './assign-coupon-code/assign-coupon-code.component';
 
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 
@@ -201,6 +202,7 @@ const routes: Routes = [
     GiftListComponent,
     GiftDetailComponent,
     ProductcategoryListComponent,
+    AssignCouponCodeComponent,
     ProductsListComponent,
     NewsComponent,
     VideoComponent,
@@ -326,6 +328,7 @@ const routes: Routes = [
     FeedbackReplyModleComponent,
     TermConditionImageComponent,
     ReedemCouponSummaryComponent,
+    AssignCouponCodeComponent,
     CouponCodeModalComponent,
     ManualAssignModelComponent,
     MastetDateFilterModelComponent,

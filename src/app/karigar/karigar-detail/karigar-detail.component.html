@@ -69,6 +69,19 @@
                                             </figure>
                                             
                                         </li>
+
+                                        <li>
+                                            <figure>
+                                                <div class="left-img">
+                                                    <img src="assets/calendar.svg">
+                                                </div>
+                                                <div class="right-cont">
+                                                    <p>Date of Anniversary</p>
+                                                    <span>{{getData.doa  | date : 'dd MMM yyyy'}}</span>
+                                                </div>
+                                            </figure>
+                                            
+                                        </li>
                                     </ul>
                                     <ul>
                                         
@@ -240,8 +253,12 @@
                         </div>
                         <div class="detail-info pl0 pr0">
                             <div class="img-box">
-                                <img [src]="uploadUrl + getData.document_image " (click)="openDialog(uploadUrl + getData.document_image)">
+                                <img [src]="uploadUrl + getData.document_image " (click)="openDialog(uploadUrl + getData.document_image,'test6')">
                             </div>
+                            <div class="img-box">
+                                <img [src]="uploadUrl + getData.document_image_back " (click)="openDialog(uploadUrl + getData.document_image_back,'test7')">
+                            </div>
+
                             <div class="basic-details">
                                 <div class="profile-info">
                                     <ul>
@@ -268,22 +285,22 @@
                         <div class="tab-header no-sticky gift-tab-list ">
                             <div class="tabs-list gift-tab-list ">
                                 <ul>
-                                    <li (click)="mode='1'; getReferral()" [ngClass]="{'active': mode == '1'}" >
+                                    <!-- <li (click)="mode='1'; getReferral()" [ngClass]="{'active': mode == '1'}" >
                                         <a>
                                             <p>POINT RECEIVE BY RETAILERS</p>
                                             <span>{{point_transfer.length}}</span>
                                         </a>
-                                    </li>
+                                    </li> -->
 
 
                                     
 
-                                    <!-- <li (click)="mode='1'; getScannedList()" [ngClass]="{'active': mode == '1'}" >
+                                  <li (click)="mode='1'; getScannedList()" [ngClass]="{'active': mode == '1'}" >
                                         <a>
                                             <p>POINT WALLET</p>
                                             <span>{{coupon_scanned_count}}</span>
                                         </a>
-                                    </li> -->
+                                    </li> 
 
                                     <li (click)="mode='2'; getReedamList()" [ngClass]="{'active': mode == '2'}" >
                                         <a>
@@ -299,12 +316,12 @@
                                         </a>
                                     </li>
 
-                                    <li (click)="mode='5'; getAssignPlumber()" [ngClass]="{'active': mode == '5'}" >
+                                    <!-- <li (click)="mode='5'; getAssignPlumber()" [ngClass]="{'active': mode == '5'}" >
                                         <a>
                                             <p>ASSIGN RETAILER</p>
                                             <span>{{retailer_count}}</span>
                                         </a>
-                                    </li>
+                                    </li> -->
 
                                     
                                 </ul>
@@ -332,7 +349,7 @@
 
 
 
-                 <!-- <div class="css-table " *ngIf="mode == '1'">     
+                 <div class="css-table " *ngIf="mode == '1'">     
                         <div class="sticky-header bo-non">
                             <div class="header">
                                 <table>
@@ -441,7 +458,7 @@
                             </div>
                         </div>
                     </div>
-                      -->
+                     
 
 
 
@@ -449,7 +466,7 @@
 
 
 
-                     <div class="css-table" *ngIf="mode == '1'">
+                     <!-- <div class="css-table" *ngIf="mode == '1'">
                         <div class="sticky-header bo-non">
                             <div class="header">
                                 <table>
@@ -481,7 +498,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
 
 

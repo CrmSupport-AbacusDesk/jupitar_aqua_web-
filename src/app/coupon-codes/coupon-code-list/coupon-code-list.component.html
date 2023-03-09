@@ -97,6 +97,10 @@
                             <th class="w180">Coupon Code</th>
                             <th class="w130">Brand Name</th>
 
+
+                            <th class="w80">Assign</th>
+
+
                             <th>Remark</th>
                             <th class="w50 text-center" >Action</th>
                         </tr>                        
@@ -142,6 +146,7 @@
                                     <i class="material-icons">search</i>
                                 </div>
                             </th>
+                            <th class="w80"></th>
                             <th>&nbsp;</th>
                             <th class="w50"></th>
                     </table>
@@ -356,6 +361,16 @@
                         
                         <td class="w180">{{val.coupon_code}}</td>
                         <td class="w130">{{val.product_point_group}}</td>
+
+
+
+                        <td  class="w80">
+                                                                                                    
+                                                                                                    
+                            <a *ngIf="val.scan_by_karigar_id == 0" (click)="openAssignManualCoupon(val,'coupon')" style="cursor: pointer; color: blue;  text-decoration: underline;">Assign</a>
+                            <p *ngIf="val.scan_by_karigar_id != 0" >Scanned / Assigned</p>
+                        </td>
+
 
                         <td>{{val.remark ? val.remark: 'N/A'}}</td>
                         <td class="w50">
