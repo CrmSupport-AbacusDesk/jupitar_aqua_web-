@@ -81,8 +81,15 @@ export class ProductsListComponent implements OnInit {
             this.last_page = d.products.last_page;
             this.total_products =d.products.total;
             this.products = d.products.data;
-            this.selected_image=d.products.image;
+            // this.selected_image=this.products.image;
+            // console.log(this.selected_image);
+            // this.selected_image=this.products.image.image_name;
+            // console.log(this.selected_image);
+            
             this.productForm =  this.products;
+           
+
+            
             
             for(let i=0;i<this.products.length;i++)
             {
@@ -139,7 +146,9 @@ export class ProductsListComponent implements OnInit {
         if(this.products.id){
             this.productForm.edit_product_id = this.products.id;
         }
-        this.productForm.image= this.selected_image ? this.selected_image : []
+        console.log(this.selected_image);
+        
+        this.productForm.image= this.selected_image ? this.selected_image : [];
         this.productForm.created_by = this.db.datauser.id;
         console.log(this.new_arrival);
         
@@ -157,7 +166,7 @@ export class ProductsListComponent implements OnInit {
             if(this.image)
             {
                 this.image.append("created_by",this.db.datauser.id);
-                this.image.append("product_id",this.productForm.id);
+                this.image.append("product_id",d.product_id);
                 
                 this.db.fileData(this.image,"productImage")
                 .subscribe(resp=>{
@@ -188,6 +197,7 @@ export class ProductsListComponent implements OnInit {
                 let reader = new FileReader();
                 reader.onload = (e: any) => {
                     this.selected_image.push({"image":e.target.result});
+                    console.log(this.selected_image);
                     if(this.selected_image.length==0){
                         this.addImageIcon=true;
                     }
@@ -258,13 +268,13 @@ export class ProductsListComponent implements OnInit {
         this.selected_image=[];
     }
     
-    deleteProduct(id, product_id) {
+    deleteProduct(id,) {
         console.log('====================================');
-        console.log(id, product_id);
+        console.log(id);
         console.log('====================================');
         this.dialog.delete('Product').then((result) => {
             if(result) {
-                this.db.post_rqst({product_id : this.productForm.id}, 'master/productDelete')
+                this.db.post_rqst({product_id : id}, 'master/productDelete')
                 .subscribe(d => {
                     console.log(d);
                     this.getProductList('');

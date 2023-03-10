@@ -142,8 +142,15 @@
                         <table>
                             <tr *ngFor="let val of products; let i = index">
                                 <td class="w30 text-center" style="border-right: 0px !important;"><mat-checkbox name="checked" [(ngModel)]="val.checked" (change)="select_product($event,i)"></mat-checkbox></td>
-                                <td class="w50" *ngIf="val.image"><img [src]="uploadurl+val.image" (click)="openDialog( val.image,'test1')" ></td>
-                                <td class="w50" *ngIf="!val.image"><img src="../../../assets/not-available.jpg" ></td>
+                                <td class="w50" >
+                                <div class="image-section1">
+                                    <ng-container *ngFor="let row of val.image; let i=index">
+                                        <img class="prs_img" [src]="uploadurl+row.image_name"  onError="this.src='assets/img/category_img.png';">
+                                    </ng-container>
+                                </div>
+                                </td>
+                                <!-- <td class="w50" ><img [src]="uploadurl+val.image_name" (click)="openDialog( val.image_name,'test1')" ></td> -->
+                                <!-- <td class="w50" *ngIf="!val.image"><img src="../../../assets/not-available.jpg" ></td> -->
                                 <td class="w120">
                                     <ng-container *ngIf="val.date_created  != '0000-00-00 00:00:00' ">
                                         {{val.date_created | date: 'dd MMM yyyy'}} <strong> {{val.created_name}}</strong>
@@ -162,7 +169,7 @@
                                 <td class="w70">
                                     <div class="td-flex">
                                         <button class="right" (click)="toggle = !toggle; editProduct(val.id,i)"><i class="material-icons">edit</i></button>
-                                        <button class="cancel" (click)="deleteProduct(val.id, val.product_id)"><i class="material-icons">delete_sweep</i></button>
+                                        <button class="cancel" (click)="deleteProduct(val.id)"><i class="material-icons">delete_sweep</i></button>
                                     </div>
                                 </td>
                             </tr>

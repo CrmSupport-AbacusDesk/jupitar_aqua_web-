@@ -64,6 +64,8 @@ export class DealerAddComponent implements OnInit {
           this.loading_list = false;
           console.log(d);
           this.karigarform = d.karigar;
+      this.distributorList('',this.karigarform.state);
+
           if(this.karigarform.doa == '0000-00-00'){
             this.karigarform.doa = '';
         }
@@ -89,7 +91,7 @@ export class DealerAddComponent implements OnInit {
       .subscribe(d => {  
           this.loading_list = false;  
           this.states = d.states;
-this.distributorList(this.states,'');
+          console.log(this.karigarform.state)
 
       });
   }
@@ -105,7 +107,7 @@ this.distributorList(this.states,'');
       .subscribe(d => {  
           this.loading_list = false;
           this.districts = d.districts;  
-          this.distributorList(st_name,'')
+          this.distributorList('',st_name)
       });
   }
 
@@ -117,7 +119,7 @@ this.distributorList(this.states,'');
     
     
     this.filter.search = event;
-    this.filter.state = this.karigarform.state;
+    this.filter.state = state;
 
 
     console.log("you search : "+event);
