@@ -359,7 +359,7 @@
                                         <th class="w150" >Scan Date</th>
                                         <th class="w200" >Brand Name</th>
                                         <th>Coupon Code</th>
-                                        <th>Offer / Valid Upto </th>
+                                        <!-- <th>Offer / Valid Upto </th> -->
                                         <th class="w135">Points</th>
                                         <th class="w150">Action</th>
                                     </tr>
@@ -399,7 +399,7 @@
                                         <th></th>
 
                                         
-                                       <th class="go-btn">
+                                       <!-- <th class="go-btn">
                                             <div class="vaild-into">
                                                 <div class="form-area wp-21 mr10">
                                                     <div class="search-form">
@@ -421,7 +421,7 @@
                                             <div class="form-area">             
                                                 <button mat-button class="go" (click)="getScannedList()">Go</button>
                                             </div>
-                                        </th> 
+                                        </th>  -->
                                         <th class="w135">
                                             <div class="search-form">
                                                 <input type="text" placeholder="Search" [(ngModel)]="filter.points"  (keyup.enter)="current_page = 1;getScannedList()">
@@ -443,7 +443,7 @@
                                         <td class="w200">{{val.product_point_group}} </td>
                                         <td >{{val.coupon_code}} </td>
 
-                                        <td><a  routerLink="/offer-detail"  routerLink="/offer-detail/{{val.offer_id}}" class="blue">{{val.title}} #{{val.offer_code}}</a> / {{val.end_date | date : 'dd MMM yyyy'}}</td>
+                                        <!-- <td><a  routerLink="/offer-detail"  routerLink="/offer-detail/{{val.offer_id}}" class="blue">{{val.title}} #{{val.offer_code}}</a> / {{val.end_date | date : 'dd MMM yyyy'}}</td> -->
                                         <td class="w135">{{val.karigar_coupon_value}}</td>
                                         <td class="w150 active">
                                             <button mat-button class="color-btn" *ngIf="val.coupon_value == val.actual_coupon_point" (click)="reponeCoupon(val.id)">Reopen</button>
